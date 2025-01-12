@@ -1,16 +1,36 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {  Poppins, Volkhov } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
+import StoreProvider from "./StoreProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  adjustFontFallback: false
+})
+
+const volkhov  = Volkhov({
+  variable: '--font-volkhov',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+  adjustFontFallback: false
+})
+
+const digitalNumbers = localFont({
+  src: [
+    {
+      path: './fonts/DigitalNumbers-Regular.ttf',
+      style: 'normal'
+    }
+  ],
+  variable:  '--font-digital-numbers',
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,9 +45,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.variable} font-poppins  ${volkhov.variable} ${digitalNumbers.variable}  antialiased`}
       >
-        {children}
+       <StoreProvider> {children}</StoreProvider>
       </body>
     </html>
   );
