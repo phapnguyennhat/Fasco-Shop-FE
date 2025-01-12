@@ -1,6 +1,10 @@
 import Link from 'next/link';
+import ProductCard from './ProductCard';
 
 export default function NewArrival({ search }: { search?: string }) {
+    const images = ['Shiny_Dress.png', 'Long_Dress.png'];
+    
+
     return (
         <section className=" section-page_home">
             <h1 className="font-volkhov mb-[10px] lg:mb-[20px] text-[30px] sm:text-[38px] md:text-[46px] text-center md:leading-[46px] ">
@@ -19,7 +23,7 @@ export default function NewArrival({ search }: { search?: string }) {
                         search === "Men's Fashion"
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4 rounded-[10px]'
-                    }  inline-flex justify-center items-center   transform transition-all duration-300  `}
+                    }  inline-flex justify-center items-center max-w-[207px] lg:h-[56px]   transform transition-all duration-300  `}
                     href={"/?search=Men's Fashion"}
                     scroll={false}
                     replace={true}
@@ -31,7 +35,7 @@ export default function NewArrival({ search }: { search?: string }) {
                         search === "Women's Fashion"
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4 rounded-[10px]'
-                    }  inline-flex justify-center items-center transform transition-all duration-300  `}
+                    }  inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300  `}
                     href={"/?search=Women's Fashion"}
                     scroll={false}
                     replace={true}
@@ -43,7 +47,7 @@ export default function NewArrival({ search }: { search?: string }) {
                         search === 'Women Accessories'
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4  rounded-[10px]'
-                    }  inline-flex justify-center items-center transform transition-all duration-300   `}
+                    }  inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300   `}
                     href={'/?search=Women Accessories'}
                     scroll={false}
                     replace={true}
@@ -55,7 +59,7 @@ export default function NewArrival({ search }: { search?: string }) {
                         search === 'Men Accessories'
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4  rounded-[10px]'
-                    } inline-flex justify-center items-center transform transition-all duration-300  `}
+                    } inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300  `}
                     href={'/?search=Men Accessories'}
                     scroll={false}
                     replace={true}
@@ -66,8 +70,8 @@ export default function NewArrival({ search }: { search?: string }) {
                     className={`${
                         search === 'Discount Deals'
                             ? 'button-black'
-                            : 'hover:bg-gray-200  py-2 px-2 lg:px-4rounded-[10px]'
-                    }  inline-flex justify-center items-center transform transition-all duration-300  `}
+                            : 'hover:bg-gray-200  py-2 px-2 lg:px-4 rounded-[10px]'
+                    }  inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300  `}
                     href={'/?search=Discount Deals'}
                     scroll={false}
                     replace={true}
@@ -76,9 +80,12 @@ export default function NewArrival({ search }: { search?: string }) {
                 </Link>
             </div>
 
-
             {/* TODO: LIST CARD PRODUCT */}
-            <div></div>
+            <div>
+                {images.map((image, index) => (
+                    <ProductCard key={index} image={image} />
+                ))}
+            </div>
         </section>
     );
 }
