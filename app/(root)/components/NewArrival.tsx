@@ -3,6 +3,8 @@ import ProductCard from './ProductCard';
 
 export default function NewArrival({ search }: { search?: string }) {
     const images = ['Shiny_Dress.png', 'Long_Dress.png'];
+
+    
     
 
     return (

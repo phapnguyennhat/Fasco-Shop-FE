@@ -15,7 +15,7 @@ export default async function Home({searchParams}: {searchParams: Promise<{searc
     <TriggerExtraNav/>
     <ExtraNav/>
     <DealsOfMonth/>
-    <NewArrival search={search}/>
+    <NewArrival search={search|| "Men's Fashion"}/>
    </>
   );
 }
