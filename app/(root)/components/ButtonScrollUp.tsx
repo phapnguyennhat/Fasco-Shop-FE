@@ -13,7 +13,7 @@ export default function ButtonScrollUp() {
     return (
         <button
             onClick={handleScrollUp}
-            className="w-[40px] h-[40px] text-black hover:text-white transform transition-all duration-300 ease-in-out hover:bg-black  xl:h-[57px] xl:w-[57px] flex justify-center items-center rounded-full border-black border-2 border"
+            className="w-[40px] h-[40px] text-black hover:text-white transform transition-all duration-300 ease-in-out hover:bg-black  xl:h-[57px] xl:w-[57px] flex justify-center items-center rounded-full border-black border-2 "
         >
             <MoveUp />
         </button>

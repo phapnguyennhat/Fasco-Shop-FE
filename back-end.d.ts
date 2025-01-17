@@ -4,7 +4,6 @@ export {};
 declare global{
   interface Product{
     id: string
-    image?: Image
     name: string
     starRating: number
     user: User
@@ -12,6 +11,7 @@ declare global{
     price: number;
     pieceAvail: number
     sold: number
+    images: Image[]
   }
 
   interface Image {

@@ -19,7 +19,7 @@ export default function MenuSide() {
 
             {/* Menu trượt */}
             <div
-                className={`fixed z-10 top-0 left-0 h-full w-64 bg-white shadow-lg transform ${
+                className={`fixed z-20 top-0 left-0 h-full w-64 bg-white shadow-lg transform ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 } transition-transform duration-300 ease-in-out`}
             >
@@ -43,9 +43,9 @@ export default function MenuSide() {
                           <li className='border-b-2 px-4 py-3  w-full' >
                               <Link href={'/'}>New Arrivals</Link>
                           </li>
-                          <li className=' border-b-2 px-4 py-3  w-full' >
+                          {/* <li className=' border-b-2 px-4 py-3  w-full' >
                               <Link href={'/'}>Packages</Link>
-                          </li>
+                          </li> */}
                       </ul>
                       <div className=" flex justify-between  p-4  ">
                           <button className="button-black min-w-[110px]">Sign up</button>
@@ -58,7 +58,7 @@ export default function MenuSide() {
             {/* Overlay mờ (khi menu mở) */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-0 bg-black bg-opacity-50"
+                    className="fixed inset-0 z-10 bg-black bg-opacity-50"
                     onClick={toggleMenu}
                 ></div>
             )}

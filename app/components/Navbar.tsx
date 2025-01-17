@@ -11,8 +11,8 @@ export default function Navbar() {
                     <li>Home</li>
                     <li>Deals</li>
                     <li>New Arrivals</li>
-                    <li>Packages</li>
-                    <li>Sign in</li>
+                    {/* <li>Packages</li> */}
+                    <li><Link href={'/login'}>Sign in</Link></li>
                     <li className=' button-black' >
                         <Link href={'/signup'}>Sign up</Link>
                     </li>
