@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { submitEmail } from "../action";
+import { submitEmail } from "../../action";
 import Image from "next/image";
 
 export default function Subscribe() {

@@ -24,4 +24,15 @@ declare global{
     id: string
     name: string
   }
+
+  interface LoginToken {
+    accessTokenCookie: Token
+    refreshTokenCookie: Token
+  }
+
+  interface Token {
+    token: string,
+    accessTime: number;
+    cookie: string
+  }
 }
