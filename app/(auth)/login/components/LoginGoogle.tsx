@@ -2,13 +2,15 @@
 import { googleLogin } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';
 import { GoogleLogin } from '@react-oauth/google';
-import { useRouter } from 'next/navigation';
+
+
 
 export default function LoginGoogle() {
     const { toast } = useToast();
 
     return (
         <GoogleLogin
+
             onSuccess={async (credentialResponse) => {
                 const credential = credentialResponse.credential;
 
@@ -31,4 +33,5 @@ export default function LoginGoogle() {
             }}
         />
     );
+
 }

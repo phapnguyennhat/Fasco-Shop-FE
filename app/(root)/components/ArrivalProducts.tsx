@@ -2,7 +2,8 @@ import { fetcher } from "@/lib/utils"
 import ProductCard from "./ProductCard"
 import Link from "next/link"
 
-export default  async function ArrivalProducts({categoryName}: {categoryName :string}) {
+export default  async function ArrivalProducts({searchParams}: {searchParams: Promise<{ categoryName?: string }>}) {
+  const categoryName = (await searchParams).categoryName || "Men's Fashion"
   const products : Product[] = await fetcher<Product[]>(`product?categoryName=${categoryName}`, {
     method: 'GET',
     cache: 'no-cache'

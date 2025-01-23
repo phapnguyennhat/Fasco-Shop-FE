@@ -10,7 +10,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 width={366}
                 height={244}
                 alt={product.name}
-                className="h-auto w-auto] rounded-[10px] mb-[12px]  "
+                className="h-auto w-auto rounded-[10px] mb-[12px]  "
             />
             <div className=" flex justify-between items-center  mb-[1px] ">
                 <p className=" font-medium text-xs md:text-base lg:text-[20px] lg:leading-[20px] line-clamp-1 w-full md:max-w-[75%]  ">

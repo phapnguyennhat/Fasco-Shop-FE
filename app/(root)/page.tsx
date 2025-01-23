@@ -11,10 +11,12 @@ import Policy from './components/Policy';
 import FollowUs from './components/FollowUs';
 import CustomerSay from './components/CustomerSay';
 import Subscribe from './components/Subscribe';
+import CloseExtraNav from './components/CloseExtraNav';
+import { SkeletonCard } from './product/components/ProductCard';
+
+
 
 export const experimental_ppr = true;
-
-
 
 export default async function Home({
     searchParams
@@ -22,29 +24,26 @@ export default async function Home({
     searchParams: Promise<{ categoryName?: string }>,
     
 }) {
-    const { categoryName } = await searchParams;
+    // const { categoryName } = await searchParams;
 
-  
    
     return (
         <>
+            <CloseExtraNav />
             <BannerSale />
             <BrandHome />
-            <TriggerExtraNav />
             <ExtraNav />
             <DealsOfMonth />
-            <NewArrival categoryName={categoryName || "Men's Fashion"} />
-            <Suspense fallback={<div>Loading ...</div>}>
-                {' '}
-                <ArrivalProducts
-                    categoryName={categoryName || "Men's Fashion"}
-                />
+            <TriggerExtraNav />
+            <Suspense fallback={'loading'}>
+                <NewArrival searchParams={searchParams} />
+                <ArrivalProducts searchParams={searchParams} />
             </Suspense>
-            <Advertisement/>
-            <Policy/>
-            <FollowUs/>
-            <CustomerSay/>
-            <Subscribe/>
+            <Advertisement />
+            <Policy />
+            <FollowUs />
+            <CustomerSay />
+            <Subscribe />
         </>
     );
 }

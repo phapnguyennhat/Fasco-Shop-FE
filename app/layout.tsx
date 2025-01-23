@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Poppins, Volkhov } from 'next/font/google';
+import { Poppins, Volkhov, Jost } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import StoreProvider from './StoreProvider';
 import GoogleAuthProvider from '@/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
+import FacebookAuthProvider from '@/FacebookAuthProvider';
 
 const poppins = Poppins({
     variable: '--font-poppins',
@@ -13,6 +14,16 @@ const poppins = Poppins({
     display: 'swap',
     adjustFontFallback: false,
 });
+
+const jost = Jost({
+    variable: '--font-jost',
+    subsets: ['latin'],
+    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+    display: 'swap',
+    adjustFontFallback: false,
+});
+
+
 
 const volkhov = Volkhov({
     variable: '--font-volkhov',
@@ -47,13 +58,15 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${poppins.variable} font-poppins  ${volkhov.variable} ${digitalNumbers.variable}  antialiased`}
+                className={`${poppins.variable} font-poppins  ${volkhov.variable} ${digitalNumbers.variable}  ${jost.variable} antialiased`}
             >
                 <StoreProvider>
                     {' '}
                     <GoogleAuthProvider>
-                            {children}
-                            <Toaster />
+                            <FacebookAuthProvider>
+                                    {children}
+                                    <Toaster />
+                            </FacebookAuthProvider>
                     </GoogleAuthProvider>
                 </StoreProvider>
 

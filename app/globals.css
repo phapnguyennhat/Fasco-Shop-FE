@@ -5,11 +5,11 @@
 
 
 .section-page_home{
-  @apply  mx-2 sm:mx-4 max-w-[1280px]  xl:mx-auto
+  @apply  mx-2 sm:mx-4 max-w-[1280px]   xl:mx-auto 
 }
 
 .logo {
-  @apply font-volkhov uppercase text-[30px] sm:text-[52px] leading-[52px]
+  @apply font-volkhov uppercase  text-[30px] sm:text-[52px] leading-[52px]
 }
 
 .button-black {
@@ -78,7 +78,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-white text-[#484848] max-w-[1920px] text-base lg:mt-[70px] relative
+    @apply bg-white text-[#484848] xl:max-w-[1920px] text-base lg:mt-[70px] relative
   }}
 
 
