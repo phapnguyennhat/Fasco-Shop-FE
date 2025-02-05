@@ -25,7 +25,7 @@ export type QueryProduct = {
 };
 export const experimental_ppr = true;
 
-export default async function ProductPage({
+export default  function ProductPage({
     searchParams,
 }: {
     searchParams: Promise<QueryProduct>;
@@ -35,16 +35,19 @@ export default async function ProductPage({
         <>
             <HeaderProduct />
             <CloseExtraNav />
-            <Suspense fallback={<div>loading ...</div>}>
-                <section className=" section-page_home flex ">
+            <section className=" xl:max-w-[1280px] mx-3 md:mx-6 xl:mx-auto  flex  mb-[24px] md:mb-[30px] lg:mb-[18px] xl:mb-[33px] ">
+                <Suspense fallback={<div>loading ...</div>}>
                     <Filter searchParams={searchParams} />
+                </Suspense>
+                <Suspense fallback={<div>loading product content</div>}>
+                    {' '}
                     <ProductContent searchParams={searchParams} />
-                </section>
-            </Suspense>
+                </Suspense>
+            </section>
             <ExtraNav />
-            <TriggerExtraNav />
 
             <Advertisement />
+            <TriggerExtraNav />
             <Policy />
             <FollowUs />
             <Subscribe />

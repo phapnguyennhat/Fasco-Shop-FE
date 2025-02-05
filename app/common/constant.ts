@@ -54,3 +54,9 @@ export const collections = [
 ]
 
 export const FIVEMINUTES = 5*60
+
+
+export const minDelivery = 3
+export const maxDelivery = 7
+
+export const minOrderFreeShip = 75

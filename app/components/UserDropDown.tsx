@@ -10,7 +10,7 @@ import Image from 'next/image';
 
 export default function UserDropDown() {
     return (
-        <li className=" md:hidden  border-b-2  transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+        <li className=" md:hidden   border-b-2  transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
             <Accordion type="single" collapsible className="w-full  ">
                 <AccordionItem value="item-1">
                     <AccordionTrigger className=" font-normal text-base">

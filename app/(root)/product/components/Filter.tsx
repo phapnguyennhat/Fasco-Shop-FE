@@ -17,15 +17,35 @@ export default async function Filter({
  
     const queryParams = await searchParams
 
+    const getBrands = () =>{
+        return fetcher<{name: string}[]>('brand?page=1&limit=6', {
+            method:'GET',
+            next: {
+                revalidate: FIVEMINUTES
+            }
+        })
+    }
+
+    const getTags = () =>{
+         return fetcher<{name: string}[]>('tag?page=1&limit=11', {
+            method:'GET',
+            next: {
+                revalidate: FIVEMINUTES
+            }
+        })
+    }
+
+    const [brands, tags] = await Promise.all([getBrands(), getTags()])
+
 
     return (
-        <aside className='w-[322px] hidden lg:block  ' >
-            <h6 className=' font-volkhov lg:text-3xl text-[#000] md:text-2xl text-xl mb-[8px] md:mb-[16px] lg:mb-[18px] xl:mb-[33px] ' >Filters</h6>
+        <aside className=' ml-3 lg:w-[280px] xl:w-[322px] hidden lg:block  ' >
+            <h6 className=' font-volkhov xl:text-3xl text-[#000] lg:text-2xl text-xl mb-[8px] md:mb-[16px] lg:mb-[18px] xl:mb-[33px] ' >Filters</h6>
             <SizeFilter queryParams={queryParams} />
             <PriceFilter queryParams={queryParams} />
-            <BrandFilter queryParams={queryParams}  />
+            <BrandFilter queryParams={queryParams} brands={brands}  />
             <CollectionFilter queryParams={queryParams} />
-            <TagFilter queryParams={queryParams}/>
+            <TagFilter queryParams={queryParams} tags={tags} />
  
         </aside>
     );

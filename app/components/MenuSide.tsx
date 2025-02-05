@@ -12,14 +12,14 @@ import { ShoppingBag } from 'lucide-react';
 import { logout } from '../action';
 import UserDropDown from './UserDropDown';
 import SearchNav from './SearchNav';
-import BrandFilter from '../(root)/product/components/BrandFilter';
 
-export default function MenuSide({ profile }: { profile: User | undefined }) {
+export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
-
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const cartNumber  = Math.min(cartItems.length, 9)
 
     const itemsNav: { name: string; link: string; icon?: any }[] = [
         {
@@ -76,7 +76,7 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
                         </Link>
                     </li>
                     <li className=" hidden md:block py-[19px]">
-                        <Link href={'favorite'}>
+                        <Link href={'/favorite'}>
                             <Image
                                 src={'/icons/favorite.png'}
                                 width={20}
@@ -86,8 +86,8 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
                             />
                         </Link>
                     </li>
-                    <li className=" hidden md:block  ">
-                        <Link href={'cart'}>
+                    <li className={`relative hidden md:block  ${cartNumber ===0 ? 'mr-0': 'mr-2'}   `}>
+                        <Link href={'/cart'}>
                             <Image
                                 src={'/icons/cartuser.png'}
                                 width={20}
@@ -96,6 +96,7 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
                                 className=" size-[20px]"
                             />
                         </Link>
+                        <div className={`${cartNumber ===0 && 'hidden'} font-volkhov  items-center text-white bg-red-500 w-[24px] h-[24px] flex justify-center  rounded-full absolute -right-[20px] -top-[10px] `} >{cartNumber}</div>
                     </li>
                     <li className="size-[20px] hidden lg:block ">
                         <button
@@ -115,11 +116,11 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
 
             {/* Menu trượt */}
             <aside
-                className={`fixed z-20 top-0 left-0 h-full w-64 bg-white shadow-lg transform ${
+                className={`fixed z-30 lg:hidden -top-[20px] md:-top-[30px] left-0  h-screen  w-64 bg-white  transform ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 } transition-transform duration-300 ease-in-out`}
             >
-                <div className=" mt-3 lg:mt-6 ">
+                <div className=" mt-[20px] ">
                     <Link href={'/'} className=" logo mx-4 sm:mx-4">
                         Fasco
                     </Link>
@@ -129,7 +130,7 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
                                 (item, index) => (
                                     <li
                                         key={index}
-                                        className=" border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full"
+                                        className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full"
                                     >
                                         <Link
                                             className=" flex items-center justify-between"
@@ -147,7 +148,7 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
                         {profile ? (
                             <button
                                 onClick={logout}
-                                className=" px-6 py-3 flex items-center w-full justify-between hover:bg-gray-100 transition-all duration-300 "
+                                className="  px-6 py-3 flex items-center w-full justify-between hover:bg-gray-100 transition-all duration-300 "
                                 type="button"
                             >
                                 Logout
@@ -176,7 +177,7 @@ export default function MenuSide({ profile }: { profile: User | undefined }) {
             {/* Overlay mờ (khi menu mở) */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-10 bg-black bg-opacity-50"
+                    className="fixed h-screen inset-0 -top-[20px] md:-top-[30px] z-20 bg-black bg-opacity-50"
                     onClick={toggleMenu}
                 ></div>
             )}

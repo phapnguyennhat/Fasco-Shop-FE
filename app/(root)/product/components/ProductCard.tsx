@@ -1,17 +1,20 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
-import { Fallback } from '@radix-ui/react-avatar'
+
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export default function ProductCard({product}: {product: Product}) {
+  
   return (
-    <li className=' '>
-      <Image 
-      width={302} height={302} 
-      src={product.images[0].url} alt='product image' className='size-auto lg:mb-[19px]' />
-      <p className=' font-volkhov text-base text-black   line-clamp-1' >{product.name}</p>
-      <p className=' font-jost  text-black'>${product.price}</p>
+    <li className=' hover:scale-105 transition-all duration-300'>
+     <Link href={`/product/${ encodeURIComponent( product.name)}-i.${product.id}`}>
+        <Image
+        width={302} height={302} 
+        src={product.images[0].url} alt='product image' className='   xl:size-[302px] lg:mb-[19px]' />
+        <p className=' font-volkhov text-base text-black   line-clamp-1' >{product.name}</p>
+        <p className=' font-jost  text-black'>${product.price}</p>
+     </Link>
     </li>
   )
 }

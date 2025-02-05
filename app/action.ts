@@ -3,6 +3,7 @@
 import { auth, signIn } from '@/auth';
 import getAuthCookies from '@/lib/getAuthCookie';
 import { fetcher } from '@/lib/utils';
+import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -91,4 +92,40 @@ export async function logout() {
     cookieStore.delete('Authentication');
     cookieStore.delete('Refresh');
     redirect('/login');
+}
+
+
+export async function addCart (formData: FormData){
+    const quantity = formData.get('quantity')
+    const varientId = formData.get('varientId')
+    const authCookie = await getAuthCookies()
+
+    await fetcher('cart', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: authCookie
+        },
+        
+        body: JSON.stringify({quantity, varientId}),
+    })
+
+    revalidateTag('cartItem')
+}
+
+export async function updateCartItem (id: string, quantity: number){
+    const authCookie= await getAuthCookies()
+
+    await fetcher(`cart/${id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: authCookie,
+        },
+
+        body: JSON.stringify({quantity})
+    });
+    revalidateTag('cartItem')
 }

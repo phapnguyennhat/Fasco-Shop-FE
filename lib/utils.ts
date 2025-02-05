@@ -25,7 +25,7 @@ export const formatNumber = (num: number) => {
     return num.toString();
 };
 
-type SearchParams = { [key: string]: string | string[] | undefined };
+export type SearchParams = { [key: string]: string | string[] | undefined };
 
 
 
@@ -47,3 +47,25 @@ export const createQueryString = (name: string |undefined, value: string, queryP
 
   return params.toString();
 };
+
+
+export function formatEstimatedDelivery(minDays: number, maxDays: number): string {
+  const today = new Date();
+
+  // Tính ngày giao hàng tối thiểu và tối đa
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + minDays);
+
+  const maxDate = new Date(today);
+  maxDate.setDate(today.getDate() + maxDays);
+
+  const sameMonth = minDate.getMonth() === maxDate.getMonth();
+  const minMonthShort = minDate.toLocaleString('en-US', { month: 'short' });
+  const maxMonthShort = maxDate.toLocaleString('en-US', { month: 'short' });
+
+  const minDay = minDate.getDate();
+  const maxDay = maxDate.getDate();
+
+
+    return `${minMonthShort} ${minDay} - ${maxMonthShort} ${maxDay}`;
+}

@@ -9,20 +9,16 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion';
-import { FIVEMINUTES } from '@/app/common/constant';
 
-export default async function BrandFilter({
+export default  function BrandFilter({
     queryParams,
+    brands
 }: {
     queryParams: QueryProduct;
+    brands: {name: string}[]
 }) {
 
-    const brands = await fetcher<{name: string}[]>('brand', {
-        method:'GET',
-        next: {
-            revalidate: FIVEMINUTES
-        }
-    })
+    
 
     const {brandName} = queryParams
    

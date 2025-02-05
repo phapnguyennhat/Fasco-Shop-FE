@@ -17,7 +17,7 @@
 }
 
 .navbar{
-  @apply section-page_home flex mb-[20px] sm:mb-[50px] lg:mb-[94px]   mt-3 lg:mt-6  items-center justify-between 
+  @apply   flex items-center justify-between fixed w-full  z-10 bg-white py-[40px]  md:py-[52px]   lg:py-[70px]  
 }
 
 @layer base {
@@ -78,7 +78,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-white text-[#484848] xl:max-w-[1920px] text-base lg:mt-[70px] relative
+    @apply bg-white text-[#484848] xl:max-w-[1920px] text-base  relative 
   }}
 
 
@@ -95,6 +95,15 @@
   box-shadow: 0 6px 10px -10px rgba(0, 0, 0, 0.3); /* Shadow mờ nhẹ */
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+
 
 .swiper {
   @apply  max-w-[900px]  mx-0 !important
@@ -102,4 +111,10 @@
 
 .swiper-slide{
   @apply w-auto h-auto !important
+}
+
+
+
+.cartItem{
+  @apply border-b-2  !important
 }

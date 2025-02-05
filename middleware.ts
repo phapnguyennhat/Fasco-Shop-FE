@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server';
 
 const privatePath = ['/profile'];
 const authPath = ['/login', '/register'];
-const publicPath = ['/'];
+const publicPath = ['/', '/product'];
 
 export async function middleware(request: NextRequest) {
     const isLogin = request.cookies.has('Refresh');
@@ -49,6 +49,20 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+    // matcher: [
+    //     /*
+    //      * Match all request paths except for the ones starting with:
+    //      * - api (API routes)
+    //      * - _next/static (static files)
+    //      * - _next/image (image optimization files)
+    //      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+    //      */
+    //     '/profile',
+    //     '/login',
+    //     '/',
+    //     '/register',
+    //     '/product'
+    // ],
     matcher: [
         /*
          * Match all request paths except for the ones starting with:
@@ -57,9 +71,6 @@ export const config = {
          * - _next/image (image optimization files)
          * - favicon.ico, sitemap.xml, robots.txt (metadata files)
          */
-        '/profile',
-        '/login',
-        '/',
-        '/register'
-    ],
+        '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+      ],
 };

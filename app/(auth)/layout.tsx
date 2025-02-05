@@ -11,7 +11,7 @@ export default function AuthLayout({
     return (
         <>
             <Navbar/>
-            {children}
+            <div className=' md:pt-[120px] lg:pt-[180px]'>{children}</div>
             <FollowUs />
             <Subscribe />
             <Footer />

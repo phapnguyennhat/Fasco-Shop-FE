@@ -18,7 +18,7 @@ import { SkeletonCard } from './product/components/ProductCard';
 
 export const experimental_ppr = true;
 
-export default async function Home({
+export default  function Home({
     searchParams
 }: {
     searchParams: Promise<{ categoryName?: string }>,

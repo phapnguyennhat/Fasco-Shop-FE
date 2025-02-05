@@ -4,10 +4,11 @@ import Link from "next/link"
 
 export default  async function ArrivalProducts({searchParams}: {searchParams: Promise<{ categoryName?: string }>}) {
   const categoryName = (await searchParams).categoryName || "Men's Fashion"
-  const products : Product[] = await fetcher<Product[]>(`product?categoryName=${categoryName}`, {
+  const productData  = await fetcher<{products: Product[], count: number}>(`product?categoryName=${categoryName}`, {
     method: 'GET',
     cache: 'no-cache'
   })
+  const {products} =productData
   return (
     <section className=" section-page_home mb-[60px] sm:mb-[80px] md:mb-[100px] lg:mb-[150px]   ">
        <div className=" flex flex-wrap mb-[20px] md:mb-[36px] lg:mb-[50px]">
