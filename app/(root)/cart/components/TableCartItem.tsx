@@ -9,11 +9,30 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import TableContent from "./TableContent"
+import { getCart } from "@/lib/api"
+import TotalCart from "./TotalCart"
+import { SearchParams } from "@/lib/utils"
+import Image from "next/image"
+import Link from "next/link"
 
-export default function TableCartItem() {
-  const headers = ['Product', 'Price', 'Quantity', 'Total']
+
+interface IProps {
+  searchParams: Promise<SearchParams>
+}
+export default async function TableCartItem({searchParams}: IProps) {
+  // const headers = ['Product', 'Price', 'Quantity', 'Total']
+  const cartItems : ICartItem[] = await getCart()
+
+  if(cartItems.length ===0){
+    return (
+      <section className=" flex flex-col justify-center items-center   section-page_home" >
+        <Image src={'https://skoozo.com/assets/img/empty-cart.png'} alt=" not found cart items" width={534} height={428} className=" "  />
+      </section>
+    )
+  }
+  
   return (
-    <section className='  mb-[40px] lg:mb-[70px]     section-page_home' >
+    <section className=' mb-[20px]  md:mb-[26px]  lg:mb-[30px]   section-page_home' >
       <Table className=" min-w-[530px]  md:min-w-[830px]" >
       <TableHeader className= "    border-b-2 font-volkhov leading-[22px] md:text-lg  lg:text-[22px]" >
         <TableRow className=" "  >
@@ -23,9 +42,10 @@ export default function TableCartItem() {
           <TableHead className=" md:pb-[18px] lg:pb-[35px] w-[80px] text-black text-right" >Total</TableHead>
         </TableRow>
       </TableHeader>
-     <TableContent/>
+     <TableContent cartItems={cartItems} />
      
     </Table>
+    <TotalCart searchParams={searchParams } />
     </section>
   )
 }

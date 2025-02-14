@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/accordion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { KeyRound, MapPinHouse } from 'lucide-react';
 
 export default function UserDropDown() {
     return (
@@ -21,7 +22,7 @@ export default function UserDropDown() {
                             <li className=" border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
                                 <Link
                                     className=" flex items-center justify-between"
-                                    href={'/profile'}
+                                    href={'/user/profile'}
                                 >
                                     Profile
                                     <Image
@@ -36,7 +37,7 @@ export default function UserDropDown() {
                             <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
                                 <Link
                                     className=" flex justify-between items-center"
-                                    href={'/profile'}
+                                    href={'/user/favorite'}
                                 >
                                     {' '}
                                     Products favorite
@@ -49,10 +50,22 @@ export default function UserDropDown() {
                                     />
                                 </Link>
                             </li>
-                            <li className="   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 pt-3  w-full">
+
+                            <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+                                <Link
+                                    className=" flex justify-between items-center"
+                                    href={'/user/address'}
+                                >
+                                    {' '}
+                                    Address
+                                    <MapPinHouse size={20} />
+                                </Link>
+                            </li>
+
+                            <li className="border-b-2   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
                                 <Link
                                     className=" flex items-center justify-between"
-                                    href={'/profile'}
+                                    href={'/cart'}
                                 >
                                     {' '}
                                     My Cart
@@ -65,6 +78,19 @@ export default function UserDropDown() {
                                     />
                                 </Link>
                             </li>
+
+                            <li className="   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 pt-3  w-full">
+                                <Link
+                                    className=" flex justify-between items-center"
+                                    href={'/user/password'}
+                                >
+                                    {' '}
+                                    Change Password
+                                    <KeyRound size={20} />
+                                </Link>
+                            </li>
+
+                            
                         </ul>
                     </AccordionContent>
                 </AccordionItem>

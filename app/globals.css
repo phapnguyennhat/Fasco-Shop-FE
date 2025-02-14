@@ -118,3 +118,7 @@
 .cartItem{
   @apply border-b-2  !important
 }
+
+.selectAddr {
+  @apply font-poppins  font-normal  rounded-none py-[24px] px-[28px]  mt-0 !important
+}

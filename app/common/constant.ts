@@ -60,3 +60,5 @@ export const minDelivery = 3
 export const maxDelivery = 7
 
 export const minOrderFreeShip = 75
+export const feeShip =  40
+export const feeWrap = 10

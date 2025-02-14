@@ -2,7 +2,14 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
-const privatePath = ['/profile'];
+const privatePath = [
+    '/user',
+    '/user/address',
+    '/user/favorite',
+    '/user/password',
+    '/user/profile',
+    '/user/purchase',
+];
 const authPath = ['/login', '/register'];
 const publicPath = ['/', '/product'];
 
@@ -26,7 +33,7 @@ export async function middleware(request: NextRequest) {
         );
 
         if (response.ok) {
-            return NextResponse.redirect(new URL(currentPath,request.url),{
+            return NextResponse.redirect(new URL(currentPath, request.url), {
                 headers: {
                     'Set-Cookie': response.headers.get('set-cookie') as string,
                 },
@@ -72,5 +79,5 @@ export const config = {
          * - favicon.ico, sitemap.xml, robots.txt (metadata files)
          */
         '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
-      ],
+    ],
 };

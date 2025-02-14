@@ -6,7 +6,7 @@ import StoreProvider from './StoreProvider';
 import GoogleAuthProvider from '@/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import FacebookAuthProvider from '@/FacebookAuthProvider';
-
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const poppins = Poppins({
     variable: '--font-poppins',
@@ -65,14 +65,12 @@ export default function RootLayout({
                     {' '}
                     <GoogleAuthProvider>
                             <FacebookAuthProvider>
-                                        {children}
+                                       <NuqsAdapter> {children}</NuqsAdapter>
                                         <Toaster />
                             </FacebookAuthProvider>
                     </GoogleAuthProvider>
                 </StoreProvider>
 
-
-                
             </body>
             
         </html>

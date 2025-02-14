@@ -40,7 +40,7 @@ export default  function ProductPage({
                     <Filter searchParams={searchParams} />
                 </Suspense>
                 <Suspense fallback={<div>loading product content</div>}>
-                    {' '}
+                   
                     <ProductContent searchParams={searchParams} />
                 </Suspense>
             </section>

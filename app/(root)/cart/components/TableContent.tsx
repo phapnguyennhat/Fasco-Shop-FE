@@ -2,9 +2,23 @@ import { TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { getCart } from '@/lib/api';
 import Image from 'next/image';
 import InputQuantity from './InputQuantity';
+import { deleteCartItem } from '@/app/action';
 
-export default async function TableContent() {
-    const cartItems: ICartItem[] = await getCart();
+
+interface IProps {
+    cartItems : ICartItem[]
+}
+export default  function TableContent({cartItems}: IProps) {
+
+    const handleDeleteCartItem = async (formData: FormData) =>{
+        'use server'
+        const id = formData.get('id')
+        try {
+            await deleteCartItem(id as string)
+        } catch (error) {
+            
+        }
+    }
     return (
         <TableBody>
             {cartItems.map((cartItem, index) => (
@@ -20,7 +34,8 @@ export default async function TableContent() {
                         <div className=' flex flex-col md:gap-y-[10px] lg:gap-y-[14px]' >
                           <p className=' line-clamp-3 font-volkhov leading-[22px] md:text-[18px]   lg:text-[22px] text-black' >{cartItem.varient.product.name}</p>
                           <p className=' font-poppins text-[#8A8A8A] leading-[22px] md:text-[18px]  lg:text-[22px]' >{cartItem.varient.valueAttrs[0].attrName}: {cartItem.varient.valueAttrs[0].value}</p>
-                          <form action="">
+                          <form action={handleDeleteCartItem}>
+                            <input name='id' type="text" hidden readOnly value={cartItem.id} />
                             <button className=' underline font-poppins leading-[22px] md:text-[18px] lg:text-[22px] text-[#8A8A8A]' >Remove</button>
                           </form>
                         </div>

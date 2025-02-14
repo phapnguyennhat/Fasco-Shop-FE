@@ -13,6 +13,7 @@ declare global{
     sold: number
     attrProducts: IAttrProduct[]
     images: Image[]
+    favoriteDetails: IFavoriteDetail[]
   }
 
   interface Varient {
@@ -51,7 +52,10 @@ declare global{
     name: string
     username: string
     email: string
-    avatar: Image
+    avatar: ImageFile
+    birthday?: string
+    gender?: string
+    phoneNumber?:string
 
   }
 
@@ -70,5 +74,44 @@ declare global{
     id: string
     quantity: number
     varient: Varient
+  }
+
+  interface IProvince {
+    id: string,
+    name: string
+    districts: IDistrict[]
+  }
+
+  interface IDistrict {
+    id: string
+    name: string
+    communes: ICommune[]
+  }
+
+  interface ICommune {
+    id: string
+    name: string
+  }
+
+  interface IAddress {
+    userId: string
+    email: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    provinceId: string
+    districtId: string
+    communeId: string
+    street: string
+
+    province: IProvince
+    district: IDistrict
+    commune: ICommune
+  }
+
+  interface IFavoriteDetail {
+    userId: string
+    productId: string
+    createAt: string
   }
 }

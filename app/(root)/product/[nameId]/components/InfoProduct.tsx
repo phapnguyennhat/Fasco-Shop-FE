@@ -18,31 +18,29 @@ import {
     minOrderFreeShip,
 } from '@/app/common/constant';
 import { CircleHelp, Share2 } from 'lucide-react';
+import { FaStar } from 'react-icons/fa6';
+import FavoriteProduct from './FavoriteProduct';
 
 export default async function InfoProduct({
     searchParams,
-    params,
+    product
 }: {
-    params: Promise<{ nameId: string }>;
+    product: Product
     searchParams: Promise<SearchParams>;
 }) {
-    const { nameId } = await params;
-    const [_, id] = nameId.split('-i.');
-    const product: Product = await fetcher<Product>(`product/${id}`, {
-        method: 'GET',
-        next: {
-            revalidate: FIVEMINUTES,
-        },
-    });
+   
     const queryParams = await searchParams;
 
-    product.attrProducts.forEach((attrProduct) => {
+    const {id,attrProducts, favoriteDetails} = product
+
+
+    attrProducts.forEach((attrProduct) => {
         queryParams[attrProduct.name] =
             queryParams[attrProduct.name] || attrProduct.valueAttrs[0].value;
     });
 
+
     const query = createQueryString(undefined, '', queryParams);
-    console.log(`product/${id}/varient?${query}`)
     const varient: Varient = await fetcher<Varient>(
         `product/${id}/varient?${query}`,
         {
@@ -62,13 +60,7 @@ export default async function InfoProduct({
                     <span className=" font-volkhov text-[#000] text-lg md:text-[20px] lg:text-[30px] leading-[30px]">
                         {product.name}
                     </span>
-                    <Image
-                        src={'/icons/favorite.png'}
-                        alt="icon star"
-                        width={20}
-                        height={20}
-                        className="size-[20px] "
-                    />
+                   <FavoriteProduct productId={product.id} isFavorite={favoriteDetails.length!==0} />
                 </h6>
                 <StarRating starRating={product.starRating}>
                     <Image
@@ -129,8 +121,8 @@ export default async function InfoProduct({
                 </Suspense>
             </div>
 
-            <div className='md:hidden lg:block' ></div>
-            <div className=' flex flex-col gap-3 md:col-span-2 lg:col-span-1' >
+            <div className="md:hidden lg:block"></div>
+            <div className=" flex flex-col gap-3 md:col-span-2 lg:col-span-1">
                 <FormAddCart varient={varient} />
 
                 <div className=" border-b pb-[12px]  ">

@@ -64,7 +64,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                 <ul className=" flex items-center md:gap-4 lg:gap-6 mr-3 ">
                     <SearchNav />
                     <li className=" hidden md:block  py-[19px]">
-                        <Link href={'profile'}>
+                        <Link href={'/user/profile'}>
                             {' '}
                             <Image
                                 src={'/icons/user.png'}
@@ -76,7 +76,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                         </Link>
                     </li>
                     <li className=" hidden md:block py-[19px]">
-                        <Link href={'/favorite'}>
+                        <Link href={'/user/favorite'}>
                             <Image
                                 src={'/icons/favorite.png'}
                                 width={20}

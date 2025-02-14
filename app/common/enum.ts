@@ -5,3 +5,9 @@ export enum ECollection {
   LOWTOHIGH = 'LOWTOHIGH',
   HIGHTOLOW = 'HIGHTOLOW',
 }
+
+export enum EGender {
+  MALE= 'MALE',
+  FEMALE= 'FEMALE',
+  OTHER = 'OTHER'
+}

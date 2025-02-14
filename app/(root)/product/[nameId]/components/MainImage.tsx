@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 interface IProps {
-  varientImage: ImageFile
+  varientImage: ImageFile 
 }
 export default function MainImage({varientImage}: IProps) {
   const showImage = useSelector((state: RootState)=>state.imageProduct.value)
