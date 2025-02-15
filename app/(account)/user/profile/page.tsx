@@ -14,7 +14,7 @@ export default async function Profile() {
             </div>
 
              <div className="  overflow-x-scroll mb-[30px] scrollbar-hide  w-full">
-                    <div className=" min-w-[580px]   flex items-center">
+                    <div className=" w-[600px] sm:w-auto justify-evenly   flex items-center">
                         <FormProfile user={user} />
                         <SelectImage user={user} />
                     </div>

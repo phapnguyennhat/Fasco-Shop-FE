@@ -11,3 +11,10 @@ export enum EGender {
   FEMALE= 'FEMALE',
   OTHER = 'OTHER'
 }
+
+export enum AuthBy {
+  GOOGLE='GOOGLE',
+  GITHUB='GITHUB',
+  FACEBOOK='FACEBOOK',
+  LOCAL='LOCAL'
+}

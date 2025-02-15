@@ -62,7 +62,7 @@ export default function SelectImage({ user }: IProps) {
   const disable =( preview ===(user?.avatar?.url || "/images/default_avt.png")) || loading
 
   return (
-      <div className="   mx-auto px-2 md:px-4 lg:px-5 border-l  text-center">
+      <div className="   mx-auto  px-2 md:px-4 lg:px-5 border-l  text-center">
           <label className=" flex flex-col items-center justify-center cursor-pointer ">
               <Image
                   alt="avatar image"
@@ -80,7 +80,7 @@ export default function SelectImage({ user }: IProps) {
               <span className="block mt-[20px] text-sm mb-[15px]  p-2 border">Choose Image</span>
           </label>
           <p className=" text-sm text-center w-full ">Maximum file size is 1 MB</p>
-          <p className=" mb-[12px]  text-center text-sm w-full text-left" >Format: Image</p>
+          <p className=" mb-[12px]  text-center text-sm w-full " >Format: Image</p>
           <Button onClick={()=>handleSave(image)} className={`${disable && 'bg-gray-800'}`}  disabled={disable} >Save</Button>
       </div>
   );

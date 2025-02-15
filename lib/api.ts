@@ -127,3 +127,54 @@ export async function getProductById(id: string, userId?:string){
     })
     return product
 }
+
+export async function getCategory(){
+    const categories : ICategory[] = await fetcher<ICategory[]>('category', {
+        method: 'GET',
+        next:{
+            revalidate: FIVEMINUTES
+        }
+    })
+    return categories
+}
+
+export const getProducts = (query:string) =>{
+    return  fetcher<{products: Product[], count: number}>(`product?${query}`, {
+      method: 'GET',
+      next: {
+        revalidate: FIVEMINUTES
+      }
+    })
+  }
+
+ export const getBrands = () => {
+      return fetcher<{ name: string }[]>('brand?page=1&limit=6', {
+          method: 'GET',
+          next: {
+              revalidate: FIVEMINUTES,
+          },
+      });
+  };
+
+ export const getTags = () => {
+      return fetcher<{ name: string }[]>('tag?page=1&limit=11', {
+          method: 'GET',
+          next: {
+              revalidate: FIVEMINUTES,
+          },
+      });
+  };
+
+export async function getFavoriteProducts(query: string){
+    const authCookie = await getAuthCookies()
+    return  fetcher<{favoriteDetails: IFavoriteDetail[], count: number}>(`user/favorite?${query}`, {
+        method: 'GET',
+        headers: {
+            Cookie: authCookie
+        },
+        next: {
+          revalidate: FIVEMINUTES,
+          tags: ['favoriteProducts']
+        }
+      })
+}

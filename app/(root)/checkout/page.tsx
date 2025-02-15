@@ -48,7 +48,7 @@ export default async function CheckoutPage({searchParams}: IProps) {
                   district={district}
                   address={address}
               />
-              <div className=" order-1 md:order-2 mb-[30px] md:mb-0" >
+              <div className=" w-[92%] mx-auto  sm:w-[600px] md:w-auto  order-1 md:order-2 mb-[30px] md:mb-0" >
                       <ListProduct   cartItems={cartItems} queryParams={queryParams}  />
               </div>
           </section>

@@ -1,3 +1,4 @@
+import { AuthBy } from "./app/common/enum";
 export {};
 
 
@@ -52,6 +53,7 @@ declare global{
     name: string
     username: string
     email: string
+    authBy: AuthBy
     avatar: ImageFile
     birthday?: string
     gender?: string
@@ -96,8 +98,8 @@ declare global{
   interface IAddress {
     userId: string
     email: string
-    firstName: string
-    lastName: string
+    fullName: string
+    // lastName: string
     phoneNumber: string
     provinceId: string
     districtId: string
@@ -113,5 +115,10 @@ declare global{
     userId: string
     productId: string
     createAt: string
+    product: Product
+  }
+
+  interface ICategory {
+    name: string
   }
 }

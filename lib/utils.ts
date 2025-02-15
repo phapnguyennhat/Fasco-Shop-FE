@@ -69,3 +69,7 @@ export function formatEstimatedDelivery(minDays: number, maxDays: number): strin
 
     return `${minMonthShort} ${minDay} - ${maxMonthShort} ${maxDay}`;
 }
+
+export const isEmptyObject = (obj: object): boolean => {
+  return Object.keys(obj).length === 0;
+};

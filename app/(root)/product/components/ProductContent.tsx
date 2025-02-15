@@ -5,6 +5,7 @@ import { createQueryString, fetcher } from "@/lib/utils"
 import ProductCard from "./ProductCard"
 import FilterSide from "./FilterSide";
 import { FIVEMINUTES } from "@/app/common/constant";
+import { getBrands, getProducts, getTags } from "@/lib/api";
 
 export default async function ProductContent({
   searchParams,
@@ -13,40 +14,8 @@ export default async function ProductContent({
 })  {
   const queryParams = await searchParams
   const query = createQueryString(undefined, '', queryParams as any)
-  // const products: Product[] = await fetcher<Product[]>(`product?${query}`, {
-  //   method: 'GET',
-  //   cache: 'no-cache'
-  // })
-
-
-  const getProducts = () =>{
-    return  fetcher<{products: Product[], count: number}>(`product?${query}`, {
-      method: 'GET',
-      next: {
-        revalidate: FIVEMINUTES
-      }
-    })
-  }
-
-  const getBrands = () => {
-      return fetcher<{ name: string }[]>('brand?page=1&limit=6', {
-          method: 'GET',
-          next: {
-              revalidate: FIVEMINUTES,
-          },
-      });
-  };
-
-  const getTags = () => {
-      return fetcher<{ name: string }[]>('tag?page=1&limit=11', {
-          method: 'GET',
-          next: {
-              revalidate: FIVEMINUTES,
-          },
-      });
-  };
-
-  const [productdata,brands, tags] = await Promise.all([getProducts(),getBrands(), getTags()]);
+ 
+  const [productdata,brands, tags] = await Promise.all([getProducts(query),getBrands(), getTags()]);
 
   const {products,count} = productdata
   
@@ -60,7 +29,7 @@ export default async function ProductContent({
                 <option value="new arrival">New Arrival</option>
             </select>
          </div>
-          <ul className="grid mt-[29px] md:grid-cols-3 grid-cols-2 gap-5" >
+          <ul className="mb-[40px] w-full mt-[29px] gap-3 lg:gap-4 grid-cols-2  grid md:grid-cols-3  " >
               {products.map((product, index) => (
                   <ProductCard product={product} key={index} />
               ))}

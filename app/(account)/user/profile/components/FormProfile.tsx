@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input';
 import  SelectGender  from './SelectGender';
 import { EGender } from '@/app/common/enum';
-import { ToastAction } from "@/components/ui/toast"
 
 import { updateProfile } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';

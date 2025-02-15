@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MapPinHouse } from 'lucide-react';
 import { KeyRound } from 'lucide-react';
+import { AuthBy } from '@/app/common/enum';
 
 interface IProps {
     user: User | undefined;
@@ -15,7 +16,7 @@ export default function NavSide({ user }: IProps) {
     const pathname = usePathname();
 
     return (
-        <aside className=" bg-gray-50  w-auto lg:min-w-[230px] hidden  md:flex flex-col">
+        <aside className=" bg-gray-50  min-w-[230px] hidden  md:flex flex-col">
             <div className=" p-4 inline-flex gap-3 mb-[15px]  items-center">
                 <Avatar>
                     <AvatarImage
@@ -26,9 +27,9 @@ export default function NavSide({ user }: IProps) {
                 </Avatar>
                 <div className=" flex flex-col">
                     <span className="text-black">{user?.username}</span>
-                    <div className=" inline-flex items-center gap-3 text-[#888]">
+                    <Link href='/user/profile' className=" inline-flex items-center gap-3 text-[#888]">
                         <PencilLine /> <span>Edit profile</span>{' '}
-                    </div>
+                    </Link>
                 </div>
             </div>
 
@@ -62,7 +63,7 @@ export default function NavSide({ user }: IProps) {
                     <MapPinHouse size={20} />
                     Address
                 </Link>
-                <Link
+              { user?.authBy===AuthBy.LOCAL &&  <Link
                     className={`${
                         pathname.includes('password') && 'text-black'
                     } inline-flex items-center gap-3 py-2 px-4 hover:bg-gray-200 transition-all duration-300 hover:text-black `}
@@ -70,7 +71,7 @@ export default function NavSide({ user }: IProps) {
                 >
                     <KeyRound size={20} />
                     Change Password
-                </Link>
+                </Link>}
             </div>
         </aside>
     );

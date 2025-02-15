@@ -22,7 +22,7 @@ export default function CartItem({ cartItem }: IProps) {
                 </p>
             </div>
            <div className=' flex-1 items-center inline-flex justify-between'>
-              <div className=" max-w-[274px]">
+              <div className=" w-[80%] md:max-w-[274px]">
                   {' '}
                   <p className="line-clamp-2 text-black font-volkhov lg:text-[18px]">
                       {cartItem.varient.product.name}

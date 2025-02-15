@@ -7,11 +7,11 @@ import React from 'react'
 export default function ProductCard({product}: {product: Product}) {
   
   return (
-    <li className=' hover:scale-105 transition-all duration-300'>
+    <li className=' w-full  hover:scale-105 transition-all duration-300'>
      <Link href={`/product/${ encodeURIComponent( product.name)}-i.${product.id}`}>
         <Image
         width={302} height={302} 
-        src={product.images[0].url} alt='product image' className='   xl:size-[302px] lg:mb-[19px]' />
+        src={product.images[0].url} alt='product image' className='  w-full h-auto   lg:mb-[19px]' />
         <p className=' font-volkhov text-base text-black   line-clamp-1' >{product.name}</p>
         <p className=' font-jost  text-black'>${product.price}</p>
      </Link>

@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation';
 import { CreateAddress } from './(root)/checkout/schema';
 import { UpdateProfile } from './(account)/user/profile/schema';
 import { File } from 'buffer';
+import { UpdatePassword } from './(account)/user/password/schema';
 
 export const submitEmail = async (formData: FormData) => {
     const email = formData.get('email');
@@ -160,6 +161,7 @@ export async function createOrder(
         body: JSON.stringify( {address: createAddress,isWrap})
     });
     revalidateTag('cartItem');
+    
 }
 
 export async function createAddress (createAddress: CreateAddress){
@@ -221,6 +223,7 @@ export async function createFavorite (productId: string){
         },
     })
     revalidateTag(`productDetail/${productId}`)
+    revalidateTag('favoriteProducts')
 }
 
 export async function deleteFavoriteAbulk(productIds: string[]) {
@@ -238,6 +241,18 @@ export async function deleteFavoriteAbulk(productIds: string[]) {
     productIds.forEach((productId) => {
         revalidateTag(`productDetail/${productId}`);
     });
+    revalidateTag('favoriteProducts')
 }
 
-
+export async function changePassword(updatePassword: UpdatePassword){
+    const authCookie = await getAuthCookies()
+    await fetcher('auth/change-password', {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: authCookie,
+        },
+        body: JSON.stringify(updatePassword),
+    })
+}

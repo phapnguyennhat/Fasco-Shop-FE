@@ -55,8 +55,7 @@ export default function FormCheckout({
         defaultValues: {
             email: '',
             phoneNumber: '',
-            firstName: '',
-            lastName: '',
+            fullName: '',
             provinceId: '',
             districtId: '',
             communeId: '',
@@ -68,8 +67,8 @@ export default function FormCheckout({
     useEffect(()=>{
         if(address){
             form.setValue('email',address.email)
-            form.setValue('firstName', address.firstName)
-            form.setValue('lastName', address.lastName)
+            form.setValue('fullName', address.fullName)
+            // form.setValue('lastName', address.lastName)
             form.setValue('phoneNumber', address.phoneNumber)
             form.setValue('street', address.street)
             
@@ -92,7 +91,7 @@ export default function FormCheckout({
         createOrder(values, isWrap);
     }
     return (
-        <div className=" order-2  md:order-1 flex justify-center md:justify-end md:mr-[18px] lg:mr-[33px] ">
+        <div className=" order-2    md:order-1 flex justify-center md:justify-end md:mr-[18px] lg:mr-[33px] ">
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -102,10 +101,10 @@ export default function FormCheckout({
                         <h6 className=" font-volkhov text-2xl md:text-[32px] md:leading-[32px] lg:text-[46px] lg:leading-[46px] ">
                             Contact
                         </h6>
-                        <p>Select Address</p>
+                        {/* <p>Select Address</p> */}
                     </div>
 
-                    <div className=" flex flex-col gap-y-[16px]">
+                    <div className=" flex flex-col mb-[16px] md:mb-0 gap-y-[16px]">
                         <FormField
                             control={form.control}
                             name="email"
@@ -149,14 +148,15 @@ export default function FormCheckout({
 
                     <div className=" grid  md:grid-cols-2  gap-x-[12px] gap-y-[16px] ">
                         <FormField
+                            
                             control={form.control}
-                            name="firstName"
+                            name="fullName"
                             render={({ field }) => (
-                                <FormItem className=" ">
+                                <FormItem className="col-span-2 ">
                                     <FormControl>
                                         <Input
                                             className="  placeholder:text-[#8A8A8A] font-poppins  rounded-none  py-[24px] px-[28px] "
-                                            placeholder="First Name"
+                                            placeholder="Full Name"
                                             {...field}
                                         />
                                     </FormControl>
@@ -166,23 +166,7 @@ export default function FormCheckout({
                             )}
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="lastName"
-                            render={({ field }) => (
-                                <FormItem className=" ">
-                                    <FormControl>
-                                        <Input
-                                            className="  placeholder:text-[#8A8A8A] font-poppins  rounded-none  py-[24px] px-[28px] "
-                                            placeholder="Last Name"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                       
 
                         <FormField
                             control={form.control}

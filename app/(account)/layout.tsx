@@ -15,7 +15,7 @@ export default async  function AccountLayout({
             <section className=" flex max-w-[1200px] mx-auto pt-[80px] md:pt-[120px] lg:pt-[180px]">
                 <NavSide user={user} />
 
-                {children}
+               {children}
             </section>
             <Footer />
         </>

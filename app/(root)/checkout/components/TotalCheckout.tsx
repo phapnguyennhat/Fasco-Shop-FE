@@ -22,7 +22,7 @@ export default function TotalCheckout({ cartItems, queryParams }: IProps) {
     total+= isWrap==='true' ? feeWrap: 0
   
     return (
-        <div className=" mb-[20px] ml-[18px] lg:ml-[40px] xl:ml-[82px] mr-3 max-w-[558px] space-y-[12px]">
+        <div className=" mb-[20px] ml-[18px] lg:ml-[40px] xl:ml-[82px] mr-3 md:max-w-[558px] space-y-[12px]">
             <div className=" w-full inline-flex justify-between">
                 <span>Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
