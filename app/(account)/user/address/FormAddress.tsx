@@ -38,9 +38,7 @@ export default function FormAddress({
     queryParams,
     address,
 }: IProps) {
-      const [loading, setLoading] = useState(false);
-  
-
+    const [loading, setLoading] = useState(false);
 
     const searchParams = useSearchParams();
     const selectedProvince = searchParams.get('province');
@@ -66,7 +64,6 @@ export default function FormAddress({
 
     const { toast } = useToast();
 
-
     useEffect(() => {
         if (address) {
             form.setValue('email', address.email);
@@ -85,22 +82,21 @@ export default function FormAddress({
 
     // 2. Define a submit handler.
     async function onSubmit(values: CreateAddress) {
-       try {
-                   setLoading(true);
-                  await createAddress(values)
-                   setLoading(false)
-                   toast({
-                       description: 'Update Address successfully.',
-                   });
-               } catch (error: any) {
-                   toast({
-                       variant: 'destructive',
-                       title: 'Uh oh! Something went wrong.',
-                       description: error.message,
-                   });
-                   setLoading(false);
-               }
-       
+        try {
+            setLoading(true);
+            await createAddress(values);
+            setLoading(false);
+            toast({
+                description: 'Update Address successfully.',
+            });
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: error.message,
+            });
+            setLoading(false);
+        }
     }
 
     return (
@@ -113,7 +109,6 @@ export default function FormAddress({
                     <h6 className=" font-volkhov text-2xl sm:text-[30px] md:leading-[30px] lg:text-[36px] lg:leading-[36px] ">
                         Contact
                     </h6>
-                    {/* <p>Select Address</p> */}
                 </div>
 
                 <div className=" flex flex-col mb-[30px]  gap-y-[16px]">
@@ -134,7 +129,7 @@ export default function FormAddress({
                                             {...field}
                                         />
                                     </FormControl>
-                                <FormMessage />
+                                    <FormMessage />
                                 </div>
                             </FormItem>
                         )}
@@ -156,7 +151,7 @@ export default function FormAddress({
                                             {...field}
                                         />
                                     </FormControl>
-                                <FormMessage />
+                                    <FormMessage />
                                 </div>
                             </FormItem>
                         )}

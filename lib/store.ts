@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import extraNavReducer from './features/ExtraNav/extraNavSlice'
 import imageProductReducer from './features/ImageProduct/imageProductSlice'
-import positionReducer from './features/Position/positionSlice'
-
+import attrProductReducer from './features/attrProduct/attrProductSlice'
 
 export const store = configureStore({
   reducer: {
     extraNav: extraNavReducer,
     imageProduct: imageProductReducer,
+    attrProduct: attrProductReducer,
   }
 })
 

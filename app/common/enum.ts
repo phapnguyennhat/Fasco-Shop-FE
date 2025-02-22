@@ -1,9 +1,9 @@
 export enum ECollection {
-  ALLPRODUCT = 'ALLPRODUCT',
-  BESTSELLER = 'BESTSELLER',
-  NEWARRIVAL = 'NEWARRIVAL',
-  LOWTOHIGH = 'LOWTOHIGH',
-  HIGHTOLOW = 'HIGHTOLOW',
+  ALLPRODUCT = 'All Products',
+  BESTSELLER = 'Best Seller',
+  NEWARRIVAL = 'New Arrivals',
+  LOWTOHIGH = 'Price: Low to High',
+  HIGHTOLOW = 'Price: High to Low',
 }
 
 export enum EGender {
@@ -17,4 +17,16 @@ export enum AuthBy {
   GITHUB='GITHUB',
   FACEBOOK='FACEBOOK',
   LOCAL='LOCAL'
+}
+
+export enum EStatusOrder {
+  PENDING = 'pending',
+  COMPLETE = 'complete',
+  CANCEL = 'cancel',
+  SHIPPING = 'shipping',
+}
+
+export enum ERole {
+  ADMIN= 'ADMIN',
+  USER='USER'
 }

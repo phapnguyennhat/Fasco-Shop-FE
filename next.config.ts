@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 
+
 const nextConfig: NextConfig = {
     /* config options here */
     images: {
@@ -14,7 +15,14 @@ const nextConfig: NextConfig = {
     experimental: {
         ppr: 'incremental',
     },
-    
+    rewrites: async () => {
+        return [
+            {
+                source: '/user',
+                destination: '/user/profile',
+            },
+        ];
+    },
 };
 
 export default nextConfig;

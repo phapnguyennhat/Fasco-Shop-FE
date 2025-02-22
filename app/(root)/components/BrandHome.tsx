@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BrandHome() {
     return (
         <section className=" section-page_home mx-2  py-[30px] sm:py-[50px] lg:py-[82px] ">
-            <ul className=' flex items-center gap-5 lg:gap-[70px] justify-center ' >
+           <Link  href={'/shop'}> <ul className=' flex items-center gap-5 lg:gap-[70px] justify-center ' >
                 <li>
                     <Image
                         className="size-auto"
@@ -46,7 +47,7 @@ export default function BrandHome() {
                         width={184} height={27}
                     />
                 </li>
-            </ul>
+            </ul></Link>
         </section>
     );
 }

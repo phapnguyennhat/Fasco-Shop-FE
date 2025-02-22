@@ -11,10 +11,12 @@ import ExtraNav from '../components/ExtraNav';
 import TriggerExtraNav from '../components/TriggerExtraNav';
 import { Suspense } from 'react';
 import { SkeletonCard } from './components/ProductCard';
+import PaginationList from '@/components/PaginationList';
 
 export type QueryProduct = {
-    page?: number;
+    page?: number ;
     limit?: number;
+    keyword?:string;
     tag?: string;
     categoryName?: string;
     size?: string;
@@ -23,6 +25,7 @@ export type QueryProduct = {
     maxPrice?: number;
     collection?: ECollection;
 };
+
 export const experimental_ppr = true;
 
 export default  function ProductPage({
@@ -43,6 +46,7 @@ export default  function ProductPage({
                    
                     <ProductContent searchParams={searchParams} />
                 </Suspense>
+                
             </section>
             <ExtraNav />
 

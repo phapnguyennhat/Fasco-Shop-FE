@@ -8,14 +8,19 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { KeyRound, MapPinHouse } from 'lucide-react';
+import { ERole } from '../common/enum';
 
-export default function UserDropDown() {
+
+interface IProps {
+    profile: User
+}
+export default function UserDropDown({profile}: IProps) {
     return (
         <li className=" md:hidden   border-b-2  transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
             <Accordion type="single" collapsible className="w-full  ">
                 <AccordionItem value="item-1">
                     <AccordionTrigger className=" font-normal text-base">
-                        User
+                    {  profile.role ===ERole.USER ?   'User':'Admin'}
                     </AccordionTrigger>
                     <AccordionContent className=' ' >
                         <ul>
@@ -34,7 +39,7 @@ export default function UserDropDown() {
                                     />
                                 </Link>
                             </li>
-                            <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+                           { profile.role ===ERole.USER && <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
                                 <Link
                                     className=" flex justify-between items-center"
                                     href={'/user/favorite'}
@@ -50,7 +55,7 @@ export default function UserDropDown() {
                                     />
                                 </Link>
                             </li>
-
+}
                             <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
                                 <Link
                                     className=" flex justify-between items-center"
@@ -62,7 +67,7 @@ export default function UserDropDown() {
                                 </Link>
                             </li>
 
-                            <li className="border-b-2   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+                        {  profile.role ===ERole.USER &&   <li className="border-b-2   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
                                 <Link
                                     className=" flex items-center justify-between"
                                     href={'/cart'}
@@ -77,7 +82,7 @@ export default function UserDropDown() {
                                         className=" size-[20px]"
                                     />
                                 </Link>
-                            </li>
+                            </li>}
 
                             <li className="   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 pt-3  w-full">
                                 <Link

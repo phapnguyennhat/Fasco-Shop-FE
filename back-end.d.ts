@@ -1,4 +1,4 @@
-import { AuthBy } from "./app/common/enum";
+import { AuthBy, ERole, EStatusOrder } from "./app/common/enum";
 export {};
 
 
@@ -54,6 +54,7 @@ declare global{
     username: string
     email: string
     authBy: AuthBy
+    role: ERole
     avatar: ImageFile
     birthday?: string
     gender?: string
@@ -96,7 +97,9 @@ declare global{
   }
 
   interface IAddress {
+    id: string
     userId: string
+    orderId: string
     email: string
     fullName: string
     // lastName: string
@@ -121,4 +124,39 @@ declare global{
   interface ICategory {
     name: string
   }
+
+  interface ITotalOrder{
+    subTotal: number
+    wrap?: number
+    shipping?:number
+  }
+
+  interface IOrder {
+      id: string
+      status: EStatusOrder;
+      createAt: string;
+      updateAt: string;
+      totalOrder: ITotalOrder;
+      orderItems: IOrderItem[]
+      address: IAddress
+  }
+
+  interface IOrderItem {
+    price: number
+    quantity: number
+    varient: Varient
+  }
+
+  interface IBrand{
+    id: string
+    name: string
+    image: ImageFile
+    imageId: string
+  }
+
+  interface ITag{
+    name: string
+  }
+  
+
 }

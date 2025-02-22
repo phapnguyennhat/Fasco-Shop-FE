@@ -17,7 +17,7 @@
 }
 
 .navbar{
-  @apply   flex items-center justify-between fixed w-full  z-10 bg-white py-[40px]  md:py-[52px]   lg:py-[70px]  
+  @apply   flex items-center justify-between fixed w-full  z-20 bg-white py-[40px]  md:py-[52px]   lg:py-[70px]  
 }
 
 @layer base {

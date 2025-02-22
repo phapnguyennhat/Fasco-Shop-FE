@@ -22,7 +22,6 @@ export default  function BrandFilter({
 
     const {brandName} = queryParams
    
-
     return (
         <Accordion className=' mb-[8px] md:mb-[16px] lg:mb-[18px] xl:mb-[33px] ' type="single" collapsible>
             <AccordionItem value="item-1">
@@ -33,7 +32,7 @@ export default  function BrandFilter({
                             <li className={`${brandName===brand.name? 'text-black': 'text-[#8A8A8A]'}`} key={index}>
                                 <Link
                                     
-                                    scroll= {false}
+                                   
                                     replace={true}
                                     href={`?${createQueryString(
                                         'brandName',

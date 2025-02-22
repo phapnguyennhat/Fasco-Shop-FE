@@ -1,6 +1,7 @@
 import { FIVEMINUTES } from '@/app/common/constant';
 import getAuthCookies from './getAuthCookie';
 import { fetcher } from './utils';
+import { number } from 'zod';
 
 export async function getProfile() {
     try {
@@ -139,10 +140,12 @@ export async function getCategory(){
 }
 
 export const getProducts = (query:string) =>{
+    
     return  fetcher<{products: Product[], count: number}>(`product?${query}`, {
       method: 'GET',
       next: {
-        revalidate: FIVEMINUTES
+        revalidate: FIVEMINUTES,
+        tags: ['products']
       }
     })
   }
@@ -152,12 +155,13 @@ export const getProducts = (query:string) =>{
           method: 'GET',
           next: {
               revalidate: FIVEMINUTES,
+              tags: ['brands']
           },
       });
   };
 
  export const getTags = () => {
-      return fetcher<{ name: string }[]>('tag?page=1&limit=11', {
+      return fetcher<ITag[]>('tag?page=1&limit=11', {
           method: 'GET',
           next: {
               revalidate: FIVEMINUTES,
@@ -178,3 +182,55 @@ export async function getFavoriteProducts(query: string){
         }
       })
 }
+
+export async function getOrder (query: string){
+    const authCookie = await getAuthCookies()
+
+    return fetcher<{orders: IOrder[], count: number}>(`user/order?${query}`, {
+        method:'GET',
+        headers: {
+            Cookie: authCookie
+        },
+        next: {
+            revalidate: FIVEMINUTES,
+            tags: ['orders']
+        }
+    })
+
+}
+
+export async function getOrderById(id: string){
+    const authCookie = await getAuthCookies()
+    return fetcher<IOrder>(`user/order/${id}`, {
+        method: 'GET',
+        headers: {
+            Cookie: authCookie
+        },
+        next: {
+            revalidate: FIVEMINUTES,
+            tags: [`order-${id}`]
+        }
+    })
+}
+
+export async function getBrand(){
+    return fetcher<{groupedShop:Record<string, IBrand[] >, count:number}>('brand', {
+        method: 'GET',
+      
+        next: {
+            revalidate: FIVEMINUTES,
+            tags: ['brands']
+        }
+    })
+}
+
+export async function getAllBrand(){
+    return fetcher<IBrand[]>('brand/all', {
+        method: 'GET',
+        next: {
+            revalidate: FIVEMINUTES,
+            tags: ['brands']
+        }
+    })
+}
+

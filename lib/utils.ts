@@ -39,8 +39,8 @@ export const createQueryString = (name: string |undefined, value: string, queryP
 
   if(params.get(name)===value){
     params.delete(name)
+    
   }else{
-
     params.set(name, value);
   }
   
@@ -73,3 +73,11 @@ export function formatEstimatedDelivery(minDays: number, maxDays: number): strin
 export const isEmptyObject = (obj: object): boolean => {
   return Object.keys(obj).length === 0;
 };
+
+
+ export function cartesianProduct(arr: string[][]): string[][] {
+  return arr.reduce<string[][]>(
+      (acc, group) => acc.flatMap(item => group.map(value => [...item, value])),
+      [[]] // Bắt đầu với [[]] để tạo mảng lồng nhau
+  );
+}

@@ -22,7 +22,6 @@ export default  function TagFilter({
                         <li className={`${selectedTag===tag.name? 'text-black': 'text-[#8A8A8A]'}`}  key={index} >
                              <Link
                                     
-                                    scroll= {false}
                                     replace={true}
                                     href={`?${createQueryString(
                                         'tag',

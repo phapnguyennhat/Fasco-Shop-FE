@@ -26,7 +26,6 @@ export default  function Home({
 }) {
     // const { categoryName } = await searchParams;
 
-   
     return (
         <>
             <CloseExtraNav />

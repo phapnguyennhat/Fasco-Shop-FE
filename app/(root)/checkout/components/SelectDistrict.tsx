@@ -35,7 +35,6 @@ function SelectProvince({ province , queryParams }: IProps) {
     const districts: IDistrict[]=province?.districts || []
 
   
-
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger disabled={!province} asChild>

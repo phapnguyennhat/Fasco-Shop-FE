@@ -1,8 +1,7 @@
 import { getCategory } from '@/lib/api';
-import { createQueryString } from '@/lib/utils';
+import { createQueryString, SearchParams } from '@/lib/utils';
 import { Check, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { SearchParams } from 'nuqs';
 
 interface IProps {
   queryParams: SearchParams

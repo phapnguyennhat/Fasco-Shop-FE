@@ -33,7 +33,6 @@ export default function CollectionFilter({
                             >
                               <Link
                                     
-                                    scroll= {false}
                                     replace={true}
                                     href={`?${createQueryString(
                                         'collection',

@@ -1,12 +1,13 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PencilLine, Star, UserRound } from 'lucide-react';
+import { PackagePlus, PencilLine, Star, UserRound } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MapPinHouse } from 'lucide-react';
 import { KeyRound } from 'lucide-react';
-import { AuthBy } from '@/app/common/enum';
+import { AuthBy, ERole } from '@/app/common/enum';
+import { MdOutlineEventNote } from 'react-icons/md';
 
 interface IProps {
     user: User | undefined;
@@ -44,7 +45,27 @@ export default function NavSide({ user }: IProps) {
                     Profile
                 </Link>
 
+                { user?.role===ERole.ADMIN  && <Link
+                    className={`${
+                        pathname.includes('product/create') && 'text-black'
+                    } inline-flex gap-3 py-2 px-4 hover:bg-gray-200 transition-all duration-300 hover:text-black  `}
+                    href={'/user/product/create'}
+                >
+                    <PackagePlus size={20} />
+                    Create Product
+                </Link>}
+
                 <Link
+                    className={`${
+                        pathname.includes('purchase') && 'text-black'
+                    } inline-flex gap-3 py-2 px-4 hover:bg-gray-200 transition-all duration-300 hover:text-black`}
+                    href={'/user/purchase'}
+                >
+                   <MdOutlineEventNote size={20} />
+                    Order
+                </Link>
+
+              { user?.role===ERole.USER  && <Link
                     className={`${
                         pathname.includes('favorite') && 'text-black'
                     } inline-flex gap-3 py-2 px-4 hover:bg-gray-200 transition-all duration-300 hover:text-black  `}
@@ -52,7 +73,7 @@ export default function NavSide({ user }: IProps) {
                 >
                     <Star size={20} />
                     Favorite
-                </Link>
+                </Link>}
 
                 <Link
                     className={`${

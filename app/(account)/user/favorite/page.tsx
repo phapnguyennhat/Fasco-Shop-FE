@@ -9,7 +9,7 @@ interface IProps {
 }
 export default function Favorite({searchParams}: IProps) {
     return (
-        <main className=' flex flex-col items-center   md:min-h-[500px] lg:min-h-[700px]  flex-1' >
+        <main className=' flex flex-col items-center     flex-1' >
             <NavFavorite searchParams = {searchParams} />
 
             <ProductContent searchParams={searchParams}/>

@@ -41,7 +41,7 @@ export default function BannerSale() {
                         </h6>
                         <Link
                             className=" button-black min-w-[207px] mt-[19px] "
-                            href={'#'}
+                            href={'/product'}
                         >
                             Shop Now
                         </Link>

@@ -8,6 +8,8 @@ import BrandFilter from './BrandFilter';
 import PriceFilter from './PriceFilter';
 import CollectionFilter from './CollectionFilter';
 import TagFilter from './TagFilter';
+import { getAllBrand, getCategory, getTags } from '@/lib/api';
+import CategoryFilter from './CategoryFilter';
 
 export default async function Filter({
     searchParams,
@@ -17,25 +19,8 @@ export default async function Filter({
  
     const queryParams = await searchParams
 
-    const getBrands = () =>{
-        return fetcher<{name: string}[]>('brand?page=1&limit=6', {
-            method:'GET',
-            next: {
-                revalidate: FIVEMINUTES
-            }
-        })
-    }
-
-    const getTags = () =>{
-         return fetcher<{name: string}[]>('tag?page=1&limit=11', {
-            method:'GET',
-            next: {
-                revalidate: FIVEMINUTES
-            }
-        })
-    }
-
-    const [brands, tags] = await Promise.all([getBrands(), getTags()])
+ 
+    const [brands, tags, categories] = await Promise.all([getAllBrand(), getTags(), getCategory()])
 
 
     return (
@@ -44,6 +29,7 @@ export default async function Filter({
             <SizeFilter queryParams={queryParams} />
             <PriceFilter queryParams={queryParams} />
             <BrandFilter queryParams={queryParams} brands={brands}  />
+            <CategoryFilter categories={categories} queryParams={queryParams} />
             <CollectionFilter queryParams={queryParams} />
             <TagFilter queryParams={queryParams} tags={tags} />
  

@@ -14,7 +14,7 @@ export default function SizeFilter({queryParams}: {queryParams: QueryProduct}) {
                 {sizes.map((size, index) => (
                     <li key={index}>
                        
-                            <Link prefetch={false} scroll={false} replace= {true} href={`?${createQueryString('size', size, queryParams as any)}`}
+                            <Link  replace= {true} href={`?${createQueryString('size', size, queryParams as any)}`}
                                 className={` select-none border ${selectedSize===size? 'border-black text-black': 'text-[#8A8A8A]'}    font-jost  size-[42px] flex justify-center items-center rounded-[5px]`}
                                 type="submit"
                             >

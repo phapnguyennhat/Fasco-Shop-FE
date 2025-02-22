@@ -10,6 +10,8 @@ import { CreateAddress } from './(root)/checkout/schema';
 import { UpdateProfile } from './(account)/user/profile/schema';
 import { File } from 'buffer';
 import { UpdatePassword } from './(account)/user/password/schema';
+import { string } from 'zod';
+import { CreateProduct } from './(account)/user/product/create/schema';
 
 export const submitEmail = async (formData: FormData) => {
     const email = formData.get('email');
@@ -161,6 +163,8 @@ export async function createOrder(
         body: JSON.stringify( {address: createAddress,isWrap})
     });
     revalidateTag('cartItem');
+    revalidateTag('orders')
+    redirect('/user/purchase')
     
 }
 
@@ -255,4 +259,47 @@ export async function changePassword(updatePassword: UpdatePassword){
         },
         body: JSON.stringify(updatePassword),
     })
+}
+
+export async function cancelOrder(orderId: string){
+    const authCookie = await getAuthCookies()
+    await fetcher(`user/order/${orderId}/cancel`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie
+        }
+    })
+    revalidateTag('orders')
+    revalidateTag(`order-${orderId}`)
+}
+
+export async function updateAddressOrder(orderId: string, addressId: string, updateAddress: CreateAddress)
+{
+    const authCookie = await getAuthCookies()
+    await fetcher(`user/order/${orderId}/address/${addressId}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: authCookie
+        },
+        body: JSON.stringify(updateAddress),
+
+    })
+    revalidateTag(`order-${orderId}`)
+}
+
+export async function createProduct(createProduct: CreateProduct){
+    const authCookie = await getAuthCookies()
+    await fetcher('product', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Cookie: authCookie
+        },
+        body: JSON.stringify(createProduct)
+    })
+    revalidateTag('products')
 }

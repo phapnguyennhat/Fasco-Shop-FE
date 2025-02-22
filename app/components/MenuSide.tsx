@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { AlignJustify } from 'lucide-react'; // Nếu bạn dùng Lucide Icons
+import { AlignJustify, BadgePlus, PackagePlus } from 'lucide-react'; // Nếu bạn dùng Lucide Icons
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut } from 'lucide-react';
@@ -12,9 +12,12 @@ import { ShoppingBag } from 'lucide-react';
 import { logout } from '../action';
 import UserDropDown from './UserDropDown';
 import SearchNav from './SearchNav';
+import { ERole } from '../common/enum';
 
 export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
+  
+    
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
@@ -65,7 +68,6 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                     <SearchNav />
                     <li className=" hidden md:block  py-[19px]">
                         <Link href={'/user/profile'}>
-                            {' '}
                             <Image
                                 src={'/icons/user.png'}
                                 width={20}
@@ -75,29 +77,52 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                             />
                         </Link>
                     </li>
-                    <li className=" hidden md:block py-[19px]">
-                        <Link href={'/user/favorite'}>
-                            <Image
-                                src={'/icons/favorite.png'}
-                                width={20}
-                                height={20}
-                                alt="favorite icon"
-                                className=" size-[20px]"
-                            />
-                        </Link>
-                    </li>
-                    <li className={`relative hidden md:block  ${cartNumber ===0 ? 'mr-0': 'mr-2'}   `}>
-                        <Link href={'/cart'}>
-                            <Image
-                                src={'/icons/cartuser.png'}
-                                width={20}
-                                height={20}
-                                alt="cart icon"
-                                className=" size-[20px]"
-                            />
-                        </Link>
-                        <div className={`${cartNumber ===0 && 'hidden'} font-volkhov  items-center text-white bg-red-500 w-[24px] h-[24px] flex justify-center  rounded-full absolute -right-[20px] -top-[10px] `} >{cartNumber}</div>
-                    </li>
+                    {profile.role === ERole.USER && (
+                        <li className=" hidden md:block py-[19px]">
+                            <Link href={'/user/favorite'}>
+                                <Image
+                                    src={'/icons/favorite.png'}
+                                    width={20}
+                                    height={20}
+                                    alt="favorite icon"
+                                    className=" size-[20px]"
+                                />
+                            </Link>
+                        </li>
+                    )}
+                    {profile.role === ERole.USER && (
+                        <li
+                            className={`relative hidden md:block  ${
+                                cartNumber === 0 ? 'mr-0' : 'mr-2'
+                            }   `}
+                        >
+                            <Link href={'/cart'}>
+                                <Image
+                                    src={'/icons/cartuser.png'}
+                                    width={20}
+                                    height={20}
+                                    alt="cart icon"
+                                    className=" size-[20px]"
+                                />
+                            </Link>
+                            <div
+                                className={`${
+                                    cartNumber === 0 && 'hidden'
+                                } font-volkhov  items-center text-white bg-red-500 w-[24px] h-[24px] flex justify-center  rounded-full absolute -right-[20px] -top-[10px] `}
+                            >
+                                {cartNumber}
+                            </div>
+                        </li>
+                    )}
+
+                    {profile.role === ERole.ADMIN && (
+                        <li className=" hidden md:block py-[19px]">
+                            <Link href={'/user/product/create'}>
+                            <PackagePlus size={20} />
+                            </Link>
+                        </li>
+                    )}
+
                     <li className="size-[20px] hidden lg:block ">
                         <button
                             onClick={logout}
@@ -143,7 +168,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                                 ),
                             )}
 
-                            {profile && <UserDropDown />}
+                            {profile && <UserDropDown profile={profile} />}
                         </ul>
                         {profile ? (
                             <button

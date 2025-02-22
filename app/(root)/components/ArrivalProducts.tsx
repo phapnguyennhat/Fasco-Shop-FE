@@ -1,12 +1,17 @@
 import { fetcher } from "@/lib/utils"
 import ProductCard from "./ProductCard"
 import Link from "next/link"
+import { FIVEMINUTES } from "@/app/common/constant"
 
 export default  async function ArrivalProducts({searchParams}: {searchParams: Promise<{ categoryName?: string }>}) {
   const categoryName = (await searchParams).categoryName || "Men's Fashion"
-  const productData  = await fetcher<{products: Product[], count: number}>(`product?categoryName=${categoryName}`, {
+  const productData  = await fetcher<{products: Product[], count: number}>(`product?categoryName=${categoryName}&page=1&limit=6`, {
     method: 'GET',
-    cache: 'no-cache'
+    next: {
+      revalidate: FIVEMINUTES,
+      tags: ['products']
+    }
+
   })
   const {products} =productData
   return (

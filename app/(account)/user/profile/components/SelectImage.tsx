@@ -52,7 +52,7 @@ export default function SelectImage({ user }: IProps) {
 
   const preview = useMemo(()=>{
     if(image){
-      return URL.createObjectURL(image as any)
+    return URL.createObjectURL(image as any)
     }else{
       return user?.avatar?.url || "/images/default_avt.png"
     }

@@ -2,6 +2,7 @@ import { getAddress, getDistrictById, getProvinceById, getProvinces } from "@/li
 import { SearchParams } from "@/lib/utils"
 import { redirect } from "next/navigation"
 import FormAddress from "./FormAddress"
+import { createAddress } from "@/app/action"
 
 
 interface IProps {
@@ -18,7 +19,7 @@ export default async function Address({searchParams}: IProps) {
         getDistrictById(provinceId, districtId),getAddress()
     ]);
   
-    if (address && !provinceId) {
+    if (address && !queryParams['province']) {
         const { province, district, commune } = address;
         const params = new URLSearchParams(searchParams.toString());
         params.set('province', `${province.name}-i.${province.id}`);
@@ -26,6 +27,8 @@ export default async function Address({searchParams}: IProps) {
         params.set('commune', `${commune.name}-i.${commune.id}`);
         redirect(`?${params.toString()}`)
     }
+
+   
 
 
   return (
@@ -37,7 +40,7 @@ export default async function Address({searchParams}: IProps) {
               </p>
           </div>
 
-          <FormAddress address={address} provinces={provinces} province={province} district={district} queryParams={queryParams} /> 
+          <FormAddress  address={address} provinces={provinces} province={province} district={district} queryParams={queryParams} /> 
       </main>
   );
 }

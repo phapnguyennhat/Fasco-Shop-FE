@@ -16,6 +16,7 @@ export default async function CheckoutPage({searchParams}: IProps) {
       redirect('/cart')
     }
   const queryParams = await searchParams
+  const isWrap = queryParams['wrap'] as string || 'false'
   const provinceId = (queryParams['province'] as string)?.split('-i.')[1]
   const districtId = (queryParams['district'] as string)?.split('-i.')[1]
   const [provinces, province, district, address] = await Promise.all([
@@ -26,7 +27,10 @@ export default async function CheckoutPage({searchParams}: IProps) {
 
   if (address && !provinceId) {
       const { province, district, commune } = address;
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams();
+
+        params.set('wrap', isWrap)
+     
       params.set('province', `${province.name}-i.${province.id}`);
       params.set('district', `${district.name}-i.${district.id}`);
       params.set('commune', `${commune.name}-i.${commune.id}`);

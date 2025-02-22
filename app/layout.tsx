@@ -6,10 +6,9 @@ import StoreProvider from './StoreProvider';
 import GoogleAuthProvider from '@/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import FacebookAuthProvider from '@/FacebookAuthProvider';
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const poppins = Poppins({
-    variable: '--font-poppins',
+    variable: '--font-poppins'  ,
     subsets: ['latin'],
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
     display: 'swap',
@@ -23,8 +22,6 @@ const jost = Jost({
     display: 'swap',
     adjustFontFallback: false,
 });
-
-
 
 const volkhov = Volkhov({
     variable: '--font-volkhov',
@@ -54,8 +51,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-
-  
     return (
         <html lang="en">
             <body
@@ -64,15 +59,13 @@ export default function RootLayout({
                 <StoreProvider>
                     {' '}
                     <GoogleAuthProvider>
-                            <FacebookAuthProvider>
-                                       <NuqsAdapter> {children}</NuqsAdapter>
-                                        <Toaster />
-                            </FacebookAuthProvider>
+                        <FacebookAuthProvider>
+                            {children}
+                            <Toaster />
+                        </FacebookAuthProvider>
                     </GoogleAuthProvider>
                 </StoreProvider>
-
             </body>
-            
         </html>
     );
 }

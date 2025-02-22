@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Advertisement() {
     return (
@@ -31,7 +32,7 @@ export default function Advertisement() {
                   <span className=' button-black' >M</span>
                 </div>
                 <p className='font-medium text-lg  md:text-xl lg:text-[28px] lg:leading-[28px]' >$100.00</p>
-                <button className='mb-2 mx-auto sm:mx-0 bg-black min-w-[140px] md:min-w-[180px] lg:min-w-[207px] lg:h-[56px] text-white px-6  py-2 md:py-3 rounded-md text-center font-medium hover:bg-gray-800 transition-all w-max ' >Buy Now</button>
+                <Link href={"/product?categoryName=Women's Fashion"} className='mb-2 mx-auto sm:mx-0 bg-black min-w-[140px] md:min-w-[180px] lg:min-w-[207px] lg:h-[56px] text-white px-6  py-2 md:py-3 rounded-md text-center font-medium hover:bg-gray-800 transition-all w-max ' >Buy Now</Link>
             </div>
         </section> 
     );

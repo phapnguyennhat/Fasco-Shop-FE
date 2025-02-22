@@ -4,6 +4,7 @@ import Form from 'next/form'
 import React, { useState } from 'react'
 import InputQuantity from './InputQuantity'
 import AddSuccessModal from './AddSuccessModal'
+import { useToast } from '@/hooks/use-toast'
 
 interface IProps {
   varient:Varient
@@ -11,16 +12,22 @@ interface IProps {
 
 export default function FormAddCart({varient}: IProps) {
   const [openSuccess, setOpenSuccess] = useState(false);
+  const { toast } = useToast();
   
   const handleAddCartItem  = async (formData: FormData)=>{
     try {
+
       await addCart(formData)
       setOpenSuccess(true);
       setTimeout(() => {
           setOpenSuccess(false);
       }, 3500);
-    } catch (error) {
-      
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: error.message,
+    });
     }
   }
   
