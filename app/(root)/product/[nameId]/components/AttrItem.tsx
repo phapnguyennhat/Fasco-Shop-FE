@@ -11,14 +11,25 @@ interface IProps {
 }
 export default function AttrItem({ attrProduct, queryParams }: IProps) {
     const value =
-        queryParams[attrProduct.name] || attrProduct.valueAttrs[0].value;
+        queryParams[attrProduct.name] as string  || attrProduct.valueAttrs[0].value;
     const dispatch = useDispatch()
+        
+
 
         const handleHover= (valueAttr: IValueAttr)=>{
           if(valueAttr.image){
             dispatch(setShowImage(valueAttr.image.url))
           }
         }
+
+        const handleLeave  = () =>{
+            if(attrProduct.hasImage){
+                const valueSelected = attrProduct.valueAttrs.find(item => item.value===value) || attrProduct.valueAttrs[0]
+                dispatch(setShowImage(valueSelected.image.url))
+            }
+        }
+
+        
 
     return (
         <li className=' mb-[19px]' >
@@ -29,6 +40,7 @@ export default function AttrItem({ attrProduct, queryParams }: IProps) {
             <ul className=" flex flex-wrap gap-[10px] ">
                 {attrProduct.valueAttrs.map((valueAttr, index) => (
                     <li
+                        onMouseLeave={handleLeave}
                        onMouseEnter={()=>handleHover(valueAttr)}
                         className={`${
                             value === valueAttr.value

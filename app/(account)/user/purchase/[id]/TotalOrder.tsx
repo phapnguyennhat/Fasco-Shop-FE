@@ -10,7 +10,7 @@ export default function TotalOrder({ totalOrder }: IProps) {
 
             <div className=" flex justify-between">
                 <span>Subtotal</span>
-                <span>${totalOrder.subTotal}</span>
+                <span>${totalOrder.subTotal.toFixed(2)}</span>
             </div>
 
             {totalOrder.wrap && (

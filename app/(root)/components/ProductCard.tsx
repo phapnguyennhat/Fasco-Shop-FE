@@ -4,7 +4,7 @@ import StarRating from './StarRating';
 
 export default function ProductCard({ product }: { product: Product }) {
     return (
-        <div className="max-w-[40%] lg:max-w-[30%] xl:w-[386px]  p-[8px] md:p-[16px] lg:p-[25px] bg-white  shadow-md ">
+        <div className="  p-[8px] md:p-[16px] lg:p-[25px] bg-white  shadow-md ">
             <Image
                 src={product.images[0].url}
                 width={366}
@@ -36,7 +36,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 ({formatNumber(product.reviewNumber)}) Customer Reviews
             </p>
             <div>
-                <p className=' font-medium  md:text-lg lg:text-[24px]' >${product.price}</p>
+                <p className=' font-medium  md:text-lg lg:text-[24px]' >${product.discountPrice >0? product.discountPrice:   product.price}</p>
                 {product.pieceAvail<=10 && <p className=' text-[#FF4646] lg:text-[12px]' >Almost Sold out</p>}
             </div>
         </div>

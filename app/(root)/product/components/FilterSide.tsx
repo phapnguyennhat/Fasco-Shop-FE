@@ -7,10 +7,11 @@ import PriceFilter from './PriceFilter';
 import BrandFilter from './BrandFilter';
 import CollectionFilter from './CollectionFilter';
 import TagFilter from './TagFilter';
+import CategoryFilter from './CategoryFilter';
 
 
 
-export default function FilterSide({ queryParams, brands, tags}: {queryParams: QueryProduct, brands: {name: string}[], tags: {name: string}[]}) {
+export default function FilterSide({ queryParams, brands, tags, categories}: {queryParams: QueryProduct, brands: {name: string}[], tags: {name: string}[], categories: ICategory[]}) {
   const [isOpen, setIsOpen] = useState(false)
   const toggleFilter = ()=>{
     setIsOpen(!isOpen)
@@ -22,7 +23,7 @@ export default function FilterSide({ queryParams, brands, tags}: {queryParams: Q
         </button>
 
         <aside
-         className={` p-4  fixed z-20 top-0 left-0 h-full w-[230px] md:w-[322px] bg-white shadow-lg transform ${
+         className={` p-4  fixed z-30 top-0 left-0 overflow-y-auto  h-full w-[230px] md:w-[322px] bg-white shadow-lg transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
       } transition-transform duration-300 ease-in-out`}
         >
@@ -30,6 +31,8 @@ export default function FilterSide({ queryParams, brands, tags}: {queryParams: Q
             <SizeFilter queryParams={queryParams} />
             <PriceFilter queryParams={ queryParams} />
             <BrandFilter queryParams={queryParams} brands={brands} />
+            <CategoryFilter categories={categories} queryParams={queryParams} />
+            
             <CollectionFilter queryParams={ queryParams} />
             <TagFilter queryParams={ queryParams} tags={tags} />
             
@@ -37,7 +40,7 @@ export default function FilterSide({ queryParams, brands, tags}: {queryParams: Q
 
         {isOpen && (
                 <div
-                    className="fixed inset-0 z-10 bg-black bg-opacity-50"
+                    className="fixed inset-0 z-20 bg-black bg-opacity-50"
                     onClick={toggleFilter}
                 ></div>
             )}

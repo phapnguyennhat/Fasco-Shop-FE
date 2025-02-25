@@ -2,7 +2,7 @@ import { getCart } from "@/lib/api"
 import CartItem from "./CartItem"
 import TotalCheckout from "./TotalCheckout";
 import { redirect } from "next/navigation";
-import { SearchParams } from "nuqs";
+import { SearchParams } from "@/lib/utils";
 
 interface IProps{
     cartItems : ICartItem[]

@@ -20,23 +20,22 @@ export default function useInputQuantity({
     }, []);
     const handlePlus = useCallback(() => {
         setQuantity((prev) => {
-            if (parseInt(prev) < maxQuantity) {
-                return (parseInt(prev) + 1).toString();
+            if (parseInt(prev) >= maxQuantity) {
+                return maxQuantity.toString();
             }
-            return maxQuantity.toString();
+            return (parseInt(prev) + 1).toString();
         });
     }, []);
 
     const handleChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            if (e.target.value && isNaN(parseInt(e.target.value))) {
-                return;
-            }
+            
             if (parseInt(e.target.value) < 1) {
                 setQuantity('1');
             } else if (parseInt(e.target.value) > maxQuantity) {
                 setQuantity(maxQuantity.toString());
-            } else {
+            } else if (e.target.value && !isNaN(Number(e.target.value)) && Number.isInteger(Number(e.target.value))) {
+
                 setQuantity(e.target.value);
             }
         },

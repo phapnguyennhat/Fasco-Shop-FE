@@ -13,10 +13,10 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { CreateProduct, productSchema } from './schema';
+import { CreateProduct, ICreateAttrProduct, ICreateProduct, ICreateValueAttr, productSchema } from './schema';
 import { useToast } from '@/hooks/use-toast';
 import { useMemo, useState } from 'react';
-import { createProduct } from '@/app/action';
+import {  createProduct, uploadProductImages } from '@/app/action';
 import SelectBrand from './SelectBrand';
 import SelectCategory from './SelectCategory';
 import Select from 'react-select';
@@ -26,8 +26,10 @@ import { BadgePlus } from 'lucide-react';
 import FormCreateAttrImage from './FormCreateAttrImage';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
-import { newAttr } from '@/lib/features/attrProduct/attrProductSlice';
+import { newAttr, resetAttr } from '@/lib/features/attrProduct/attrProductSlice';
 import TableVarient from './TableVarient';
+import { resetVariant } from '@/lib/features/variant/variantSlice';
+import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 
 interface IProps {
     brands: IBrand[];
@@ -51,6 +53,10 @@ export default function FormCreateProduct({
     });
 
     const nameAttrs = useSelector((state: RootState)=>state.attrProduct.value.nameAttrs)
+    const productValues = useSelector((state: RootState)=>state.attrProduct.value.values)
+    const variants = useSelector((state: RootState)=> state.variant.value.variants)
+
+    
 
     const dispatch  = useDispatch()
 
@@ -71,15 +77,77 @@ export default function FormCreateProduct({
         if (images.length === 0) {
             toast({
                 variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: 'Images of product is required',
+                title: 'Uh oh! Images of product went wrong.',
+                description: 'Please upload images of product',
             });
             return;
         }
+
+
+        if(nameAttrs.includes('')){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Name attribute went wrong.',
+                description: 'Name attribute is required',
+            });
+            return;
+        }
+
+        const isHasEmptyValue = productValues.some(attrValue => attrValue.includes(''))
+        if(isHasEmptyValue){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Values went wrong.',
+                description: 'Value is required',
+            });
+            return;
+        }
+
+        if(valueImages.length !== productValues[0].length){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Image of value went wrong.',
+                description: 'Image of value is required',
+            });
+            return;
+        }
+
+        const isInvalidVariant = variants.some(item => item.pieceAvail==='' || item.price==='')
+        if(isInvalidVariant){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Variants went wrong.',
+                description: 'Price and Piece available is required',
+            });
+            return;
+        }
+
+        const attrProducts: ICreateAttrProduct[] = nameAttrs.map((name, index) => {
+            const valueAttrs: ICreateValueAttr[] = productValues[index].map(value=>({value}))
+            if(index===0){
+                return {name, hasImage: true, valueAttrs}
+            }else{
+                return {name, hasImage: false, valueAttrs}
+            }
+        })
+
+        const tags = values.tagNames.map(name=>({name}))
+
+    
         try {
             setLoading(true);
-            // await createProduct(values);
+            dispatch(setSpinner(true))
+
+           const  createProductDto: ICreateProduct = {...values, tags,attrProducts,createVarientDtos: variants }
+
+           const newProduct = await createProduct(createProductDto)
+           const stringValueNames = productValues[0].toString()
+           await uploadProductImages(newProduct.id, stringValueNames, images,valueImages)
+            dispatch(resetAttr())
+            dispatch(resetVariant())
+
             setLoading(false);
+            dispatch(setSpinner(false))
             toast({
                 description: 'Create product successfully.',
             });
@@ -90,6 +158,7 @@ export default function FormCreateProduct({
                 description: error.message,
             });
             setLoading(false);
+            dispatch(setSpinner(false))
         }
     }
 
@@ -121,6 +190,7 @@ export default function FormCreateProduct({
                                     <div>
                                         <FormControl>
                                             <Input
+                                                className=' w-[70%] md:w-full'
                                                 autoComplete="off"
                                                 placeholder="Name"
                                                 {...field}
@@ -207,7 +277,7 @@ export default function FormCreateProduct({
                                                 isMulti
                                                 options={options}
                                                 instanceId="select-tags" // Giữ nguyên id cho cả server và client
-                                                className="basic-multi-select"
+                                                className=" w-[70%] md:w-full basic-multi-select"
                                                 classNamePrefix="select"
                                                 placeholder="Select tags..."
                                                 value={options.filter(
@@ -232,7 +302,7 @@ export default function FormCreateProduct({
                             )}
                         />
 
-                        <div className="   mb-[16px] items-center w-full  inline-flex justify-between">
+                        <div className=" md:pt-4   mb-[16px] items-center w-full  inline-flex justify-between">
                             <h6 className=" font-volkhov text-2xl sm:text-[30px] md:leading-[30px] lg:text-[36px] lg:leading-[36px] ">
                                 Attribute Product
                             </h6>

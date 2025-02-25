@@ -81,3 +81,16 @@ export const isEmptyObject = (obj: object): boolean => {
       [[]] // Bắt đầu với [[]] để tạo mảng lồng nhau
   );
 }
+
+
+export function getPriceVarient(varient: Varient){
+  if(varient.discountPrice>0){
+    return varient.discountPrice
+  }
+  return varient.price
+}
+
+export function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+

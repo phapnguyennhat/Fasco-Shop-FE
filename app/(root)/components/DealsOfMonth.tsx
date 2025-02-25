@@ -17,7 +17,7 @@ export default function DealsOfMonth() {
                         Scelerisque duis ultrices sollicitudin.
                     </p>
                     <Link
-                        href="/deal"
+                        href="/product?collection=Deals"
                         className=" mb-2 mx-auto sm:mx-0 bg-black min-w-[140px] md:min-w-[180px] lg:min-w-[207px] lg:h-[56px] text-white px-6  py-2 md:py-3 rounded-md text-center font-medium hover:bg-gray-800 transition-all w-max"
                     >
                         Buy Now

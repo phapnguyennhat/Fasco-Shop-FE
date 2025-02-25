@@ -33,11 +33,11 @@ export default  function Home({
             <BrandHome />
             <ExtraNav />
             <DealsOfMonth />
-            <TriggerExtraNav />
             <Suspense fallback={'loading'}>
                 <NewArrival searchParams={searchParams} />
                 <ArrivalProducts searchParams={searchParams} />
             </Suspense>
+            <TriggerExtraNav />
             <Advertisement />
             <Policy />
             <FollowUs />

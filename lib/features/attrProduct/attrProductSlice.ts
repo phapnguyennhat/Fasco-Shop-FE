@@ -1,3 +1,4 @@
+import { RootState } from '@/lib/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IAttributes {
@@ -16,6 +17,12 @@ export const attrProductSlice = createSlice({
         } as IAttributes,
     },
     reducers: {
+
+        resetAttr: (state)=>{
+            state.value = {nameAttrs: [''], values: [['']], valueImages: []}
+        },
+
+
         setAttrName: (
             state,
             action: PayloadAction<{ indexAttr: number; attrName: string }>,
@@ -77,6 +84,7 @@ export const attrProductSlice = createSlice({
 });
 
 export const {
+    resetAttr,
     removeAttr,
     removeValue,
     setAttrName,

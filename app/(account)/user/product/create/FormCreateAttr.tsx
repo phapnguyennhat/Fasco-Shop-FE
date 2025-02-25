@@ -37,11 +37,12 @@ export default function FormCreateAttr({
 
     return (
         <div className="relative  bg-gray-100 p-4  ">
-            <div>Attribute {indexAttr + 1}</div>
+            <div className='mb-[20px]' >Attribute {indexAttr + 1}</div>
             <div className="  mb-4  grid gap-2 items-center  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                 <Label className=" font-normal  text-right">Name</Label>
                 <Input
-                    className=" bg-white"
+                    
+                    className=" w-[70%] md:w-full bg-white"
                     value={nameAttr}
                     onChange={handleOnChange}
                 />

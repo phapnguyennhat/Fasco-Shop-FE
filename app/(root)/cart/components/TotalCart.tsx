@@ -1,9 +1,10 @@
 import { feeWrap } from '@/app/common/constant';
-import { createQueryString, SearchParams } from '@/lib/utils';
+import { createQueryString, getPriceVarient, SearchParams } from '@/lib/utils';
 import Link from 'next/link';
 import React from 'react';
 import { Check } from 'lucide-react';
 import { getCart } from '@/lib/api';
+import ButtonCheckout from './ButtonCheckout';
 
 export default async function TotalCart({
     searchParams,
@@ -15,9 +16,12 @@ export default async function TotalCart({
 
     const cartItems: ICartItem[] = await getCart();
     const totalCart = cartItems.reduce(
-        (sum, cartItem) => sum + cartItem.quantity * cartItem.varient.price,
+        (sum, cartItem) => sum + cartItem.quantity * getPriceVarient(cartItem.varient),
         0,
     );
+
+    const hasVariantSoldOut = cartItems.some(item => item.quantity > item.varient.pieceAvail)
+
 
     return (
         <section className=" mb-[22px]  md:mb-[40px] lg:mb-[70px]  section-page_home grid grid-cols-1 md:grid-cols-2">
@@ -49,7 +53,7 @@ export default async function TotalCart({
                     <span>Subtotal</span>
                     <span>${totalCart.toFixed(2)}</span>
                 </div>
-                <Link
+                {/* <Link
                     className=" bg-black flex w-full mx-auto items-center button-black justify-center lg:h-[60px] "
                     href={`/checkout?${createQueryString(
                         undefined,
@@ -58,7 +62,8 @@ export default async function TotalCart({
                     )}`}
                 >
                     Checkout
-                </Link>
+                </Link> */}
+                <ButtonCheckout queryParams={queryParams} hasVariantSoldOut={hasVariantSoldOut} />
             </div>
         </section>
     );

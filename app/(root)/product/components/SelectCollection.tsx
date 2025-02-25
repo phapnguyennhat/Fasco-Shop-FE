@@ -12,13 +12,13 @@ export default function SelectCollection({queryParams}: IProps) {
   
   return (
       <div className=" cursor-pointer group inline-flex gap-x-2 items-center relative ">
-          <span className=" font-volkhov text-black">
+          <span className=" select-none font-volkhov text-black">
               {' '}
               {selectedCollection || 'All Products'}
           </span>
           <ChevronDown />
 
-          <ul className=" z-10 bg-white  top-[110%] w-[180px] left-0  shadow-md  invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 absolute">
+          <ul className=" z-10 bg-white  top-[110%] w-[180px] -left-[20%]  shadow-md  invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 absolute">
                   {collections.map((collection, index) => (
                       <li className=" px-4  py-2 hover:bg-gray-100"  key={index}>
                           <Link

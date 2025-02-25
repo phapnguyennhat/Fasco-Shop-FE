@@ -3,11 +3,13 @@ import { createQueryString, fetcher, SearchParams } from '@/lib/utils';
 import ProductCard from './ProductCard';
 import FilterSide from './FilterSide';
 import { FIVEMINUTES } from '@/app/common/constant';
-import { getAllBrand, getBrands, getProducts, getTags } from '@/lib/api';
+import { getAllBrand, getBrands, getCategory, getProducts, getProfile, getTags } from '@/lib/api';
 import SelectCollection from './SelectCollection';
 import { PaginationLink } from '@/components/ui/pagination';
 import PaginationList from '@/components/PaginationList';
 import Image from 'next/image';
+import { ERole } from '@/app/common/enum';
+import ProductCardAdmin from './ProductCardAdmin';
 
 export default async function ProductContent({
     searchParams,
@@ -17,10 +19,12 @@ export default async function ProductContent({
     const queryParams = await searchParams;
     const query = createQueryString(undefined, '', queryParams as any);
 
-    const [productdata, brands, tags] = await Promise.all([
+    const [productdata, brands, tags, categories, user] = await Promise.all([
         getProducts(query),
         getAllBrand(),
         getTags(),
+        getCategory(),
+        getProfile()
     ]);
 
     const { products, count } = productdata;
@@ -32,6 +36,7 @@ export default async function ProductContent({
                     queryParams={queryParams}
                     brands={brands}
                     tags={tags}
+                    categories = {categories}
                 />
                 <SelectCollection queryParams={queryParams} />
             </div>
@@ -49,7 +54,7 @@ export default async function ProductContent({
                     {' '}
                     <ul className="mb-[40px]  w-full mt-[29px] gap-3 lg:gap-4 grid-cols-2  grid md:grid-cols-3  ">
                         {products.map((product, index) => (
-                            <ProductCard product={product} key={index} />
+                          user?.role === ERole.ADMIN? <ProductCardAdmin key={index} product={product} />:  <ProductCard product={product} key={index} />
                         ))}
                     </ul>
                     <PaginationList

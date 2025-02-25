@@ -1,3 +1,4 @@
+import { getPriceVarient } from '@/lib/utils';
 import Image from 'next/image';
 
 interface IProps {
@@ -29,7 +30,7 @@ export default function CartItem({ cartItem }: IProps) {
                   </p>
                   <p>{valueAttr.value}</p>
               </div>
-              <p>${(cartItem.varient.price * cartItem.quantity).toFixed(2)}</p>
+              <p>${getPriceVarient(cartItem.varient)}</p>
            </div>
         </li>
     );

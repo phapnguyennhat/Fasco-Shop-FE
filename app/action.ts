@@ -1,6 +1,5 @@
 'use server';
 
-import { auth, signIn } from '@/auth';
 import getAuthCookies from '@/lib/getAuthCookie';
 import { fetcher } from '@/lib/utils';
 import { revalidateTag } from 'next/cache';
@@ -11,7 +10,8 @@ import { UpdateProfile } from './(account)/user/profile/schema';
 import { File } from 'buffer';
 import { UpdatePassword } from './(account)/user/password/schema';
 import { string } from 'zod';
-import { CreateProduct } from './(account)/user/product/create/schema';
+import { CreateProduct, ICreateProduct } from './(account)/user/product/create/schema';
+import { EStatusOrder } from './common/enum';
 
 export const submitEmail = async (formData: FormData) => {
     const email = formData.get('email');
@@ -164,6 +164,7 @@ export async function createOrder(
     });
     revalidateTag('cartItem');
     revalidateTag('orders')
+    revalidateTag('favoriteProducts')
     redirect('/user/purchase')
     
 }
@@ -261,14 +262,14 @@ export async function changePassword(updatePassword: UpdatePassword){
     })
 }
 
-export async function cancelOrder(orderId: string){
+export async function updateStatusOrder(orderId: string, status: EStatusOrder){
     const authCookie = await getAuthCookies()
-    await fetcher(`user/order/${orderId}/cancel`, {
+    await fetcher(`user/order/${orderId}/${status}`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
             Cookie: authCookie
-        }
+        },
     })
     revalidateTag('orders')
     revalidateTag(`order-${orderId}`)
@@ -290,16 +291,144 @@ export async function updateAddressOrder(orderId: string, addressId: string, upd
     revalidateTag(`order-${orderId}`)
 }
 
-export async function createProduct(createProduct: CreateProduct){
-    const authCookie = await getAuthCookies()
-    await fetcher('product', {
+
+export async function createProduct (createProductDto: ICreateProduct){
+    const authCookie =await getAuthCookies()
+
+    const newProduct = await fetcher<Product>('product', {
         method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
             Cookie: authCookie
         },
-        body: JSON.stringify(createProduct)
+        body: JSON.stringify(createProductDto)
     })
+
     revalidateTag('products')
+    return newProduct
+}
+
+
+export async function uploadProductImages (productId: string,stringValueNames: string, productImages: Blob[], valueImages: Blob[]){
+    const formData = new FormData()
+    formData.append('stringValueNames', stringValueNames)
+    productImages.forEach(file=>{
+        formData.append('productImages', file)
+    })
+
+    valueImages.forEach(file=>{
+        formData.append('valueImages', file)
+    })
+
+    const authCookie = await getAuthCookies()
+    await fetcher(`product/${productId}/image`,{
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie
+        },
+        body: formData
+    })
+    revalidateTag(`productDetail/${productId}`)
+}
+
+
+export async function createShop(file:Blob, name: string) {
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('file', file)
+
+   const authCookie =await getAuthCookies()
+    await fetcher('brand', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie
+        },
+        body: formData
+    })
+    revalidateTag('brands')
+}
+
+export async function deleteShop(id:string) {
+    const authCookie = await getAuthCookies()
+
+   await fetcher(`brand/${id}`, {
+       method: 'DELETE',
+       credentials: 'include',
+       headers: {
+           Cookie: authCookie,
+       },
+   });
+
+    revalidateTag('brands')
+}
+
+export async function updateShop (id: string, name: string, file?: Blob){
+    const formData = new FormData()
+    formData.append('name', name)
+    if(file){
+        formData.append('file', file)
+    }
+
+    const authCookie= await getAuthCookies()
+
+    await fetcher(`brand/${id}`,{
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie
+        },
+        body: formData
+    })
+
+    revalidateTag('brands')
+}
+
+export async function createCategory (name: string){
+    const authCookie = await getAuthCookies()
+
+    await fetcher('category', {
+        method:'POST',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name})
+    })
+    revalidateTag('categories')
+}
+
+export async function createTag (name: string){
+    const authCookie = await getAuthCookies()
+
+    await fetcher('tag',{
+        method:'POST',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name})
+    })
+
+    revalidateTag('tags')
+}
+
+
+export async function deleteProduct(id :string){
+    const authCookie =await getAuthCookies()
+
+    await fetcher(`product/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie,
+        }
+    })
+
+    revalidateTag('products')
+    revalidateTag('favoriteProducts')
 }

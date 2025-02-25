@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import Navbar from "../components/Navbar";
+import Spinner from "../../components/Spinner";
 
 export default function RootLayout({
   children,
@@ -13,6 +14,7 @@ export default function RootLayout({
       <Navbar/>
       <div className=" pt-[80px] md:pt-[120px] lg:pt-[180px]">{children}</div>
       <Footer/>
+
     </>
   )
 }

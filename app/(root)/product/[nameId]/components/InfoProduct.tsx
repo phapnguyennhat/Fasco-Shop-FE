@@ -20,6 +20,7 @@ import {
 import { CircleHelp, Share2 } from 'lucide-react';
 import { FaStar } from 'react-icons/fa6';
 import FavoriteProduct from './FavoriteProduct';
+import { getVariant } from '@/lib/api';
 
 export default async function InfoProduct({
     searchParams,
@@ -41,15 +42,7 @@ export default async function InfoProduct({
 
 
     const query = createQueryString(undefined, '', queryParams);
-    const varient: Varient = await fetcher<Varient>(
-        `product/${id}/varient?${query}`,
-        {
-            method: 'GET',
-            next: {
-                revalidate: FIVEMINUTES,
-            },
-        },
-    );
+    const varient: Varient = await getVariant(id, query)
     return (
         <>
             <div>
@@ -71,10 +64,10 @@ export default async function InfoProduct({
                         className=" size-[15px]"
                     />
                 </StarRating>
-                <p className=" mt-[8px] md:mt-[16px] lg:mt-[20px] mb-[8px] md:mb-[16px] lg:mb-[30px] font-volkhov md:text-[18px] lg:text-[24px] text-[#000]">
-                    ${varient.price}
-                </p>
-                <p className=" flex items-center mb-[8px] md:mb-[16px] lg:mb-[30px] ">
+
+                <VarientPrice price={varient.price} discountPrice={varient.discountPrice} />
+
+                {/* <p className=" flex items-center mb-[8px] md:mb-[16px] lg:mb-[30px] ">
                     <Image
                         alt=" eye icon "
                         src={'/icons/eye.png'}
@@ -85,32 +78,16 @@ export default async function InfoProduct({
                     <span className="text-[#8A8A8A] ">
                         24 people are viewing this right now
                     </span>
-                </p>
-                <div className="flex  p-[10px] lg:p-[14px] mb-[16px] lg:mb-[30px] bg-[#FDEFEE] border border-[#F8CCCC]  justify-between items-center text-[#FF706B]">
+                </p> */}
+         {   varient.discountPrice>0 &&    <div className="flex  p-[10px] lg:p-[14px] mb-[16px] lg:mb-[30px] bg-[#FDEFEE] border border-[#F8CCCC]  justify-between items-center text-[#FF706B]">
                     <p className=" font-volkhov  lg:text-lg">
                         Hurry up! Sale ends in:
                     </p>
                     <CountDownMonth />
-                </div>
+                </div>}
 
-                {varient.pieceAvail <= 10 ? (
-                    <p className=" mb-[16px] lg:mb-[30px] font-jost text-[#666666]">
-                        Only{' '}
-                        <span className=" font-bold">
-                            {' '}
-                            {varient.pieceAvail}
-                        </span>
-                        item(s) left in stock
-                    </p>
-                ) : (
-                    <p className=" mb-[16px] lg:mb-[30px] font-jost text-[#666666]">
-                        <span className="  font-bold">
-                            {' '}
-                            {varient.pieceAvail}
-                        </span>{' '}
-                        item(s) left in stock
-                    </p>
-                )}
+                <PieceAvail pieceAvail={varient.pieceAvail} />
+               
 
                 <Suspense fallback={'Loading ...'}>
                     {' '}
@@ -187,4 +164,66 @@ export default async function InfoProduct({
             </div>
         </>
     );
+}
+
+
+function PieceAvail({pieceAvail}: {pieceAvail: number}){
+
+    if(pieceAvail===0){
+        return (
+            <p className=" font-semibold text-lg uppercase mb-[16px] lg:mb-[30px] font-jost text-[#666666]">
+                Sold out
+        </p>
+        )
+    }
+
+    else if(pieceAvail <= 10 )
+    {
+        return (
+        <p className=" mb-[16px] lg:mb-[30px] font-jost text-[#666666]">
+            Only{' '}
+            <span className=" font-bold">
+                {' '}
+                {pieceAvail}
+            </span>
+            item(s) left in stock
+        </p>
+
+        )
+    }
+
+       return  (
+           <p className=" mb-[16px] lg:mb-[30px] font-jost text-[#666666]">
+               <span className="  font-bold">
+                   {' '}
+                   {pieceAvail}
+               </span>{' '}
+               item(s) left in stock
+           </p>
+       )
+         
+}
+
+function VarientPrice ({ price, discountPrice}: {price:number, discountPrice :number}){
+    const isDiscount = discountPrice>0 
+
+    if(isDiscount){
+        return (
+            <p className="inline-flex gap-x-[7px] items-center mt-[8px] md:mt-[16px] lg:mt-[20px] mb-[8px] md:mb-[16px] lg:mb-[30px] ">
+                <span className="  font-volkhov md:text-[18px] lg:text-[24px] text-[#000]">
+                    {' '}
+                    ${discountPrice}
+                </span>
+                <span className=' font-jost text-base line-through text-[#666] px-[5px]' >${price}</span>
+                <span className=' font-jost text-[11px] font-medium uppercase text-white bg-[#DA3F3F] px-[10px] py-[2px] rounded-[11px] ' > Save {((1-discountPrice/price)*100).toFixed(0)}%</span>
+            </p>
+        );
+    }
+
+    return  (
+        <p className=" mt-[8px] md:mt-[16px] lg:mt-[20px] mb-[8px] md:mb-[16px] lg:mb-[30px] ">
+        <span className=' font-volkhov md:text-[18px] lg:text-[24px] text-[#000]'>  ${  price}</span>
+      </p>
+    )
+
 }

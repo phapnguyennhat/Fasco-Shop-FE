@@ -1,4 +1,3 @@
-import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import FollowUs from '../../(root)/components/FollowUs';
 import Subscribe from '../../(root)/components/Subscribe';
@@ -18,7 +17,7 @@ export default async function Login() {
                     alt="login Image"
                     className=" size-auto hidden lg:block"
                 />
-                <div className=" md:px-[26px] w-[80%] max-w-[600px] lg:w-full bg-slate-50 lg:bg-white  lg:px-[32px] xl:px-[50px] md:pt-[30px] lg:pt-[32px] xl:pt-[50px] pb-[26px]  ">
+                <div className=" md:px-[26px] w-[80%] max-w-[600px] lg:w-full p-4 bg-slate-50 lg:bg-white  lg:px-[32px] xl:px-[50px] md:pt-[30px] lg:pt-[32px] xl:pt-[50px] pb-[26px]  ">
                     <h3 className=" font-volkhov hidden lg:block text-4xl md:text-[52px] md:leading-[52px] lg:text-[66px] lg:leading-[66px] mb-[12px] md:mb-[20px]  lg:mb-[26px] xl:mb-[38px]">
                         Fasco
                     </h3>

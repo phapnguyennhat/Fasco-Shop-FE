@@ -2,12 +2,16 @@ import { configureStore } from "@reduxjs/toolkit"
 import extraNavReducer from './features/ExtraNav/extraNavSlice'
 import imageProductReducer from './features/ImageProduct/imageProductSlice'
 import attrProductReducer from './features/attrProduct/attrProductSlice'
+import variantReducer from './features/variant/variantSlice'
+import spinnerReducer from './features/spinner/spinnerSlice'
 
 export const store = configureStore({
   reducer: {
     extraNav: extraNavReducer,
     imageProduct: imageProductReducer,
     attrProduct: attrProductReducer,
+    variant: variantReducer,
+    spinner: spinnerReducer,
   }
 })
 

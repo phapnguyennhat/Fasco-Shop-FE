@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Check, ChevronsUpDown, Router } from 'lucide-react';
 
-import { cn, createQueryString } from '@/lib/utils';
+import { cn, createQueryString, SearchParams } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -21,7 +21,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SearchParams, useQueryState } from 'nuqs';
 
 interface IProps {
     provinces: IProvince[];

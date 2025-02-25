@@ -9,7 +9,6 @@ export default function CartPage({searchParams}: {searchParams: Promise<SearchPa
     <>
       <HeaderCart/>
       <TableCartItem searchParams={searchParams} />
-      {/* <TotalCart searchParams={searchParams} /> */}
       <Subscribe/>
     </>
   )

@@ -133,7 +133,8 @@ export async function getCategory(){
     const categories : ICategory[] = await fetcher<ICategory[]>('category', {
         method: 'GET',
         next:{
-            revalidate: FIVEMINUTES
+            revalidate: FIVEMINUTES,
+            tags: ['categories']
         }
     })
     return categories
@@ -161,10 +162,11 @@ export const getProducts = (query:string) =>{
   };
 
  export const getTags = () => {
-      return fetcher<ITag[]>('tag?page=1&limit=11', {
+      return fetcher<ITag[]>('tag', {
           method: 'GET',
           next: {
               revalidate: FIVEMINUTES,
+              tags: ['tags']
           },
       });
   };
@@ -230,6 +232,15 @@ export async function getAllBrand(){
         next: {
             revalidate: FIVEMINUTES,
             tags: ['brands']
+        }
+    })
+}
+
+export async function getVariant(productId: string, query: string){
+    return fetcher<Varient>(`product/${productId}/varient?${query}`,{
+        method: 'GET',
+        next: {
+            revalidate: 0
         }
     })
 }

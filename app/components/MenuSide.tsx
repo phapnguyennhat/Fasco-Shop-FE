@@ -1,6 +1,6 @@
 'use client';
-import { useState } from 'react';
-import { AlignJustify, BadgePlus, PackagePlus } from 'lucide-react'; // Nếu bạn dùng Lucide Icons
+import { useEffect, useState } from 'react';
+import { AlignJustify, BadgePlus, PackagePlus, Tag } from 'lucide-react'; // Nếu bạn dùng Lucide Icons
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut } from 'lucide-react';
@@ -12,12 +12,18 @@ import { ShoppingBag } from 'lucide-react';
 import { logout } from '../action';
 import UserDropDown from './UserDropDown';
 import SearchNav from './SearchNav';
-import { ERole } from '../common/enum';
+import { ECollection, ERole } from '../common/enum';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
-  
+    const pathName = usePathname()
+    const searchParams = useSearchParams()
     
+    useEffect(()=>{
+        setIsOpen(false)
+    },[pathName, searchParams.toString()])
+
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
@@ -31,11 +37,11 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
         },
         {
             name: 'Deals',
-            link: '/deal',
+            link: '/product?collection=Deals' ,
         },
         {
             name: 'New Arrivals',
-            link: '/newArrival',
+            link: `/product?collection=${ECollection.NEWARRIVAL}`,
         },
     ];
 
@@ -55,6 +61,11 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
             link: '/product',
             icon: <ShoppingBag size={20} />,
         },
+        {
+            name: "Category & Tag",
+            link: '/category',
+            icon:   <Tag size={20} />
+        }
     ];
 
     return (
@@ -141,7 +152,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
 
             {/* Menu trượt */}
             <aside
-                className={`fixed z-30 lg:hidden -top-[20px] md:-top-[30px] left-0  h-screen  w-64 bg-white  transform ${
+                className={`fixed overflow-y-auto z-30 lg:hidden -top-[20px] md:-top-[30px] left-0  h-screen  w-64 bg-white  transform ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 } transition-transform duration-300 ease-in-out`}
             >

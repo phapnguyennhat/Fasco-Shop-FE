@@ -1,5 +1,5 @@
 import { feeShip, feeWrap, minOrderFreeShip } from '@/app/common/constant';
-import { SearchParams } from 'nuqs';
+import { getPriceVarient, SearchParams } from '@/lib/utils';
 import React from 'react';
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
 }
 export default function TotalCheckout({ cartItems, queryParams }: IProps) {
     const subtotal = cartItems.reduce(
-        (sum, cartItem) => sum + cartItem.quantity * cartItem.varient.price,
+        (sum, cartItem) => sum + cartItem.quantity * getPriceVarient(cartItem.varient),
         0,
     );
 
@@ -44,7 +44,7 @@ export default function TotalCheckout({ cartItems, queryParams }: IProps) {
 
             <div className=" w-full inline-flex justify-between">
                 <span>Total</span>
-                <span>${total}</span>
+                <span>${total.toFixed(2)}</span>
             </div>
         </div>
     );

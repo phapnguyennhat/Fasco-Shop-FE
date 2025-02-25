@@ -50,6 +50,10 @@ export const collections = [
     {
         name: 'Price: High to Low',
         value: ECollection.HIGHTOLOW
+    },
+    {
+        name: 'Deals',
+        value: ECollection.DEALS
     }
 ]
 

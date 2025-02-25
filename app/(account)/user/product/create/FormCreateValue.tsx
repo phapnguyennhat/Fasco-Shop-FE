@@ -25,8 +25,8 @@ export default function FormCreateValue({indexAttr,indexValue}: IProps) {
   }
   
   return (
-    <div className=" flex justify-between items-center">
-            <Input onChange={onChangeValue} required className="  bg-white" placeholder="value" />
+    <div className=" flex md:justify-between items-center">
+            <Input onChange={onChangeValue}  className=" w-[70%] md:w-full  bg-white" placeholder="value" />
 
          
 

@@ -20,10 +20,10 @@ export default function useInputQuantity({
     }, []);
     const handlePlus = useCallback(() => {
         setQuantity((prev) => {
-            if (parseInt(prev) < maxQuantity) {
-                return (parseInt(prev) + 1).toString();
+            if (parseInt(prev) >= maxQuantity) {
+                return maxQuantity.toString();
             }
-            return maxQuantity.toString();
+            return (parseInt(prev) + 1).toString();
         });
     }, []);
 

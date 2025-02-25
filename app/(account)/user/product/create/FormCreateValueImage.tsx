@@ -8,7 +8,7 @@ import {
 import { RootState } from '@/lib/store';
 import { Trash2, X } from 'lucide-react';
 import Image from 'next/image';
-import { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, Dispatch, memo, SetStateAction } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 interface IProps {
@@ -19,7 +19,7 @@ interface IProps {
     
 }
 
-export default function FormCreateValueImage({
+ function FormCreateValueImage({
     indexAttr,
     indexValue,
     valueImages,setValueImages
@@ -50,17 +50,17 @@ export default function FormCreateValueImage({
 
 
     return (
-        <div className=" flex items-center">
-            <Input onChange={onChangeValue} required className="w-[70%] bg-white" placeholder="value" />
+        <div className=" flex  gap-2 items-center">
+            <Input onChange={onChangeValue}  className="w-[50%] bg-white" placeholder="value" />
 
             {/* Upload Image Input */}
-            <label className=" w-[20%] inline-flex justify-center items-center  text-sm cursor-pointer font-medium">
+            <label className=" lg:w-[20%] inline-flex justify-center items-center  text-sm cursor-pointer font-medium">
                 <input
                     hidden
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    required    
+                        
                 />
                 {file ? (
                     <Image
@@ -68,7 +68,8 @@ export default function FormCreateValueImage({
                         alt="image"
                         width={80}
                         height={80}
-                        className="object-cover size-[80px]"
+
+                        className="object-cover size-[60px] md:size-[80px] "
                     />
                 ) : (
                     <span className="">Image</span>
@@ -87,3 +88,5 @@ export default function FormCreateValueImage({
         </div>
     );
 }
+
+export default memo(FormCreateValueImage)

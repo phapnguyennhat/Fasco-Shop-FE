@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { KeyRound, MapPinHouse } from 'lucide-react';
 import { ERole } from '../common/enum';
+import { MdOutlineEventNote } from 'react-icons/md';
 
 
 interface IProps {
@@ -20,11 +21,11 @@ export default function UserDropDown({profile}: IProps) {
             <Accordion type="single" collapsible className="w-full  ">
                 <AccordionItem value="item-1">
                     <AccordionTrigger className=" font-normal text-base">
-                    {  profile.role ===ERole.USER ?   'User':'Admin'}
+                        {profile.role === ERole.USER ? 'User' : 'Admin'}
                     </AccordionTrigger>
-                    <AccordionContent className=' ' >
+                    <AccordionContent className=" ">
                         <ul>
-                            <li className=" border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+                            <li className=" border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-2 py-3  w-full">
                                 <Link
                                     className=" flex items-center justify-between"
                                     href={'/user/profile'}
@@ -39,24 +40,34 @@ export default function UserDropDown({profile}: IProps) {
                                     />
                                 </Link>
                             </li>
-                           { profile.role ===ERole.USER && <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+
+                            <li className=" border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-2 py-3  w-full">
                                 <Link
-                                    className=" flex justify-between items-center"
-                                    href={'/user/favorite'}
+                                    className=" flex items-center justify-between"
+                                    href={'/user/purchase'}
                                 >
-                                    {' '}
-                                    Products favorite
-                                    <Image
-                                        src={'/icons/favorite.png'}
-                                        width={20}
-                                        height={20}
-                                        alt="favorite icon"
-                                        className=" size-[20px]"
-                                    />
+                                    Order
+                                    <MdOutlineEventNote size={20} />
                                 </Link>
                             </li>
-}
-                            <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
+                            {profile.role === ERole.USER && (
+                                <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-2 py-3  w-full">
+                                    <Link
+                                        className=" flex justify-between items-center"
+                                        href={'/user/favorite'}
+                                    >
+                                        Favorite
+                                        <Image
+                                            src={'/icons/favorite.png'}
+                                            width={20}
+                                            height={20}
+                                            alt="favorite icon"
+                                            className=" size-[20px]"
+                                        />
+                                    </Link>
+                                </li>
+                            )}
+                            <li className="  border-b-2 hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-2 py-3  w-full">
                                 <Link
                                     className=" flex justify-between items-center"
                                     href={'/user/address'}
@@ -67,24 +78,26 @@ export default function UserDropDown({profile}: IProps) {
                                 </Link>
                             </li>
 
-                        {  profile.role ===ERole.USER &&   <li className="border-b-2   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 py-3  w-full">
-                                <Link
-                                    className=" flex items-center justify-between"
-                                    href={'/cart'}
-                                >
-                                    {' '}
-                                    My Cart
-                                    <Image
-                                        src={'/icons/cartuser.png'}
-                                        width={20}
-                                        height={20}
-                                        alt="cart icon"
-                                        className=" size-[20px]"
-                                    />
-                                </Link>
-                            </li>}
+                            {profile.role === ERole.USER && (
+                                <li className="border-b-2   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-2 py-3  w-full">
+                                    <Link
+                                        className=" flex items-center justify-between"
+                                        href={'/cart'}
+                                    >
+                                        {' '}
+                                        My Cart
+                                        <Image
+                                            src={'/icons/cartuser.png'}
+                                            width={20}
+                                            height={20}
+                                            alt="cart icon"
+                                            className=" size-[20px]"
+                                        />
+                                    </Link>
+                                </li>
+                            )}
 
-                            <li className="   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-4 pt-3  w-full">
+                            <li className="   hover:bg-gray-100 transition-all duration-300 hover:text-gray-500  px-2 pt-3  w-full">
                                 <Link
                                     className=" flex justify-between items-center"
                                     href={'/user/password'}
@@ -94,8 +107,6 @@ export default function UserDropDown({profile}: IProps) {
                                     <KeyRound size={20} />
                                 </Link>
                             </li>
-
-                            
                         </ul>
                     </AccordionContent>
                 </AccordionItem>

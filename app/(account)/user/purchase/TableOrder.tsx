@@ -9,11 +9,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { getOrder } from '@/lib/api';
+import { getOrder, getProfile } from '@/lib/api';
 import { EllipsisVertical } from 'lucide-react';
 import Link from 'next/link';
-import { cancelOrder } from '@/app/action';
-import { EStatusOrder } from '@/app/common/enum';
+import {  updateStatusOrder } from '@/app/action';
+import { ERole, EStatusOrder } from '@/app/common/enum';
 import PaginationList from '@/components/PaginationList';
 import Image from 'next/image';
 
@@ -24,6 +24,7 @@ interface IProps {
 export default async function TableOrder({ queryParams }: IProps) {
 
     const query = createQueryString(undefined, '', queryParams as any);
+    const user = await getProfile()
     
    
     const { orders, count } = await getOrder(query);
@@ -58,7 +59,7 @@ export default async function TableOrder({ queryParams }: IProps) {
                                     <span className=" font-semibold">
                                         Subtotal:
                                     </span>
-                                    <span> ${order.totalOrder.subTotal}</span>
+                                    <span> ${order.totalOrder.subTotal.toFixed(2)}</span>
                                 </div>
                                 {order.totalOrder.wrap && (
                                     <div className=" inline-flex gap-3">
@@ -86,12 +87,12 @@ export default async function TableOrder({ queryParams }: IProps) {
                                         Total:
                                     </span>
                                     <span>
-                                        {' '}
+                                     
                                         $
-                                        {Object.values(order.totalOrder).reduce(
+                                        {(Object.values(order.totalOrder).reduce(
                                             (sum, item) => sum + item,
                                             0,
-                                        )}
+                                        )).toFixed(2)}
                                     </span>
                                 </div>
                             </TableCell>
@@ -108,29 +109,74 @@ export default async function TableOrder({ queryParams }: IProps) {
                                                 Detail
                                             </Link>
                                         </li>
-                                        <li className="p-4 py-2 hover:bg-gray-100">
+                                      {  order.status === EStatusOrder.PENDING && <li className="p-4 py-2 hover:bg-gray-100">
                                             <form
-                                                action={async () => {
+                                                action={async (formData: FormData) => {
                                                     'use server';
-                                                    await cancelOrder(order.id);
+                                                   
+                                                        await updateStatusOrder(
+                                                            formData.get(
+                                                                'orderId',
+                                                            ) as string,EStatusOrder.CANCEL
+                                                        );
+                                                   
                                                 }}
                                             >
+                                                <input hidden readOnly name='orderId' value={order.id} type="text" />
                                                 <button
-                                                    className={`${
-                                                        order.status ===
-                                                            EStatusOrder.CANCEL &&
-                                                        'text-gray-400'
-                                                    }`}
-                                                    disabled={
-                                                        order.status ===
-                                                        EStatusOrder.CANCEL
-                                                    }
+                                                   
                                                     type="submit"
                                                 >
                                                     Cancel
                                                 </button>
                                             </form>
-                                        </li>
+                                        </li>}
+
+                                        {user?.role ===ERole.ADMIN &&  order.status === EStatusOrder.PENDING && <li className="p-4 py-2 hover:bg-gray-100">
+                                            <form
+                                                action={async (formData: FormData) => {
+                                                    'use server';
+                                                   
+                                                        await updateStatusOrder(
+                                                            formData.get(
+                                                                'orderId',
+                                                            ) as string,EStatusOrder.SHIPPING
+                                                        );
+                                                   
+                                                }}
+                                            >
+                                                <input hidden readOnly name='orderId' value={order.id} type="text" />
+                                                <button
+                                                   
+                                                    type="submit"
+                                                >
+                                                    Shipping
+                                                </button>
+                                            </form>
+                                        </li>}
+
+                                        {user?.role ===ERole.ADMIN &&  order.status === EStatusOrder.SHIPPING && <li className="p-4 py-2 hover:bg-gray-100">
+                                            <form
+                                                action={async (formData: FormData) => {
+                                                    'use server';
+                                                   
+                                                        await updateStatusOrder(
+                                                            formData.get(
+                                                                'orderId',
+                                                            ) as string,EStatusOrder.COMPLETE
+                                                        );
+                                                   
+                                                }}
+                                            >
+                                                <input hidden readOnly name='orderId' value={order.id} type="text" />
+                                                <button
+                                                   
+                                                    type="submit"
+                                                >
+                                                    Complete
+                                                </button>
+                                            </form>
+                                        </li>}
                                     </ul>
                                 </div>
                             </TableCell>

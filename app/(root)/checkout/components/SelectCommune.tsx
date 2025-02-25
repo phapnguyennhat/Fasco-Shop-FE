@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Check, ChevronsUpDown, Router } from 'lucide-react';
 
-import { cn, createQueryString } from '@/lib/utils';
+import { cn, createQueryString, SearchParams } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -19,7 +19,6 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SearchParams, useQueryState } from 'nuqs';
 
 interface IProps {
     district: IDistrict| undefined;

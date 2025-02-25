@@ -1,7 +1,9 @@
 import Link from 'next/link';
 
-export default async function NewArrival({searchParams}: {searchParams: Promise<{ categoryName?: string }>}) {
-    const categoryName = (await searchParams).categoryName || "Men's Fashion"
+export default async function NewArrival({searchParams}: {searchParams: Promise<{ categoryName?: string, collection?: string }>}) {
+    const queryParams = await searchParams
+    const collection = queryParams.collection
+    const categoryName = queryParams.categoryName ||(collection ? '':  "Men's Fashion")
     
     return (
         <section className=" section-page_home mb-6  md:mb-8 ">
@@ -42,11 +44,11 @@ export default async function NewArrival({searchParams}: {searchParams: Promise<
                 </Link>
                 <Link
                     className={`${
-                        categoryName === 'Women Accessories'
+                        categoryName === 'Women Accessory'
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4  rounded-[10px]'
                     }  inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300   `}
-                    href={'/?categoryName=Women Accessories'}
+                    href={'/?categoryName=Women Accessory'}
                     scroll={false}
                     replace={true}
                 >
@@ -54,11 +56,11 @@ export default async function NewArrival({searchParams}: {searchParams: Promise<
                 </Link>
                 <Link
                     className={`${
-                        categoryName === 'Men Accessories'
+                        categoryName === 'Men Accessory'
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4  rounded-[10px]'
                     } inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300  `}
-                    href={'/?categoryName=Men Accessories'}
+                    href={'/?categoryName=Men Accessory'}
                     scroll={false}
                     replace={true}
                 >
@@ -66,11 +68,11 @@ export default async function NewArrival({searchParams}: {searchParams: Promise<
                 </Link>
                 <Link
                     className={`${
-                        categoryName === 'Discount Deals'
+                        collection === 'Deals'
                             ? 'button-black'
                             : 'hover:bg-gray-200  py-2 px-2 lg:px-4 rounded-[10px]'
                     }  inline-flex justify-center items-center max-w-[207px] lg:h-[56px]  transform transition-all duration-300  `}
-                    href={'/?categoryName=Discount Deals'}
+                    href={'/?collection=Deals'}
                     scroll={false}
                     replace={true}
                 >

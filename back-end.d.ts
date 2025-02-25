@@ -10,6 +10,7 @@ declare global{
     user: User
     reviewNumber: number;
     price: number;
+    discountPrice: number
     pieceAvail: number
     sold: number
     attrProducts: IAttrProduct[]
@@ -39,6 +40,7 @@ declare global{
     value: string
     image: ImageFile
     attrName: string
+    attrProduct: IAttrProduct
   }
   
 
@@ -158,5 +160,8 @@ declare global{
     name: string
   }
   
+  interface InsertResult {
+      identifiers: { id: string }[];
+  }
 
 }

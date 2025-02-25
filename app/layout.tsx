@@ -6,6 +6,7 @@ import StoreProvider from './StoreProvider';
 import GoogleAuthProvider from '@/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import FacebookAuthProvider from '@/FacebookAuthProvider';
+import Spinner from '@/components/Spinner';
 
 const poppins = Poppins({
     variable: '--font-poppins'  ,
@@ -62,9 +63,11 @@ export default function RootLayout({
                         <FacebookAuthProvider>
                             {children}
                             <Toaster />
+                            <Spinner/>
                         </FacebookAuthProvider>
                     </GoogleAuthProvider>
                 </StoreProvider>
+
             </body>
         </html>
     );

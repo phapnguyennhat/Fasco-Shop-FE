@@ -22,18 +22,13 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 interface IProps {
     brands: IBrand[];
-    form: UseFormReturn<
-        {
-            name: string;
-            categoryName: string;
-            tagNames: [string, ...string[]];
-            brandId: string;
-        },
-        any,
-        undefined
-    >
-    brandId: string
-
+    form:UseFormReturn<{
+        name: string;
+        categoryName: string;
+        tagNames: [string, ...string[]];
+        brandId: string;
+    }, any, undefined>
+    brandId: string;
 }
 
 export default  function SelectBrand({brands, brandId, form}: IProps) {

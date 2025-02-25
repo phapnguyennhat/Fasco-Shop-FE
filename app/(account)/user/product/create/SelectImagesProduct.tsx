@@ -45,17 +45,17 @@ export default function SelectImagesProduct({ images, setImages }: IProps) {
             </p>
 
             {/* Hiển thị ảnh đã chọn */}
-            <div className="mt-4 grid grid-cols-3 gap-4">
+            <div className="mt-4 grid grid-cols-2 gap-1 md:grid-cols-3 md:gap-4">
                 {images.map((image, index) => (
-                    <div key={index} className="w-24 h-24 relative group">
+                    <div key={index} className=" size-[60px] md:size-[80px] relative group">
                         <img
                             src={URL.createObjectURL(image)}
                             alt={`Selected ${index}`}
-                            className="w-full h-full object-cover rounded-md"
+                            className="w-full h-full object-cover "
                         />
                         <button
                             type="button"
-                            className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-80 hover:opacity-100 transition"
+                            className="absolute -top-[10%] -right-[10%] bg-red-500 text-white p-1 rounded-full opacity-80 hover:opacity-100 transition"
                             onClick={() => removeImage(index)}
                         >
                             <X size={16} />

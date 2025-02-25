@@ -53,7 +53,7 @@ export default function InputQuantity({ cartItem}: IProps) {
               <Minus />
           </button>
           <Input
-              value={quantity}
+              value={ disable? '0' : quantity}
               type="text"
               name="quantity"
               disabled={disable}

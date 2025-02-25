@@ -15,6 +15,13 @@ export default async function CheckoutPage({searchParams}: IProps) {
     if(cartItems.length ===0){
       redirect('/cart')
     }
+
+    const hasVariantSoldOut = cartItems.some(item => item.quantity > item.varient.pieceAvail)
+    if(hasVariantSoldOut){
+      redirect('/cart')
+    }
+
+
   const queryParams = await searchParams
   const isWrap = queryParams['wrap'] as string || 'false'
   const provinceId = (queryParams['province'] as string)?.split('-i.')[1]

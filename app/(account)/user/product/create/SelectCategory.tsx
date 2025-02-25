@@ -21,16 +21,12 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 
 interface IProps {
     categories: ICategory[];
-    form: UseFormReturn<
-        {
-            name: string;
-            categoryName: string;
-            tagNames: [string, ...string[]];
-            brandId: string;
-        },
-        any,
-        undefined
-    >;
+    form:UseFormReturn<{
+        name: string;
+        categoryName: string;
+        tagNames: [string, ...string[]];
+        brandId: string;
+    }, any, undefined>
     categoryName: string;
 }
 export default function SelectCategory({

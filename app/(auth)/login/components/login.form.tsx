@@ -46,7 +46,7 @@ export default function LoginForm() {
                         <FormItem>
                             <FormControl>
                                 <input
-                                    className=" outline-none  w-full border-b-2 py-2"
+                                    className=" px-4 outline-none  w-full border-b-2 py-2"
                                     placeholder="Email or Username"
                                     {...field}
                                 />
@@ -65,7 +65,7 @@ export default function LoginForm() {
                             <FormControl>
                                 <input
                                     type='password'
-                                    className=" outline-none  w-full border-b-2 py-2"
+                                    className=" px-4 outline-none  w-full border-b-2 py-2"
                                     placeholder="Password"
                                     {...field}
                                 />
