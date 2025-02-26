@@ -1,8 +1,7 @@
-'use client';
-
+'use client'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
+import Select from 'react-select';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -13,167 +12,78 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { CreateProduct, ICreateAttrProduct, ICreateProduct, ICreateValueAttr, productSchema } from './schema';
-import { useToast } from '@/hooks/use-toast';
-import { useEffect, useMemo, useState } from 'react';
-import {  createProduct, uploadProductImages } from '@/app/action';
-import SelectBrand from './SelectBrand';
-import SelectCategory from './SelectCategory';
-import Select from 'react-select';
-import SelectImagesProduct from './SelectImagesProduct';
-import FormCreateAttr from './FormCreateAttr';
-import { BadgePlus } from 'lucide-react';
-import FormCreateAttrImage from './FormCreateAttrImage';
+import { UpdateProduct } from './schema';
+import { ICreateVarient, productSchema } from '../../create/schema';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
-import { newAttr, resetAttr } from '@/lib/features/attrProduct/attrProductSlice';
-import TableVarient from './TableVarient';
-import { resetVariant } from '@/lib/features/variant/variantSlice';
-import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { useToast } from '@/hooks/use-toast';
+import { useEffect, useMemo } from 'react';
+import { setNameAttrs, setValue, setValues } from '@/lib/features/attrProduct/attrProductSlice';
+import SelectBrand from '../../create/SelectBrand';
+import SelectCategory from '../../create/SelectCategory';
+import FormCreateAttrImage from '../../create/FormCreateAttrImage';
+import { BadgePlus } from 'lucide-react';
+import TableVarient from '../../create/TableVarient';
+import SelectImagesProduct from '../../create/SelectImagesProduct';
+import FormCreateAttr from '../../create/FormCreateAttr';
+import FormUpdateAttrImage from './FormUpdateAttrImage';
+import FormUpdateAttr from './FormUpdateAttr';
+import { setVariants } from '@/lib/features/variant/variantSlice';
+
+
 
 interface IProps {
     brands: IBrand[];
     categories: ICategory[];
     tags: ITag[];
+    product: Product;
 }
-
-export default function FormCreateProduct({
+export default function FormUpdateProduct({
     brands,
     categories,
+    product,
     tags,
 }: IProps) {
-    const formProduct = useForm<CreateProduct>({
-        resolver: zodResolver(productSchema),
-        defaultValues: {
-            name: '',
-            brandId: '',
-            categoryName: '',
-            tagNames: [],
-        },
-    });
 
-    useEffect(()=>{
-        dispatch(resetAttr())
-        dispatch(resetVariant())
-    },[])
+  const {attrProducts, varients} = product
 
+    const form  = useForm<UpdateProduct>({
+      resolver: zodResolver(productSchema),
+      defaultValues: {
+        name: product.name,
+        brandId: product.brandId,
+        categoryName: product.categoryName,
+        tagNames: product.tags.map(tag=>(tag.name))
+      }
+    })
+
+    const dispatch = useDispatch()
     const nameAttrs = useSelector((state: RootState)=>state.attrProduct.value.nameAttrs)
-    const productValues = useSelector((state: RootState)=>state.attrProduct.value.values)
-    const variants = useSelector((state: RootState)=> state.variant.value.variants)
 
+    useEffect(()=>{ 
+      const nameAttrs = attrProducts.map(attrProduct=> attrProduct.name)
+      const values = attrProducts.map(attr => attr.valueAttrs.map(v => v.value));
+      dispatch(setNameAttrs(nameAttrs))
+      dispatch(setValues(values))
+    },[])
     
-    const dispatch  = useDispatch()
-
-
-    const { toast } = useToast();
-    const [loading, setLoading] = useState(false);
     
+    const {toast} = useToast()
     const options = useMemo(
         () => tags.map((tag) => ({ value: tag.name, label: tag.name })),
         [tags],
     );
 
-    async function onSubmit(values: CreateProduct) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        if (images.length === 0) {
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Images of product went wrong.',
-                description: 'Please upload images of product',
-            });
-            return;
-        }
-
-
-        if(nameAttrs.includes('')){
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Name attribute went wrong.',
-                description: 'Name attribute is required',
-            });
-            return;
-        }
-
-        const isHasEmptyValue = productValues.some(attrValue => attrValue.includes(''))
-        if(isHasEmptyValue){
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Values went wrong.',
-                description: 'Value is required',
-            });
-            return;
-        }
-
-        if(valueImages.length !== productValues[0].length){
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Image of value went wrong.',
-                description: 'Image of value is required',
-            });
-            return;
-        }
-
-        const isInvalidVariant = variants.some(item => item.pieceAvail==='' || item.price==='')
-        if(isInvalidVariant){
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Variants went wrong.',
-                description: 'Price and Piece available is required',
-            });
-            return;
-        }
-
-        const attrProducts: ICreateAttrProduct[] = nameAttrs.map((name, index) => {
-            const valueAttrs: ICreateValueAttr[] = productValues[index].map(value=>({value}))
-            if(index===0){
-                return {name, hasImage: true, valueAttrs}
-            }else{
-                return {name, hasImage: false, valueAttrs}
-            }
-        })
-
-        const tags = values.tagNames.map(name=>({name}))
-
-    
-        try {
-            setLoading(true);
-            dispatch(setSpinner(true))
-
-           const  createProductDto: ICreateProduct = {...values, tags,attrProducts,createVarientDtos: variants }
-
-           const newProduct = await createProduct(createProductDto)
-           const stringValueNames = productValues[0].toString()
-           await uploadProductImages(newProduct.id, stringValueNames, images,valueImages)
-            dispatch(resetAttr())
-            dispatch(resetVariant())
-
-            setLoading(false);
-            dispatch(setSpinner(false))
-            toast({
-                description: 'Create product successfully.',
-            });
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            setLoading(false);
-            dispatch(setSpinner(false))
-        }
+    async function onSubmit (values: UpdateProduct){
     }
-
-    const [images, setImages] = useState<Blob[]>([]);
-    const [valueImages, setValueImages] = useState<Blob[]>([]);
 
 
     return (
         <div className=" w-[600px] sm:w-auto justify-evenly   flex ">
             <div className="  md:w-[70%] mr-4 ">
-                <Form {...formProduct}>
+                <Form {...form}>
                     <form
-                        onSubmit={formProduct.handleSubmit(onSubmit)}
+                        onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-[20px]"
                     >
                         <div className="   items-center w-full  inline-flex justify-between">
@@ -182,7 +92,7 @@ export default function FormCreateProduct({
                             </h6>
                         </div>
                         <FormField
-                            control={formProduct.control}
+                            control={form.control}
                             name="name"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
@@ -192,7 +102,7 @@ export default function FormCreateProduct({
                                     <div>
                                         <FormControl>
                                             <Input
-                                                className=' w-[70%] md:w-full'
+                                                className=" w-[70%] md:w-full"
                                                 autoComplete="off"
                                                 placeholder="Name"
                                                 {...field}
@@ -205,7 +115,7 @@ export default function FormCreateProduct({
                         />
 
                         <FormField
-                            control={formProduct.control}
+                            control={form.control}
                             name="brandId"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
@@ -223,10 +133,8 @@ export default function FormCreateProduct({
                                         </FormControl>
                                         <SelectBrand
                                             brands={brands}
-                                            brandId={formProduct.getValues(
-                                                'brandId',
-                                            )}
-                                            form={formProduct}
+                                            brandId={form.getValues('brandId')}
+                                            form={form}
                                         />
                                         <FormMessage />
                                     </div>
@@ -235,7 +143,7 @@ export default function FormCreateProduct({
                         />
 
                         <FormField
-                            control={formProduct.control}
+                            control={form.control}
                             name="categoryName"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
@@ -253,10 +161,10 @@ export default function FormCreateProduct({
                                         </FormControl>
                                         <SelectCategory
                                             categories={categories}
-                                            categoryName={formProduct.getValues(
+                                            categoryName={form.getValues(
                                                 'categoryName',
                                             )}
-                                            form={formProduct}
+                                            form={form}
                                         />
                                         <FormMessage />
                                     </div>
@@ -265,7 +173,7 @@ export default function FormCreateProduct({
                         />
 
                         <FormField
-                            control={formProduct.control}
+                            control={form.control}
                             name="tagNames"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
@@ -312,47 +220,30 @@ export default function FormCreateProduct({
 
                         {nameAttrs.map((_, indexAttr) =>
                             indexAttr === 0 ? (
-                                <FormCreateAttrImage key={ indexAttr} indexAttr={indexAttr} valueImages={valueImages} setValueImages={setValueImages} />
-                            ) : (
-                                <FormCreateAttr
+                                <FormUpdateAttrImage
                                     key={indexAttr}
                                     indexAttr={indexAttr}
+                                    attrProduct={attrProducts[indexAttr]}
+                                />
+                            ) : (
+                                <FormUpdateAttr
+                                    key={indexAttr}
+                                    indexAttr={indexAttr}
+                                    attrProduct={attrProducts[indexAttr]}
                                 />
                             ),
                         )}
 
-                        <div className=" flex justify-center">
-                            {' '}
-                            <Button
-                                disabled = {nameAttrs.length ===3}
-                                onClick={() => {
-                                    dispatch(newAttr())
-                                }}
-                                className="border hover:text-white border-black bg-white text-black"
-                                type="button"
-                            >
-                                <BadgePlus />
-                                New Attribute ({nameAttrs.length}/3)
-                            </Button>
-                        </div>
-
-                        <TableVarient/>
 
                         <div className=" w-full flex justify-center">
-                            <Button
-                                disabled={loading}
-                                className={` px-6 py-4 ${
-                                    loading && 'bg-gray-800'
-                                } `}
-                                type="submit"
-                            >
+                            <Button className={` px-6 py-4 `} type="submit">
                                 Save
                             </Button>
                         </div>
                     </form>
                 </Form>
             </div>
-            <SelectImagesProduct images={images} setImages={setImages} />
+            {/* <SelectImagesProduct images={} setImages={[]} /> */}
         </div>
     );
 }

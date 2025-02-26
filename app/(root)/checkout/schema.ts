@@ -9,6 +9,7 @@ export const addressSchema = z.object({
   districtId: z.string().min(1, 'District is required'),
   communeId: z.string().min(1, 'Commune is required'),
   street: z.string().min(2, 'Street must contain at least 2 characters').max(50),
+  
 
 })
 

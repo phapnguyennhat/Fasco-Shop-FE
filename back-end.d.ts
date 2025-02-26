@@ -8,14 +8,20 @@ declare global{
     name: string
     starRating: number
     user: User
+    brandId: string
+    categoryName: string
     reviewNumber: number;
     price: number;
+    tags: ITag[]
     discountPrice: number
     pieceAvail: number
     sold: number
     attrProducts: IAttrProduct[]
     images: Image[]
     favoriteDetails: IFavoriteDetail[]
+
+    varients: Varient[]
+    
   }
 
   interface Varient {

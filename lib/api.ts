@@ -245,3 +245,19 @@ export async function getVariant(productId: string, query: string){
     })
 }
 
+export async function getProductDetailById(id: string){
+    const authCookie = await getAuthCookies()
+    return fetcher<Product>(`product/${id}/detail`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie
+        },
+        next: {
+            revalidate: FIVEMINUTES,
+            tags: [`productDetail/${id}`]
+        }
+    })
+    
+}
+

@@ -6,7 +6,7 @@ export const productSchema = z.object({
         .string()
         .min(3, 'Category name must contain at least 3 characters')
         .max(50),
-        tagNames: z
+    tagNames: z
         .array(z.string())
         .nonempty({ message: 'Array must have at least one item' }) // Ít nhất 1 phần tử
         .max(5, { message: 'Array must have at most 5 items' }) // Nhiều nhất 5 phần tử
@@ -18,7 +18,7 @@ export const productSchema = z.object({
         .string()
         .min(3, 'Brand name must contain at least 3 characters')
         .max(50),
-
+    
 });
 
 export type CreateProduct = z.infer<typeof productSchema>;
@@ -35,9 +35,11 @@ export interface ICreateValueAttr {
 }
 
 export interface ICreateVarient {
+    id?:string
     attrValueNames: string[]
     pieceAvail: string,
     price: string
+    discountPrice?:number
 }
 
 

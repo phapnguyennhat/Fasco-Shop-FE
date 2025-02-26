@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface IAttributes {
     nameAttrs: string[];
     values: string[][];
-    valueImages: Blob[];
+    // valueImages: Blob[];
 }
 
 export const attrProductSlice = createSlice({
@@ -13,14 +13,24 @@ export const attrProductSlice = createSlice({
         value: {
             nameAttrs: [''],
             values: [['']],
-            valueImages: [],
+            // valueImages: [],
         } as IAttributes,
     },
     reducers: {
 
         resetAttr: (state)=>{
-            state.value = {nameAttrs: [''], values: [['']], valueImages: []}
+            state.value = {nameAttrs: [''], values: [['']]}
         },
+        
+        setNameAttrs: (state, action: PayloadAction<string[]>)=>{
+            state.value.nameAttrs = action.payload
+        },
+
+        setValues : (state, action: PayloadAction<string [][]>)=>{
+            state.value.values=action.payload
+        },
+
+        
 
 
         setAttrName: (
@@ -91,6 +101,7 @@ export const {
     setValue,
     newAttr,
     newValue,
+    setNameAttrs, setValues
 } = attrProductSlice.actions;
 
 export default attrProductSlice.reducer;

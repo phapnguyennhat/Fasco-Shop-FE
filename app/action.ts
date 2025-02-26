@@ -432,3 +432,7 @@ export async function deleteProduct(id :string){
     revalidateTag('products')
     revalidateTag('favoriteProducts')
 }
+
+export async function updateProduct(id: string){
+
+}

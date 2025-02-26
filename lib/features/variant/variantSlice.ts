@@ -5,7 +5,6 @@ interface IVariants {
   variants: ICreateVarient[]
 }
 
-
 export const variantSlice = createSlice({
   name: 'varient',
   initialState: {
@@ -18,6 +17,10 @@ export const variantSlice = createSlice({
     initVarients : (state, action: PayloadAction<{variations: string[][]}>)=>{
       const {variations} = action.payload
       state.value.variants = variations.map(item => ({attrValueNames: item, price: '', pieceAvail: ''}))
+    },
+
+    setVariants: (state, action: PayloadAction<ICreateVarient[]>) =>{
+      state.value.variants=action.payload
     },
 
     setPrice: (state, action: PayloadAction<{indexVariant: number, price: string}>) =>{
@@ -34,6 +37,6 @@ export const variantSlice = createSlice({
   }
 })
 
-export const {resetVariant,initVarients,setPieceAvail,setPrice} = variantSlice.actions
+export const {resetVariant,initVarients,setPieceAvail,setPrice, setVariants} = variantSlice.actions
 
 export default variantSlice.reducer
