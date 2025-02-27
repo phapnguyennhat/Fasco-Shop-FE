@@ -36,6 +36,7 @@ declare global{
   }
 
   interface IAttrProduct {
+    id: string
     name: string,
     productId: string
     hasImage: string
@@ -43,6 +44,7 @@ declare global{
   }
 
   interface IValueAttr {
+    id: string
     value: string
     image: ImageFile
     attrName: string

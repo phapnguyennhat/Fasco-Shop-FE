@@ -1,7 +1,7 @@
 'use client'
 import { SearchParams } from "@/lib/utils"
 import { useState } from "react";
-import { UseFormReturn } from "react-hook-form"
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form"
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -22,17 +22,12 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 interface IProps {
     brands: IBrand[];
-    form:UseFormReturn<{
-        name: string;
-        categoryName: string;
-        tagNames: [string, ...string[]];
-        brandId: string;
-    }, any, undefined>
-    brandId: string;
+    field:  ControllerRenderProps<any, "brandId">
 }
 
-export default  function SelectBrand({brands, brandId, form}: IProps) {
+export default  function SelectBrand({brands, field}: IProps) {
       const [open, setOpen] = useState(false);
+    const brandId = field.value
   const selectedBrand = brands.find(item=>item.id===brandId)
 
   return (
@@ -42,7 +37,7 @@ export default  function SelectBrand({brands, brandId, form}: IProps) {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className={` w-[40%] ${
+                  className={` w-auto ${
                       open && 'ring-1 ring-black'
                   }  hover:bg-white  ${
                       selectedBrand?.name
@@ -67,7 +62,7 @@ export default  function SelectBrand({brands, brandId, form}: IProps) {
                                   key={brand.id}
                                   value={brand.name}
                                   onSelect={(currentValue) => {
-                                      form.setValue('brandId', brand.id);
+                                    field.onChange(brand.id)
                                       setOpen(false);
                                   }}
                               >

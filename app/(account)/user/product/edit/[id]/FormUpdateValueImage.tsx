@@ -4,26 +4,35 @@ import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import { RootState } from '@/lib/store';
+import { ControllerRenderProps } from 'react-hook-form';
+import { UpdateAttrProductDto } from './schema';
 
 interface IProps {
     indexAttr: number;
     indexValue: number;
-    attrValue: IValueAttr;
+    valueAttr: IValueAttr
+    field: ControllerRenderProps<any, 'updateAttrProductDtos'>;
 }
 
 export default function FormUpdateValueImage({
     indexAttr,
     indexValue,
-    attrValue,
+    valueAttr,
+    field
 }: IProps) {
-    const dispatch = useDispatch();
 
-    const values = useSelector((state: RootState)=>state.attrProduct.value.values)
-    const value = values[indexAttr][indexValue]
+    const updateAttrProductDto = field.value[indexAttr] as UpdateAttrProductDto;
+    
+    const value = updateAttrProductDto.updateValueAttrDtos[indexValue].value
+
+    
 
 
     const onChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setValue({ indexAttr, indexValue, value: e.target.value }));
+        const newUpdateProductDtos =[... field.value] as UpdateAttrProductDto[]
+        newUpdateProductDtos[indexAttr].updateValueAttrDtos[indexValue].value = e.target.value
+        field.onChange(newUpdateProductDtos)
+        
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +61,7 @@ export default function FormUpdateValueImage({
                 />
 
                 <Image
-                    src={attrValue.image.url}
+                    src={valueAttr?.image?.url}
                     alt="image"
                     width={80}
                     height={80}

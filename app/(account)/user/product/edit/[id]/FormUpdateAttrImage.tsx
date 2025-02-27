@@ -1,28 +1,39 @@
-'use client'
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { newValue, removeAttr, setAttrName } from "@/lib/features/attrProduct/attrProductSlice"
-import { RootState } from "@/lib/store"
-import { BadgePlus, X } from "lucide-react"
-import { ChangeEvent, Dispatch, memo, SetStateAction } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import FormUpdateValueImage from "./FormUpdateValueImage"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+    newValue,
+    removeAttr,
+    setAttrName,
+} from '@/lib/features/attrProduct/attrProductSlice';
+import { RootState } from '@/lib/store';
+import { BadgePlus, X } from 'lucide-react';
+import { ChangeEvent, Dispatch, memo, SetStateAction, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import FormUpdateValueImage from './FormUpdateValueImage';
+import { UpdateAttrProductDto } from './schema';
+import { ControllerRenderProps } from 'react-hook-form';
 
 interface IProps {
-  indexAttr: number,
-  attrProduct: IAttrProduct
+    indexAttr: number;
+    field: ControllerRenderProps<any, 'updateAttrProductDtos'>;
+    attrValues  : IValueAttr[]
 }
 
-function FormUpdateAttrImage ({indexAttr, attrProduct}: IProps){
-  const { valueAttrs} = attrProduct
-  const nameAttr = useSelector((state: RootState)=>state.attrProduct.value.nameAttrs[indexAttr])
-  const dispatch = useDispatch()
+function FormUpdateAttrImage({ indexAttr, field, attrValues }: IProps) {
+    const updateAttrProductDto = field.value[indexAttr] as UpdateAttrProductDto;
+    const { updateValueAttrDtos, name } = updateAttrProductDto;
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-      dispatch(setAttrName({ indexAttr, attrName: e.target.value }));
-  };
+    
+
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newUpdateProductDtos =[... field.value]
+        newUpdateProductDtos[indexAttr].name = e.target.value
+        field.onChange(newUpdateProductDtos)
+        
+    };
 
     return (
         <div className="relative  bg-gray-100 p-4  ">
@@ -31,18 +42,20 @@ function FormUpdateAttrImage ({indexAttr, attrProduct}: IProps){
                 <Label className=" font-normal  md:text-right">Name</Label>
                 <Input
                     className=" bg-white"
-                    value={nameAttr}
+                    value={name}
                     onChange={handleOnChange}
                 />
 
                 <Label className=" font-normal  md:text-right">Values</Label>
                 <div className=" space-y-2">
-                    {valueAttrs.map((valueAttr, indexValue) => (
+                    {updateValueAttrDtos.map((_, indexValue) => (
                         <FormUpdateValueImage
                             key={indexValue}
                             indexAttr={indexAttr}
                             indexValue={indexValue}
-                            attrValue={valueAttr}
+                            field={field}
+                            valueAttr={attrValues[indexValue]}
+                           
                         />
                     ))}
                 </div>
@@ -51,4 +64,4 @@ function FormUpdateAttrImage ({indexAttr, attrProduct}: IProps){
     );
 }
 
-export default memo(FormUpdateAttrImage)
+export default memo(FormUpdateAttrImage);

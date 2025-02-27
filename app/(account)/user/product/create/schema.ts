@@ -6,11 +6,13 @@ export const productSchema = z.object({
         .string()
         .min(3, 'Category name must contain at least 3 characters')
         .max(50),
-    tagNames: z
-        .array(z.string())
+    tags: z
+        .array(z.object({
+            name: z.string().min(1)
+        }))
         .nonempty({ message: 'Array must have at least one item' }) // Ít nhất 1 phần tử
         .max(5, { message: 'Array must have at most 5 items' }) // Nhiều nhất 5 phần tử
-        .refine((arr) => new Set(arr).size === arr.length, {
+        .refine((arr) => new Set(arr.map(item =>item.name)).size === arr.length, {
             // Không trùng lặp
             message: 'Array items must be unique',
         }),

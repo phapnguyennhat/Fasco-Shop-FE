@@ -1,3 +1,4 @@
+import { UpdateAttrProductDto } from '@/app/(account)/user/product/edit/[id]/schema';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -92,5 +93,18 @@ export function getPriceVarient(varient: Varient){
 
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function findValueNames(valueIds: string [], updateAttrProductDtos :UpdateAttrProductDto[]): string{
+  return valueIds.map(valueId => {
+    const attr = updateAttrProductDtos.find(attr => attr.updateValueAttrDtos.some(value => value.id === valueId))
+    if(attr){
+      const value = attr.updateValueAttrDtos.find(value => value.id === valueId)
+      if(value){
+        return value.value
+      }
+    }
+    return ''
+  }).join('-')
 }
 

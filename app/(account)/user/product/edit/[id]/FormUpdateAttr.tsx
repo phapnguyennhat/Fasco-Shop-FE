@@ -7,23 +7,28 @@ import { RootState } from "@/lib/store"
 import { ChangeEvent } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import FormUpdateValue from "./FormUpdateValue"
+import { UpdateAttrProductDto } from "./schema"
+import { ControllerRenderProps } from "react-hook-form"
 
 interface IProps {
   indexAttr: number,
-  attrProduct: IAttrProduct
+  field: ControllerRenderProps<any, "updateAttrProductDtos">
+  
 }
 
-export default function FormUpdateAttr({indexAttr, attrProduct}: IProps) {
-  const{valueAttrs} = attrProduct
-  const nameAttr = useSelector(
-      (state: RootState) => state.attrProduct.value.nameAttrs[indexAttr],
-  );
-  const attrValues = useSelector((state: RootState)=>state.attrProduct.value.values[indexAttr])
+export default function FormUpdateAttr({indexAttr, field}: IProps) {
+const updateAttrProductDto = field.value[indexAttr] as UpdateAttrProductDto;
+const { updateValueAttrDtos, name } = updateAttrProductDto;
 
-  const dispatch = useDispatch()
+
+
+
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setAttrName({ indexAttr, attrName: e.target.value }));
+        const newUpdateProductDtos =[... field.value]
+        newUpdateProductDtos[indexAttr].name = e.target.value
+        console.log({newUpdateProductDtos})
+        field.onChange(newUpdateProductDtos)
     };
 
 
@@ -34,18 +39,18 @@ export default function FormUpdateAttr({indexAttr, attrProduct}: IProps) {
                 <Label className=" font-normal  md:text-right">Name</Label>
                 <Input
                     className=" bg-white"
-                    value={nameAttr}
+                    value={name}
                     onChange={handleOnChange}
                 />
 
                 <Label className=" font-normal  md:text-right">Values</Label>
                 <div className=" space-y-2">
-                    {attrValues.map((_, indexValue) => (
+                    {updateValueAttrDtos.map((_, indexValue) => (
                         <FormUpdateValue
                             key={indexValue}
                             indexAttr={indexAttr}
                             indexValue={indexValue}
-                            attrValue={valueAttrs[indexValue]}
+                            field={field}
                         />
                     ))}
                 </div>

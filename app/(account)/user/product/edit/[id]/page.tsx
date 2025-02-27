@@ -23,7 +23,7 @@ export default async function EditProduct({params}: IProps) {
               <h2 className="  text-[#333] text-lg">Update Product</h2>
           </section>
 
-          <section className="    overflow-x-scroll mb-[30px] scrollbar-hide  w-full">
+          <section className=" overflow-x-scroll scrollbar-hide    mb-[30px] px-4 ">
               <FormUpdateProduct
                   brands={brands}
                   categories={categories}

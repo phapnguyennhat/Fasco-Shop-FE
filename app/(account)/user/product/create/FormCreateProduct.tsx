@@ -48,7 +48,7 @@ export default function FormCreateProduct({
             name: '',
             brandId: '',
             categoryName: '',
-            tagNames: [],
+            tags: []
         },
     });
 
@@ -133,14 +133,14 @@ export default function FormCreateProduct({
             }
         })
 
-        const tags = values.tagNames.map(name=>({name}))
+        // const tags = values.tagNames.map(name=>({name}))
 
     
         try {
             setLoading(true);
             dispatch(setSpinner(true))
 
-           const  createProductDto: ICreateProduct = {...values, tags,attrProducts,createVarientDtos: variants }
+           const  createProductDto: ICreateProduct = {...values,attrProducts,createVarientDtos: variants }
 
            const newProduct = await createProduct(createProductDto)
            const stringValueNames = productValues[0].toString()
@@ -192,7 +192,7 @@ export default function FormCreateProduct({
                                     <div>
                                         <FormControl>
                                             <Input
-                                                className=' w-[70%] md:w-full'
+                                                className=" w-[70%] md:w-full"
                                                 autoComplete="off"
                                                 placeholder="Name"
                                                 {...field}
@@ -214,20 +214,11 @@ export default function FormCreateProduct({
                                     </FormLabel>
                                     <div>
                                         <FormControl>
-                                            <Input
-                                                className="  hidden placeholder:text-[#8A8A8A] font-poppins  rounded-none  py-[24px] px-[28px] "
-                                                autoComplete="off"
-                                                placeholder="Name"
-                                                {...field}
+                                            <SelectBrand
+                                                brands={brands}
+                                                field={field}
                                             />
                                         </FormControl>
-                                        <SelectBrand
-                                            brands={brands}
-                                            brandId={formProduct.getValues(
-                                                'brandId',
-                                            )}
-                                            form={formProduct}
-                                        />
                                         <FormMessage />
                                     </div>
                                 </FormItem>
@@ -244,20 +235,11 @@ export default function FormCreateProduct({
                                     </FormLabel>
                                     <div>
                                         <FormControl>
-                                            <Input
-                                                className="  hidden placeholder:text-[#8A8A8A] font-poppins  rounded-none  py-[24px] px-[28px] "
-                                                autoComplete="off"
-                                                placeholder="Name"
-                                                {...field}
+                                            <SelectCategory
+                                                categories={categories}
+                                                field={field}
                                             />
                                         </FormControl>
-                                        <SelectCategory
-                                            categories={categories}
-                                            categoryName={formProduct.getValues(
-                                                'categoryName',
-                                            )}
-                                            form={formProduct}
-                                        />
                                         <FormMessage />
                                     </div>
                                 </FormItem>
@@ -266,7 +248,7 @@ export default function FormCreateProduct({
 
                         <FormField
                             control={formProduct.control}
-                            name="tagNames"
+                            name="tags"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                                     <FormLabel className=" font-normal pt-[20px] text-right">
@@ -282,17 +264,12 @@ export default function FormCreateProduct({
                                                 className=" w-[70%] md:w-full basic-multi-select"
                                                 classNamePrefix="select"
                                                 placeholder="Select tags..."
-                                                value={options.filter(
-                                                    (option) =>
-                                                        field.value.includes(
-                                                            option.value,
-                                                        ),
-                                                )}
+                                                value={field.value.map(item => ({label: item.name, value: item.name}))}
                                                 onChange={(selected) =>
                                                     field.onChange(
                                                         selected.map(
                                                             (item) =>
-                                                                item.value,
+                                                                ({name: item.value}),
                                                         ),
                                                     )
                                                 }
@@ -312,7 +289,12 @@ export default function FormCreateProduct({
 
                         {nameAttrs.map((_, indexAttr) =>
                             indexAttr === 0 ? (
-                                <FormCreateAttrImage key={ indexAttr} indexAttr={indexAttr} valueImages={valueImages} setValueImages={setValueImages} />
+                                <FormCreateAttrImage
+                                    key={indexAttr}
+                                    indexAttr={indexAttr}
+                                    valueImages={valueImages}
+                                    setValueImages={setValueImages}
+                                />
                             ) : (
                                 <FormCreateAttr
                                     key={indexAttr}
@@ -324,9 +306,9 @@ export default function FormCreateProduct({
                         <div className=" flex justify-center">
                             {' '}
                             <Button
-                                disabled = {nameAttrs.length ===3}
+                                disabled={nameAttrs.length === 3}
                                 onClick={() => {
-                                    dispatch(newAttr())
+                                    dispatch(newAttr());
                                 }}
                                 className="border hover:text-white border-black bg-white text-black"
                                 type="button"
@@ -336,7 +318,7 @@ export default function FormCreateProduct({
                             </Button>
                         </div>
 
-                        <TableVarient/>
+                        <TableVarient />
 
                         <div className=" w-full flex justify-center">
                             <Button

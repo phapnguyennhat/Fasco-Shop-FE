@@ -1,7 +1,6 @@
 'use client';
-import { SearchParams } from '@/lib/utils';
 import { useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { cn } from '@/lib/utils';
 import {
     Command,
@@ -21,18 +20,11 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 
 interface IProps {
     categories: ICategory[];
-    form:UseFormReturn<{
-        name: string;
-        categoryName: string;
-        tagNames: [string, ...string[]];
-        brandId: string;
-    }, any, undefined>
-    categoryName: string;
+    field: ControllerRenderProps<any, "categoryName">
 }
 export default function SelectCategory({
     categories,
-    form,
-    categoryName,
+   field
 }: IProps) {
 
   const [open, setOpen] = useState(false);
@@ -45,15 +37,15 @@ export default function SelectCategory({
                 variant="outline"
                 role="combobox"
                 aria-expanded={open}
-                className={` w-[40%] ${
+                className={` w-auto ${
                     open && 'ring-1 ring-black'
                 }  hover:bg-white  ${
-                    categoryName
+                    field.value
                         ? 'text-black hover:text-black'
                         : 'text-[#8A8A8A]  hover:text-[#8A8A8A]'
                 } justify-between   font-normal    `}
             >
-                { categoryName || 'Category'}
+                { field.value || 'Category'}
                 <ChevronsUpDown className="opacity-50" />
             </Button>
         </PopoverTrigger>
@@ -70,7 +62,7 @@ export default function SelectCategory({
                                 key={category.name}
                                 value={category.name}
                                 onSelect={(currentValue) => {
-                                    form.setValue('categoryName', category.name);
+                                    field.onChange(currentValue)
                                     setOpen(false);
                                 }}
                             >
@@ -78,7 +70,7 @@ export default function SelectCategory({
                                 <Check
                                     className={cn(
                                         'ml-auto',
-                                        categoryName === category.name
+                                        field.value === category.name
                                             ? 'opacity-100'
                                             : 'opacity-0',
                                     )}

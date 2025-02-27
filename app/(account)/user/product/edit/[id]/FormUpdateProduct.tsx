@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
@@ -12,25 +12,31 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { UpdateProduct } from './schema';
 import { ICreateVarient, productSchema } from '../../create/schema';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useMemo } from 'react';
-import { setNameAttrs, setValue, setValues } from '@/lib/features/attrProduct/attrProductSlice';
+import {
+    setNameAttrs,
+    setValue,
+    setValues,
+} from '@/lib/features/attrProduct/attrProductSlice';
 import SelectBrand from '../../create/SelectBrand';
 import SelectCategory from '../../create/SelectCategory';
 import FormCreateAttrImage from '../../create/FormCreateAttrImage';
 import { BadgePlus } from 'lucide-react';
-import TableVarient from '../../create/TableVarient';
 import SelectImagesProduct from '../../create/SelectImagesProduct';
 import FormCreateAttr from '../../create/FormCreateAttr';
 import FormUpdateAttrImage from './FormUpdateAttrImage';
 import FormUpdateAttr from './FormUpdateAttr';
 import { setVariants } from '@/lib/features/variant/variantSlice';
-
-
+import { UpdateProduct, updateProductSchema } from './schema';
+import TableVarient from './TableVarient';
+import UpdateProductImages from './UpdateProductImages';
+import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { updateProduct } from '@/app/action';
+import { id } from 'date-fns/locale';
 
 interface IProps {
     brands: IBrand[];
@@ -44,43 +50,80 @@ export default function FormUpdateProduct({
     product,
     tags,
 }: IProps) {
+    const { attrProducts, varients, tags: productTags, images } = product;
 
-  const {attrProducts, varients} = product
+    const form = useForm<UpdateProduct>({
+        resolver: zodResolver(updateProductSchema),
+        defaultValues: {
+            name: product.name,
+            categoryName: product.categoryName,
+            tags: productTags,
+            brandId: product.brandId,
+            updateAttrProductDtos: attrProducts.map((attrProduct) => {
+                const { id, name, valueAttrs } = attrProduct;
+                const updateValueAttrDtos = valueAttrs.map((valueAttr) => ({
+                    id: valueAttr.id,
+                    value: valueAttr.value,
+                }));
+                return {
+                    id,
+                    name,
+                    updateValueAttrDtos,
+                };
+            }),
+            updateVarientDtos: varients.map((varient) => {
+                const { id, pieceAvail, price, discountPrice, valueAttrs } =
+                    varient;
+                const valueIds = valueAttrs.map((valueAttr) => valueAttr.id);
+                return {
+                    id,
+                    pieceAvail: pieceAvail.toString(),
+                    price: price.toString(),
+                    discountPrice: discountPrice?.toString(),
+                    valueIds,
+                };
+            }),
+        },
+    });
 
-    const form  = useForm<UpdateProduct>({
-      resolver: zodResolver(productSchema),
-      defaultValues: {
-        name: product.name,
-        brandId: product.brandId,
-        categoryName: product.categoryName,
-        tagNames: product.tags.map(tag=>(tag.name))
-      }
-    })
+    const updateAttrProductDtos = form.getValues('updateAttrProductDtos');
 
-    const dispatch = useDispatch()
-    const nameAttrs = useSelector((state: RootState)=>state.attrProduct.value.nameAttrs)
-
-    useEffect(()=>{ 
-      const nameAttrs = attrProducts.map(attrProduct=> attrProduct.name)
-      const values = attrProducts.map(attr => attr.valueAttrs.map(v => v.value));
-      dispatch(setNameAttrs(nameAttrs))
-      dispatch(setValues(values))
-    },[])
-    
-    
-    const {toast} = useToast()
+    const { toast } = useToast();
     const options = useMemo(
         () => tags.map((tag) => ({ value: tag.name, label: tag.name })),
         [tags],
     );
 
-    async function onSubmit (values: UpdateProduct){
+    const dispatch = useDispatch()
+
+    async function onSubmit(values: UpdateProduct) {
+       try {
+            dispatch(setSpinner(true))
+
+            console.log({id: product.id, values})
+
+            await updateProduct(product.id, values)
+
+            dispatch(setSpinner(false))
+            toast({
+                description: 'Update product successfully.',
+            });
+
+       } catch (error:any) {
+
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: error.message,
+            });
+            dispatch(setSpinner(false))
+        
+       }
     }
 
-
     return (
-        <div className=" w-[600px] sm:w-auto justify-evenly   flex ">
-            <div className="  md:w-[70%] mr-4 ">
+        <div className="   w-[600px] sm:w-auto justify-evenly   flex ">
+            <div className="   md:w-[70%]  mr-4 ">
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
@@ -133,8 +176,7 @@ export default function FormUpdateProduct({
                                         </FormControl>
                                         <SelectBrand
                                             brands={brands}
-                                            brandId={form.getValues('brandId')}
-                                            form={form}
+                                            field={field}
                                         />
                                         <FormMessage />
                                     </div>
@@ -161,10 +203,7 @@ export default function FormUpdateProduct({
                                         </FormControl>
                                         <SelectCategory
                                             categories={categories}
-                                            categoryName={form.getValues(
-                                                'categoryName',
-                                            )}
-                                            form={form}
+                                            field={field}
                                         />
                                         <FormMessage />
                                     </div>
@@ -174,7 +213,7 @@ export default function FormUpdateProduct({
 
                         <FormField
                             control={form.control}
-                            name="tagNames"
+                            name="tags"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                                     <FormLabel className=" font-normal pt-[20px] text-right">
@@ -190,17 +229,18 @@ export default function FormUpdateProduct({
                                                 className=" w-[70%] md:w-full basic-multi-select"
                                                 classNamePrefix="select"
                                                 placeholder="Select tags..."
-                                                value={options.filter(
-                                                    (option) =>
-                                                        field.value.includes(
-                                                            option.value,
-                                                        ),
+                                                value={field.value.map(
+                                                    (item) => ({
+                                                        label: item.name,
+                                                        value: item.name,
+                                                    }),
                                                 )}
                                                 onChange={(selected) =>
                                                     field.onChange(
                                                         selected.map(
-                                                            (item) =>
-                                                                item.value,
+                                                            (item) => ({
+                                                                name: item.value,
+                                                            }),
                                                         ),
                                                     )
                                                 }
@@ -212,28 +252,71 @@ export default function FormUpdateProduct({
                             )}
                         />
 
-                        <div className=" md:pt-4   mb-[16px] items-center w-full  inline-flex justify-between">
-                            <h6 className=" font-volkhov text-2xl sm:text-[30px] md:leading-[30px] lg:text-[36px] lg:leading-[36px] ">
-                                Attribute Product
-                            </h6>
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="updateAttrProductDtos"
+                            render={({ field }) => (
+                                <FormItem className="">
+                                    <FormLabel className=" font-normal pt-[20px] ">
+                                        <div className=" md:pt-4   mb-[16px] items-center w-full  inline-flex justify-between">
+                                            <h6 className=" font-volkhov text-2xl sm:text-[30px] md:leading-[30px] lg:text-[36px] lg:leading-[36px] ">
+                                                Attribute Product
+                                            </h6>
+                                        </div>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            {' '}
+                                            {updateAttrProductDtos.map(
+                                                (_, indexAttr) =>
+                                                    indexAttr === 0 ? (
+                                                        <FormUpdateAttrImage
+                                                            key={indexAttr}
+                                                            indexAttr={
+                                                                indexAttr
+                                                            }
+                                                            field={field}
+                                                            attrValues={
+                                                                attrProducts[
+                                                                    indexAttr
+                                                                ].valueAttrs
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <FormUpdateAttr
+                                                            key={indexAttr}
+                                                            indexAttr={
+                                                                indexAttr
+                                                            }
+                                                            field={field}
+                                                        />
+                                                    ),
+                                            )}
+                                        </div>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        ></FormField>
 
-                        {nameAttrs.map((_, indexAttr) =>
-                            indexAttr === 0 ? (
-                                <FormUpdateAttrImage
-                                    key={indexAttr}
-                                    indexAttr={indexAttr}
-                                    attrProduct={attrProducts[indexAttr]}
-                                />
-                            ) : (
-                                <FormUpdateAttr
-                                    key={indexAttr}
-                                    indexAttr={indexAttr}
-                                    attrProduct={attrProducts[indexAttr]}
-                                />
-                            ),
-                        )}
-
+                        <FormField
+                            control={form.control}
+                            name="updateVarientDtos"
+                            render={({ field }) => (
+                                <FormItem className="">
+                                    <FormLabel className=" font-normal pt-[20px] ">
+                                        <div className=" md:pt-4   mb-[16px] items-center w-full  inline-flex justify-between">
+                                            <h6 className=" font-volkhov text-2xl sm:text-[30px] md:leading-[30px] lg:text-[36px] lg:leading-[36px] ">
+                                                Variants
+                                            </h6>
+                                        </div>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <TableVarient field={field} updateAttrProductDtos={updateAttrProductDtos} />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        ></FormField>
 
                         <div className=" w-full flex justify-center">
                             <Button className={` px-6 py-4 `} type="submit">
@@ -243,7 +326,9 @@ export default function FormUpdateProduct({
                     </form>
                 </Form>
             </div>
-            {/* <SelectImagesProduct images={} setImages={[]} /> */}
+           
+
+           <UpdateProductImages images={images} />
         </div>
     );
 }

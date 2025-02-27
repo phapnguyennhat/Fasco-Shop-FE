@@ -2,28 +2,30 @@ import { Input } from '@/components/ui/input';
 import { setValue } from '@/lib/features/attrProduct/attrProductSlice';
 import { RootState } from '@/lib/store';
 import { ChangeEvent } from 'react';
+import { ControllerRenderProps } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { UpdateAttrProductDto } from './schema';
 
 interface IProps {
     indexAttr: number;
     indexValue: number;
-    attrValue: IValueAttr;
+    field: ControllerRenderProps<any, 'updateAttrProductDtos'>;
 }
 
 export default function FormUpdateValue({
-    attrValue,
     indexAttr,
     indexValue,
+    field,
 }: IProps) {
-    const dispatch = useDispatch();
-    const values = useSelector(
-        (state: RootState) => state.attrProduct.value.values,
-    );
-    const value = values[indexAttr][indexValue];
-
+    const updateAttrProductDto = field.value[indexAttr] as UpdateAttrProductDto;
+    
+    const value = updateAttrProductDto.updateValueAttrDtos[indexValue].value
 
     const onChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setValue({ indexAttr, indexValue, value: e.target.value }));
+        const newUpdateProductDtos =[... field.value] as UpdateAttrProductDto[]
+        newUpdateProductDtos[indexAttr].updateValueAttrDtos[indexValue].value = e.target.value
+        field.onChange(newUpdateProductDtos)
+        
     };
 
     return (

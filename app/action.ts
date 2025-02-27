@@ -12,6 +12,7 @@ import { UpdatePassword } from './(account)/user/password/schema';
 import { string } from 'zod';
 import { CreateProduct, ICreateProduct } from './(account)/user/product/create/schema';
 import { EStatusOrder } from './common/enum';
+import { UpdateProduct } from './(account)/user/product/edit/[id]/schema';
 
 export const submitEmail = async (formData: FormData) => {
     const email = formData.get('email');
@@ -433,6 +434,17 @@ export async function deleteProduct(id :string){
     revalidateTag('favoriteProducts')
 }
 
-export async function updateProduct(id: string){
-
+export async function updateProduct(id: string, updateProductDto: UpdateProduct){
+    const authCookie = await getAuthCookies()
+    await fetcher(`product/${id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            Cookie: authCookie,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateProductDto)
+    })
+    revalidateTag('products')
+    revalidateTag(`productDetail/${id}`)
 }
