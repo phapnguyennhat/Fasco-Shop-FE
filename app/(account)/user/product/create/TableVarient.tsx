@@ -32,10 +32,6 @@ export default function TableVarient() {
   const dispatch = useDispatch()
   const variants = useSelector((state: RootState)=>state.variant.value.variants)
 
-
-
-  
-  
     return (
         <div className=' md:pt-4'>
             <div className="   mb-[16px] items-center w-full  inline-flex justify-between">

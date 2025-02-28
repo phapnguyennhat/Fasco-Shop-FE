@@ -32,20 +32,27 @@ export default async function TableCartItem({searchParams}: IProps) {
   }
   
   return (
-    <section className=' mb-[20px]  md:mb-[26px]  lg:mb-[30px]   section-page_home' >
-      <Table className=" min-w-[530px]  md:min-w-[830px]" >
-      <TableHeader className= "    border-b-2 font-volkhov leading-[22px] md:text-lg  lg:text-[22px]" >
-        <TableRow className=" "  >
-          <TableHead className=" md:pb-[18px] lg:pb-[35px] w-[230px]  md:w-[400px] text-black">Product</TableHead>
-          <TableHead className="md:pb-[18px] lg:pb-[35px] text-black">Price</TableHead>
-          <TableHead className="md:pb-[18px] lg:pb-[35px] text-black" >Quantity</TableHead>
-          <TableHead className=" md:pb-[18px] lg:pb-[35px] w-[80px] text-black text-right" >Total</TableHead>
-        </TableRow>
-      </TableHeader>
-     <TableContent cartItems={cartItems} />
-     
-    </Table>
-    <TotalCart searchParams={searchParams } />
-    </section>
-  )
+      <section className=" mb-[20px]  md:mb-[26px]  lg:mb-[30px]   section-page_home">
+          <Table className=" min-w-[530px]  md:min-w-[830px]">
+              <TableHeader className="    border-b-2 font-volkhov leading-[22px] md:text-lg  lg:text-[22px]">
+                  <TableRow className=" ">
+                      <TableHead className=" md:pb-[18px] lg:pb-[35px] w-[230px]  md:w-[400px] text-black">
+                          Product
+                      </TableHead>
+                      <TableHead className="md:pb-[18px] lg:pb-[35px] text-black">
+                          Price
+                      </TableHead>
+                      <TableHead className="md:pb-[18px] lg:pb-[35px] text-black">
+                          Quantity
+                      </TableHead>
+                      <TableHead className=" md:pb-[18px] lg:pb-[35px] w-[80px] text-black text-right">
+                          Total
+                      </TableHead>
+                  </TableRow>
+              </TableHeader>
+              <TableContent cartItems={cartItems} />
+          </Table>
+          <TotalCart searchParams={searchParams} />
+      </section>
+  );
 }

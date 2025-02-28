@@ -3,25 +3,27 @@ import { UpdateAttrProductDto, UpdateVariantDto, varientSchema } from '../edit/[
 import { findValueNames } from '@/lib/utils';
 import { ControllerRenderProps } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useMemo } from 'react';
 
 import {z} from 'zod'
 interface IProps {
     indexVariant: number;
-    updateVariantDto: UpdateVariantDto;
-    updateAttrProductDtos: UpdateAttrProductDto[];
     field: ControllerRenderProps<any, 'updateVarientDtos'>;
+    valueAttrs: IValueAttr[]
 }
 export default function FormUpdateVariant({
     indexVariant,
-    updateVariantDto,
-    updateAttrProductDtos,
     field,
+    valueAttrs
 }: IProps) {
 
+  const updateVariantDto = field.value[indexVariant]
 
-
-    const { valueIds, pieceAvail, price, discountPrice } = updateVariantDto;
+    const { pieceAvail, price, discountPrice } = updateVariantDto;
+    const valueNames = useMemo(()=>{
+      const values = valueAttrs.map(item => item.value)
+      return values.join('-')
+    },[valueAttrs])
 
      const handleChangePrice = (e: ChangeEvent<HTMLInputElement>) => {
             const newUpdateVarientDtos = [... field.value ] as UpdateVariantDto[]
@@ -69,7 +71,7 @@ export default function FormUpdateVariant({
     return (
         <TableRow>
             <TableCell>
-                {findValueNames(valueIds, updateAttrProductDtos)}
+                {valueNames}
             </TableCell>
             <TableCell>
                 <Input onChange={handleChangePrice} name="price"  value={price} />

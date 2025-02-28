@@ -108,3 +108,14 @@ export function findValueNames(valueIds: string [], updateAttrProductDtos :Updat
   }).join('-')
 }
 
+export function  cartesian(arr: any) {
+ 
+  const res = arr.reduce(
+    (acc:any, group: any ) =>
+      acc.flatMap((item:any) => group.map((value:any) => [...item, value])),
+    [[]]
+  );
+  return res
+ 
+}
+

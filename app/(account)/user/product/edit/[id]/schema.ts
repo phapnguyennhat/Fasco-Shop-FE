@@ -26,7 +26,7 @@ export const varientSchema = z.object({
     pieceAvail: z.string().min(1),
     price: z.string().min(1),
     discountPrice: z.string().optional(),
-    valueIds: z.array(z.string().min(1)).nonempty({ message: 'Array must have at least one item' }),
+    // valueIds: z.array(z.string().min(1)).nonempty({ message: 'Array must have at least one item' }),
 })
 
 export const updateProductSchema = z.object({

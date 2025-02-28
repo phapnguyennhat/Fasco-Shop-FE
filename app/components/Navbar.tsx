@@ -7,6 +7,7 @@ import PageNav from './PageNav';
 import { FIVEMINUTES } from '../common/constant';
 import { getCart, getProfile } from '@/lib/api';
 import { ECollection } from '../common/enum';
+import { Suspense } from 'react';
 
 export default async function Navbar() {
     const [profile, cartItems] = await Promise.all([getProfile(), getCart()]);
@@ -58,7 +59,7 @@ export default async function Navbar() {
                         )}
                     </ul>
 
-                    <MenuSide profile={profile} cartItems={cartItems} />
+                  <Suspense>  <MenuSide profile={profile} cartItems={cartItems} /></Suspense>
                 </div>
             </nav>
         </>

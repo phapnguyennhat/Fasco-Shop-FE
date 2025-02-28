@@ -17,7 +17,7 @@ declare global{
     pieceAvail: number
     sold: number
     attrProducts: IAttrProduct[]
-    images: Image[]
+    images: ImageFile[]
     favoriteDetails: IFavoriteDetail[]
 
     varients: Varient[]

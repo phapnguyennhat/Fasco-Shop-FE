@@ -1,30 +1,35 @@
 import { Input } from '@/components/ui/input';
-import { setValue } from '@/lib/features/attrProduct/attrProductSlice';
 import { ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
-import { RootState } from '@/lib/store';
 import { ControllerRenderProps } from 'react-hook-form';
 import { UpdateAttrProductDto } from './schema';
+import { useToast } from '@/hooks/use-toast';
+import { useDispatch } from 'react-redux';
+import { UpdateValueImage } from './FormUpdateProduct';
 
 interface IProps {
     indexAttr: number;
     indexValue: number;
-    valueAttr: IValueAttr
     field: ControllerRenderProps<any, 'updateAttrProductDtos'>;
+    valueImage: UpdateValueImage
+    handleChangeValueImage: (index: number, file: Blob) => void
+
 }
 
 export default function FormUpdateValueImage({
     indexAttr,
     indexValue,
-    valueAttr,
-    field
+    field,
+    valueImage,
+    handleChangeValueImage
 }: IProps) {
 
     const updateAttrProductDto = field.value[indexAttr] as UpdateAttrProductDto;
     
     const value = updateAttrProductDto.updateValueAttrDtos[indexValue].value
 
+    const {toast} = useToast()
+    const dispatch = useDispatch()
     
 
 
@@ -35,10 +40,10 @@ export default function FormUpdateValueImage({
         
     };
 
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange =async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // upload image
+           handleChangeValueImage(indexValue, file)
         }
     };
 
@@ -46,13 +51,13 @@ export default function FormUpdateValueImage({
         <div className=" flex  gap-2 items-center">
             <Input
                 onChange={onChangeValue}
-                className="w-[50%] bg-white"
+                className="flex-1 bg-white"
                 placeholder="value"
                 value={value}
             />
 
             {/* Upload Image Input */}
-            <label className=" lg:w-[20%] inline-flex justify-center items-center  text-sm cursor-pointer font-medium">
+            <label className=" size-[60px] md:size-[80px] inline-flex justify-center items-center  text-sm cursor-pointer font-medium">
                 <input
                     hidden
                     type="file"
@@ -61,7 +66,7 @@ export default function FormUpdateValueImage({
                 />
 
                 <Image
-                    src={valueAttr?.image?.url}
+                    src={valueImage.url}
                     alt="image"
                     width={80}
                     height={80}

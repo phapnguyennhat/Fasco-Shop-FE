@@ -1,37 +1,31 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    newValue,
-    removeAttr,
-    setAttrName,
-} from '@/lib/features/attrProduct/attrProductSlice';
-import { RootState } from '@/lib/store';
-import { BadgePlus, X } from 'lucide-react';
-import { ChangeEvent, Dispatch, memo, SetStateAction, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { ChangeEvent,  memo } from 'react';
 import FormUpdateValueImage from './FormUpdateValueImage';
 import { UpdateAttrProductDto } from './schema';
 import { ControllerRenderProps } from 'react-hook-form';
+import { UpdateValueImage } from './FormUpdateProduct';
 
 interface IProps {
     indexAttr: number;
     field: ControllerRenderProps<any, 'updateAttrProductDtos'>;
-    attrValues  : IValueAttr[]
+    valueImages: UpdateValueImage[]
+    handleChangeValueImage: (index: number, file: Blob) => void
 }
 
-function FormUpdateAttrImage({ indexAttr, field, attrValues }: IProps) {
+function FormUpdateAttrImage({ indexAttr, field, valueImages, handleChangeValueImage }: IProps) {
     const updateAttrProductDto = field.value[indexAttr] as UpdateAttrProductDto;
     const { updateValueAttrDtos, name } = updateAttrProductDto;
 
     
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const newUpdateProductDtos =[... field.value]
-        newUpdateProductDtos[indexAttr].name = e.target.value
-        field.onChange(newUpdateProductDtos)
+        const newUpdateAttrProductDtos =[... field.value]
+        newUpdateAttrProductDtos[indexAttr].name = e.target.value
+        field.onChange(newUpdateAttrProductDtos)
         
     };
 
@@ -54,7 +48,9 @@ function FormUpdateAttrImage({ indexAttr, field, attrValues }: IProps) {
                             indexAttr={indexAttr}
                             indexValue={indexValue}
                             field={field}
-                            valueAttr={attrValues[indexValue]}
+                            valueImage={valueImages[indexValue]}
+                            handleChangeValueImage={handleChangeValueImage}
+                           
                            
                         />
                     ))}

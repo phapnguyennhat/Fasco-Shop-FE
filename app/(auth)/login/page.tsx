@@ -6,7 +6,7 @@ import LoginFacebook from './components/LoginFacebook';
 import { Minus } from 'lucide-react';
 import LoginForm from './components/login.form';
 
-export default async function Login() {
+export default  function Login() {
     return (
         <>
             <section className="   flex justify-center lg:grid lg:grid-cols-2  max-w-[1280px] mx-2 sm:mx-4 xl:mx-auto mb-[60px] md:mb-[100px]   lg:mb-[150px] ">

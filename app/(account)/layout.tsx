@@ -2,6 +2,7 @@ import Footer from '@/components/Footer';
 import Navbar from '../components/Navbar';
 import NavSide from './user/Components/NavSide';
 import { getProfile } from '@/lib/api';
+import { Suspense } from 'react';
 
 export default async  function AccountLayout({
     children,
@@ -11,7 +12,7 @@ export default async  function AccountLayout({
   const user = await getProfile()
     return (
         <>
-            <Navbar />
+           <Suspense fallback={<div>Loading</div>} > <Navbar /></Suspense>
             <section className=" flex max-w-[1200px] mx-auto pt-[80px] md:pt-[120px] lg:pt-[180px]">
                 <NavSide user={user} />
 

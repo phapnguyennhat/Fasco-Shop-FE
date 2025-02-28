@@ -13,6 +13,7 @@ import { string } from 'zod';
 import { CreateProduct, ICreateProduct } from './(account)/user/product/create/schema';
 import { EStatusOrder } from './common/enum';
 import { UpdateProduct } from './(account)/user/product/edit/[id]/schema';
+import { UpdateProductImage, UpdateValueImage } from './(account)/user/product/edit/[id]/FormUpdateProduct';
 
 export const submitEmail = async (formData: FormData) => {
     const email = formData.get('email');
@@ -447,4 +448,66 @@ export async function updateProduct(id: string, updateProductDto: UpdateProduct)
     })
     revalidateTag('products')
     revalidateTag(`productDetail/${id}`)
+}
+
+export async function updateProductImages(
+    productId: string,
+    valueImages: UpdateValueImage[],
+    productImages: UpdateProductImage[],
+) {
+
+    const formData = new FormData()
+    const valueIds: string[] = []
+    valueImages.forEach((valueImage) => {
+        if(!valueImage.file){
+            return;
+        }
+        else{
+            formData.append('valueImages', valueImage.file);
+            valueIds.push(valueImage.id)
+        }
+        
+    });
+    
+    const stringValueIds = valueIds.join(',')
+    const updateImageIds: string[] = []
+    const deleteImageIds: string[] = []
+    productImages.forEach((productImage) => {
+        if (!productImage.file) {
+            if (productImage.isDelete && productImage.id) {
+                deleteImageIds.push(productImage.id);
+            }
+        } else {
+            formData.append('productImages', productImage.file);
+            if (productImage.isDelete && productImage.id ) {
+                deleteImageIds.push(productImage.id);
+            } else if (!productImage.isDelete && productImage.id) {
+                updateImageIds.push(productImage.id);
+            }
+        }
+    });
+    const stringUpdateImageIds = updateImageIds.join(',')
+    const stringDeleteImageIds = deleteImageIds.join(',')
+
+    if (stringUpdateImageIds !== '') {
+        formData.append('stringUpdateImageIds', stringUpdateImageIds);
+    }
+    if (stringDeleteImageIds !== '') {
+        formData.append('stringDeleteImageIds', stringDeleteImageIds);
+    }
+    if (stringValueIds !== '') {
+        formData.append('stringValueIds', stringValueIds);
+    }
+
+    const authCookie = await getAuthCookies()
+
+    await fetcher(`product/${productId}/image`, {
+        method:'PUT',
+        headers: {
+            Cookie: authCookie
+        },
+        body: formData
+    })
+    revalidateTag('products')
+    revalidateTag(`productDetail/${productId}`)
 }

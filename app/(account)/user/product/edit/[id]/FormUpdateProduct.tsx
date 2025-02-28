@@ -12,31 +12,33 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { ICreateVarient, productSchema } from '../../create/schema';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
 import { useToast } from '@/hooks/use-toast';
-import { useEffect, useMemo } from 'react';
-import {
-    setNameAttrs,
-    setValue,
-    setValues,
-} from '@/lib/features/attrProduct/attrProductSlice';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import SelectBrand from '../../create/SelectBrand';
 import SelectCategory from '../../create/SelectCategory';
-import FormCreateAttrImage from '../../create/FormCreateAttrImage';
-import { BadgePlus } from 'lucide-react';
-import SelectImagesProduct from '../../create/SelectImagesProduct';
-import FormCreateAttr from '../../create/FormCreateAttr';
 import FormUpdateAttrImage from './FormUpdateAttrImage';
 import FormUpdateAttr from './FormUpdateAttr';
-import { setVariants } from '@/lib/features/variant/variantSlice';
 import { UpdateProduct, updateProductSchema } from './schema';
 import TableVarient from './TableVarient';
 import UpdateProductImages from './UpdateProductImages';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { updateProduct } from '@/app/action';
-import { id } from 'date-fns/locale';
+import { updateProduct, updateProductImages } from '@/app/action';
+import { cartesian } from '@/lib/utils';
+
+export interface UpdateValueImage {
+    id: string;
+    url: string;
+    file: Blob | null;
+}
+
+export interface UpdateProductImage {
+    id?: string;
+    url: string;
+    file: Blob | null;
+    isDelete: boolean
+}
 
 interface IProps {
     brands: IBrand[];
@@ -51,6 +53,16 @@ export default function FormUpdateProduct({
     tags,
 }: IProps) {
     const { attrProducts, varients, tags: productTags, images } = product;
+
+    const cartesianValues: IValueAttr[][] = useMemo(() => {
+        const values = attrProducts.map((item) =>
+            item.valueAttrs.map((updateValue) => ({
+                value: updateValue.value,
+                id: updateValue.id,
+            })),
+        );
+        return cartesian(values);
+    }, []);
 
     const form = useForm<UpdateProduct>({
         resolver: zodResolver(updateProductSchema),
@@ -71,20 +83,75 @@ export default function FormUpdateProduct({
                     updateValueAttrDtos,
                 };
             }),
-            updateVarientDtos: varients.map((varient) => {
-                const { id, pieceAvail, price, discountPrice, valueAttrs } =
-                    varient;
-                const valueIds = valueAttrs.map((valueAttr) => valueAttr.id);
+            updateVarientDtos: cartesianValues.map((item) => {
+                const foundVarient = varients.find((varient) =>
+                    item.every((value) =>
+                        varient.valueAttrs.some(
+                            (vAttr) => vAttr.id === value.id,
+                        ),
+                    ),
+                );
+
+                if (!foundVarient) {
+                    return;
+                }
+
                 return {
-                    id,
-                    pieceAvail: pieceAvail.toString(),
-                    price: price.toString(),
-                    discountPrice: discountPrice?.toString(),
-                    valueIds,
+                    id: foundVarient.id,
+                    pieceAvail: foundVarient.pieceAvail.toString(),
+                    price: foundVarient.price.toString(),
+                    discountPrice:
+                        foundVarient.discountPrice?.toString() || undefined,
                 };
             }),
         },
     });
+
+    const [valueImages, setValueImages] = useState<UpdateValueImage[]>(() => {
+        return attrProducts[0].valueAttrs.map((item) => ({
+            id: item.id,
+            url: item.image.url,
+            file: null,
+        }));
+    });
+
+    
+
+    const handleChangeValueImage = useCallback(
+        (index: number, file: Blob) => {
+            const newValueImages = [...valueImages];
+            const valueImage = newValueImages[index];
+            newValueImages[index] = {
+                ...valueImage,
+                file,
+                url: URL.createObjectURL(file),
+            };
+            setValueImages(newValueImages);
+        },
+        [valueImages],
+    );
+
+    const [productImages, setProductImages] = useState<UpdateProductImage[]>(
+        () => {
+            return images.map((image) => ({
+                id: image.id,
+                url: image.url,
+                file: null,
+                isDelete: false
+            }));
+        },
+    );
+
+    useEffect(() => {
+        setProductImages(
+            images.map((image) => ({
+                id: image.id,
+                url: image.url,
+                file: null,
+                isDelete: false,
+            })),
+        );
+    }, [images]);
 
     const updateAttrProductDtos = form.getValues('updateAttrProductDtos');
 
@@ -94,31 +161,38 @@ export default function FormUpdateProduct({
         [tags],
     );
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     async function onSubmit(values: UpdateProduct) {
-       try {
-            dispatch(setSpinner(true))
+        const showProductImages = productImages.filter(item =>! item.isDelete)
+        if(showProductImages.length>5){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: "Maxinum 5 images of product",
+            });
+            return 
+        }
+        try {
+            dispatch(setSpinner(true));
 
-            console.log({id: product.id, values})
+            await updateProduct(product.id, values);
+            if(valueImages.length !==0 || productImages.length !==0){
+                await updateProductImages(product.id, valueImages, productImages)
+            }
 
-            await updateProduct(product.id, values)
-
-            dispatch(setSpinner(false))
+            dispatch(setSpinner(false));
             toast({
                 description: 'Update product successfully.',
             });
-
-       } catch (error:any) {
-
+        } catch (error: any) {
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
                 description: error.message,
             });
-            dispatch(setSpinner(false))
-        
-       }
+            dispatch(setSpinner(false));
+        }
     }
 
     return (
@@ -276,10 +350,11 @@ export default function FormUpdateProduct({
                                                                 indexAttr
                                                             }
                                                             field={field}
-                                                            attrValues={
-                                                                attrProducts[
-                                                                    indexAttr
-                                                                ].valueAttrs
+                                                            valueImages={
+                                                                valueImages
+                                                            }
+                                                            handleChangeValueImage={
+                                                                handleChangeValueImage
                                                             }
                                                         />
                                                     ) : (
@@ -311,9 +386,13 @@ export default function FormUpdateProduct({
                                         </div>
                                     </FormLabel>
                                     <FormControl>
-                                        <TableVarient field={field} updateAttrProductDtos={updateAttrProductDtos} />
+                                        <TableVarient
+                                            field={field}
+                                            updateAttrProductDtos={
+                                                updateAttrProductDtos
+                                            }
+                                        />
                                     </FormControl>
-                                    <FormMessage/>
                                 </FormItem>
                             )}
                         ></FormField>
@@ -326,9 +405,11 @@ export default function FormUpdateProduct({
                     </form>
                 </Form>
             </div>
-           
 
-           <UpdateProductImages images={images} />
+            <UpdateProductImages
+                productImages={productImages}
+               setProductImages={setProductImages}
+            />
         </div>
     );
 }
