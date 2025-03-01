@@ -10,7 +10,7 @@ const privatePath = [
     '/user/profile',
     '/user/purchase',
 ];
-const authPath = ['/login', '/register'];
+const authPath = ['/login', '/register', '/forget'];
 const publicPath = ['/', '/product'];
 
 export async function middleware(request: NextRequest) {

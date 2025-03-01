@@ -1,7 +1,7 @@
 import {z} from 'zod'
 
 export const profileSchema = z.object({
-  name:z.string().min(3, 'Name must contain at least 3 characters').max(10),
+  name:z.string().min(3, 'Name must contain at least 3 characters').max(50),
   email: z.string().min(2, 'Email is Invalid').max(50).email({message: 'Email is invalid'}),
   phoneNumber: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Phone number is Invalid'),
   gender: z.string().min(1, 'Gender is required'),

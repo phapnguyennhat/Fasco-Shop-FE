@@ -4,7 +4,7 @@ import getAuthCookies from '@/lib/getAuthCookie';
 import { fetcher } from '@/lib/utils';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 import { CreateAddress } from './(root)/checkout/schema';
 import { UpdateProfile } from './(account)/user/profile/schema';
 import { File } from 'buffer';
@@ -14,6 +14,7 @@ import { CreateProduct, ICreateProduct } from './(account)/user/product/create/s
 import { EStatusOrder } from './common/enum';
 import { UpdateProduct } from './(account)/user/product/edit/[id]/schema';
 import { UpdateProductImage, UpdateValueImage } from './(account)/user/product/edit/[id]/FormUpdateProduct';
+import { CreateAccount } from './(auth)/register/register.form';
 
 export const submitEmail = async (formData: FormData) => {
     const email = formData.get('email');
@@ -40,7 +41,25 @@ export async function login(body: { account: string; password: string }) {
         path: '/',
         maxAge: token.refreshTokenCookie.accessTime,
     });
-    redirect('/');
+    redirect("/")
+}
+
+export async function register(values: CreateAccount){
+    const body = {
+        name: values.lastName +' '+ values.firstName,
+        username: values.username,
+        password: values.password,
+        email: values.email
+    }
+    await fetcher('auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body)
+    })
+
+    await login({account: values.username, password: values.password})
 }
 
 export async function googleLogin(credential: string) {
@@ -510,4 +529,68 @@ export async function updateProductImages(
     })
     revalidateTag('products')
     revalidateTag(`productDetail/${productId}`)
+}
+
+export async function sendCodeResetPassword(body: {email: string}){
+    await fetcher('auth/resetPassword/code', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+    const cookieStore = await cookies();
+    cookieStore.set('Email', body.email, {
+        httpOnly: true,
+        path: '/',
+        maxAge: 300,
+    });
+    redirect('/forget/code')
+}
+
+export async function confirmCode (email: string, code: string){
+    const {accessTime, token} =await  fetcher<Token>('auth/resetPassword/confirm', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, code})
+    })
+
+    const cookieStore = await cookies();
+    cookieStore.delete('Email')
+
+    cookieStore.set('ResetPassword', token, {
+        httpOnly: true,
+        path: '/',
+        maxAge: accessTime,
+    });
+
+    redirect('/forget/password')
+}
+
+export async function resetPassword (password: string){
+    const cookieStore = await cookies()
+    const resetPasswordCookie = cookieStore.get('ResetPassword')
+    if(!resetPasswordCookie){
+        throw new Error('have not token reset password')
+    }
+    const {name, value} = resetPasswordCookie
+
+    const cookie = `${name}=${value}`
+    
+    await fetcher('auth/resetPassword',{
+        method: 'POST',
+        headers: {
+            Cookie: cookie,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({password})
+    })
+
+    cookieStore.delete('ResetPassword')
+
+    // redirect('/login')
+    
+
 }

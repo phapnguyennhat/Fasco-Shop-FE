@@ -16,10 +16,13 @@ import {
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { login } from '@/app/action';
+import { useDispatch } from 'react-redux';
+import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
-    account: z.string().min(2).max(50),
-    password: z.string().min(2).max(50),
+    account: z.string().min(2, 'Email or Username is required').max(50),
+    password: z.string().min(2, 'Password is required').max(50),
 });
 
 export default function LoginForm() {
@@ -31,11 +34,26 @@ export default function LoginForm() {
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        login({account: values.account, password: values.password})
+ 
+
+    const dispatch = useDispatch()
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            dispatch(setSpinner(true));
+            await login({ account: values.account, password: values.password });
+            dispatch(setSpinner(false));
+
+        } catch (error: any) {
+           
+            if(error.message !=='NEXT_REDIRECT'){
+                form.setError('password', {message: error.message, type: 'value'})
+            }
+            dispatch(setSpinner(false));
+        }
     }
+
+    
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4  mb-[40px]">
@@ -50,9 +68,9 @@ export default function LoginForm() {
                                     placeholder="Email or Username"
                                     {...field}
                                 />
-                            </FormControl>
+                            </FormControl >
 
-                            <FormMessage />
+                            <FormMessage className=' px-4'  />
                         </FormItem>
                     )}
                 />
@@ -71,7 +89,7 @@ export default function LoginForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage />
+                            <FormMessage className=' px-4' />
                         </FormItem>
                     )}
                 />
@@ -88,7 +106,7 @@ export default function LoginForm() {
                     >
                         Register Now
                     </Link>
-                    <Link className=' font-bold hover:text-blue-300 transition-all duration-300 text-[#5B86E5] w-[80%] text-end' href={'/forgetPassword'}>Forget Password</Link>
+                    <Link className=' font-bold hover:text-blue-300 transition-all duration-300 text-[#5B86E5] w-[80%] text-end' href={'/forget'}>Forget Password</Link>
                 </div>
             </form>
         </Form>

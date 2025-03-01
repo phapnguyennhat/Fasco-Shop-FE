@@ -35,7 +35,7 @@ export default  function Login() {
                     </span>
 
                       <LoginForm/>
-                      <p className=' w-full text-end' >FASCO Terms & Codnitions</p>
+                      <p className=' w-full text-end' >FASCO Terms & Conditions</p>
                 </div>
             </section>
 

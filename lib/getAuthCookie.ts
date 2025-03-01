@@ -13,3 +13,4 @@ export default async function getAuthCookies() {
     throw new Error('UNAUTHORIZED')
   }
 }
+
