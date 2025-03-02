@@ -1,6 +1,12 @@
 import { getProfile } from "@/lib/api";
 import FormProfile from "./components/FormProfile";
 import SelectImage from "./components/SelectImage";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Profile',
+    description: 'Manage your profile',
+};
 
 export default async function Profile() {
   const user = await getProfile()

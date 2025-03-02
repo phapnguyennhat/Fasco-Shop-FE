@@ -5,6 +5,13 @@ import { Minus } from 'lucide-react';
 import FollowUs from '@/app/(root)/components/FollowUs';
 import Subscribe from '@/app/(root)/components/Subscribe';
 import RegisterForm from './register.form';
+import { Metadata } from 'next';
+
+
+export const metadata: Metadata = {
+    title: 'Sign up today! | greate product is waiting you ',
+    description: 'Sign up Fasco to explore many product',
+};
 
 export default function Register() {
     return (

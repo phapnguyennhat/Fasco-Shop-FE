@@ -7,9 +7,29 @@ import Subscribe from '../../components/Subscribe';
 import DealsOfMonth from '../../components/DealsOfMonth';
 import ImageProduct from './components/ImageProduct';
 import InfoProduct from './components/InfoProduct';
-import { Suspense } from 'react';
-import SkeletonProduct from './components/SkeletonProduct';
 import { getProductById, getProfile } from '@/lib/api';
+import { Metadata } from 'next';
+
+
+interface  IProps {
+    params: Promise<{nameId: string}>
+}
+export async function generateMetadata(
+   {params}: IProps
+)
+: Promise<Metadata>
+{
+    const { nameId } = await params;
+    const [_, id] = nameId.split('-i.');
+    const product = await getProductById(id, undefined)
+
+    return {
+        title: product.name,
+        description: `Order now only ${product.price}`
+        
+    }
+
+}
 
 export const experimental_ppr = true;
 

@@ -2,6 +2,12 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import PasswordForm from './Password.form';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'New Password',
+    description: 'Type your new password to reset',
+  };
 
 export default async function NewPasswordPage() {
     const cookieStore = await cookies();

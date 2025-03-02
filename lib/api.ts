@@ -119,7 +119,9 @@ export async function getAddress (){
 }
 
 export async function getProductById(id: string, userId?:string){
-    const product: Product = await fetcher<Product>(`product/${id}?userId=${userId}`,{
+    const query = userId? `product/${id}?userId=${userId}`: `product/${id}`
+    
+    const product: Product = await fetcher<Product>(query,{
         method: 'GET',
         next:{
             revalidate: FIVEMINUTES,

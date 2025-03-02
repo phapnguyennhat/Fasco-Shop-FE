@@ -3,8 +3,12 @@ import HeaderCategory from './HeaderCategory'
 import ListCategory, { SkeletonListCategory } from './ListCategory'
 import ListTag, { SkeletonListTag } from './ListTag';
 import ActionPage from './ActionPage';
+import { Metadata } from 'next';
 
-
+export const metadata: Metadata = {
+  title: 'Category & Tag',
+  description: 'All of categories and tags',
+};
 
 export const experimental_ppr = true;
 export default function CategoryPage() {

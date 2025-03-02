@@ -2,12 +2,17 @@ import Image from 'next/image';
 import { formatNumber } from '@/lib/utils';
 import StarRating from './StarRating';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 
 export default function ProductCard({ product }: { product: Product }) {
 
     
     return (
-        <div className="  p-[8px] md:p-[16px] lg:p-[25px] bg-white  shadow-md ">
+        <Link
+        href={`/product/${encodeURIComponent(product.name)}-i.${
+            product.id
+        }`}
+         className="  p-[8px] md:p-[16px] lg:p-[25px] bg-white  shadow-md ">
             <Image
                 src={product.images[0].url}
                 width={366}
@@ -42,7 +47,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <p className=' font-medium  md:text-lg lg:text-[24px]' >${product.discountPrice >0? product.discountPrice:   product.price}</p>
                 {product.pieceAvail<=10 && <p className=' text-[#FF4646] lg:text-[12px]' >Almost Sold out</p>}
             </div>
-        </div>
+        </Link>
     );
 }
 

@@ -2,7 +2,13 @@ import Image from "next/image"
 import Codeform from "./Code.form"
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+    title: 'Code Confirm',
+    description: 'Type code to confirm action reset',
+  };
 
 export default async function CodeResetPassword() {
     const cookieStore = await cookies();

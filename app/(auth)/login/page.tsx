@@ -5,6 +5,12 @@ import LoginGoogle from './components/LoginGoogle';
 import LoginFacebook from './components/LoginFacebook';
 import { Minus } from 'lucide-react';
 import LoginForm from './components/login.form';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Login now to start shopping!',
+    description: 'Login Fasco to explore many product',
+};
 
 export default  function Login() {
     return (

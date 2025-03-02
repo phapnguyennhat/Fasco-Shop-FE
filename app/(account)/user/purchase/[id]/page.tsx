@@ -1,16 +1,25 @@
-import { getOrderById } from '@/lib/api';
+import { getOrderById, getProfile } from '@/lib/api';
 import OrderItem from './OrderItem';
 import AddressOrder from './AddressOrder';
 import TotalOrder from './TotalOrder';
 import StatusOrder from './StatusOrder';
 
+export const metadata: Metadata = {
+    title: 'Order detail',
+    description: 'Manage your order detail',
+  };
+
 import Image from 'next/image';
+import { Metadata } from 'next';
 interface IProps {
     params: Promise<{ id: string }>;
 }
+
+
 export default async function OrderDetail({ params }: IProps) {
     const { id } = await params;
-    const order: IOrder = await getOrderById(id);
+
+    const [order, user]  = await Promise.all([getOrderById(id), getProfile()])
     const {address}= order
 
     return (
@@ -31,7 +40,7 @@ export default async function OrderDetail({ params }: IProps) {
                 </ul>
             )}
 
-            <AddressOrder address={address} order={order} />
+            <AddressOrder address={address} order={order} user={user} />
             <div className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1  lg:grid-cols-2">
                 <StatusOrder order={order} />
                 <TotalOrder totalOrder={order.totalOrder} />

@@ -1,6 +1,13 @@
 import { getAllBrand, getCategory, getProductDetailById, getTags } from "@/lib/api"
 import { SearchParams } from "@/lib/utils"
 import FormUpdateProduct from "./FormUpdateProduct";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+    title: 'Edit Product',
+    description: 'Update product',
+};
 
 interface IProps {
   params: Promise<{id: string}>

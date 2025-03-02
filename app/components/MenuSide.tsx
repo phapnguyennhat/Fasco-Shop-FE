@@ -14,11 +14,25 @@ import UserDropDown from './UserDropDown';
 import SearchNav from './SearchNav';
 import { ECollection, ERole } from '../common/enum';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 
 export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
     const pathName = usePathname()
     const searchParams = useSearchParams()
+
+    const dispatch = useDispatch()
+
+    const handleLogout = async () =>{
+        try {
+            dispatch(setSpinner(true))
+            await logout()
+            dispatch(setSpinner(false))
+        } catch (error) {
+            dispatch(setSpinner(false))
+        }
+    }
     
     useEffect(()=>{
         setIsOpen(false)
@@ -136,7 +150,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
 
                     <li className="size-[20px] hidden lg:block ">
                         <button
-                            onClick={logout}
+                            onClick={handleLogout}
                             type="submit"
                             className=" text-gray-600"
                         >

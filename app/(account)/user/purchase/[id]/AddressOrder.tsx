@@ -1,12 +1,13 @@
-import { EStatusOrder } from "@/app/common/enum";
+import { ERole, EStatusOrder } from "@/app/common/enum";
 import Link from "next/link"
 
 
 interface IProps {
     address :IAddress
     order: IOrder
+    user: User | undefined
 }
-export default function AddressOrder({address, order}: IProps) {
+export default function AddressOrder({address, order, user}: IProps) {
     const{commune, district, province} = address
     const {status, id} = order
   return (
@@ -21,7 +22,7 @@ export default function AddressOrder({address, order}: IProps) {
                   <div className=" border-l-2" />
                   <span className=" ">{address.phoneNumber}</span>
               </div>
-          { status===EStatusOrder.PENDING &&   <Link
+          { status===EStatusOrder.PENDING && user?.role=== ERole.USER &&  <Link
                     
                   className=" button-black"
                   href={`/user/purchase/${id}/address`}

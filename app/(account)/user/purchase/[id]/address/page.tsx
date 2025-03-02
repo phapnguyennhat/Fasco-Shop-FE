@@ -1,9 +1,14 @@
-import { getDistrictById, getOrderById, getProvinceById, getProvinces } from "@/lib/api";
+import { getDistrictById, getOrderById, getProfile, getProvinceById, getProvinces } from "@/lib/api";
 import { SearchParams } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import FormAddress from "../../../address/FormAddress";
-import { updateAddressOrder } from "@/app/action";
 import FormUpdateAddressOrder from "./FormUpdateAddressOrder";
+import { Metadata } from "next";
+import { ERole } from "@/app/common/enum";
+
+export const metadata: Metadata = {
+    title: "Order's Address",
+    description: "Update Order's Address",
+  };
 
 interface IProps {
   params: Promise<{id: string}>
@@ -16,13 +21,16 @@ export default async function AddressOrder({params, searchParams}: IProps) {
   const queryParams = await searchParams
   const provinceId = (queryParams['province'] as string)?.split('-i.')[1];
   const districtId = (queryParams['district'] as string)?.split('-i.')[1];
-  const [provinces, province, district] = await Promise.all([
+  const [provinces, province, district,order, user] = await Promise.all([
       getProvinces(),
       getProvinceById(provinceId),
       getDistrictById(provinceId, districtId),
+      getOrderById(id),getProfile()
   ]);
 
-  const order: IOrder = await getOrderById(id);
+  if(user?.role ===ERole.ADMIN){
+    redirect('/user/purchase')
+  }
   const {address}= order
 
   if (address && !queryParams['province']) {

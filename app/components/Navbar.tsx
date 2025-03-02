@@ -59,7 +59,10 @@ export default async function Navbar() {
                         )}
                     </ul>
 
-                  <Suspense>  <MenuSide profile={profile} cartItems={cartItems} /></Suspense>
+                    <Suspense>
+                        {' '}
+                        <MenuSide profile={profile} cartItems={cartItems} />
+                    </Suspense>
                 </div>
             </nav>
         </>

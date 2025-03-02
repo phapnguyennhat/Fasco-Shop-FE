@@ -4,6 +4,7 @@ import Image from 'next/image';
 import InputQuantity from './InputQuantity';
 import { deleteCartItem } from '@/app/action';
 import { getPriceVarient } from '@/lib/utils';
+import Link from 'next/link';
 
 
 interface IProps {
@@ -20,12 +21,17 @@ export default  function TableContent({cartItems}: IProps) {
             
         }
     }
+
     return (
         <TableBody>
             {cartItems.map((cartItem, index) => (
                 <TableRow className="  cartItem " key={index}>
                     <TableCell className=" gap-4 md:pt-[26px] md:pb-[28px] lg:pt-[35px] lg:pb-[44px] grid grid-cols-2">
-                        <div className=" relative size-auto md:size-[168px] ">
+                        <Link
+                       href={`/product/${encodeURIComponent(cartItem.varient.product.name)}-i.${
+                        cartItem.varient.product.id
+                    }`}
+                         className=" relative size-auto md:size-[168px] ">
                             <Image
                                 alt="image varient"
                                 width={168}
@@ -36,7 +42,7 @@ export default  function TableContent({cartItems}: IProps) {
                           { cartItem.varient.pieceAvail <=0 && <p className="absolute inset-0 flex items-center justify-center bg-black/50 text-white font-semibold">
                                 Sold out
                             </p>}
-                        </div>
+                        </Link>
                         <div className=" flex flex-col md:gap-y-[10px] lg:gap-y-[14px]">
                             <p className=" line-clamp-3 font-volkhov leading-[22px] md:text-[18px]   lg:text-[22px] text-black">
                                 {cartItem.varient.product.name}

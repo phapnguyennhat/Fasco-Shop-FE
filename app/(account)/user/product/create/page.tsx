@@ -4,7 +4,13 @@ import { getAllBrand, getCategory, getProfile, getTags } from '@/lib/api';
 import React from 'react'
 import FormCreateProduct from './FormCreateProduct';
 import TableVarient from './TableVarient';
+import { Metadata } from 'next';
 
+
+export const metadata: Metadata = {
+  title: 'Create Product',
+  description: 'Creat new Product',
+};
 export default async function CreateProduct() {
   const user: User|undefined  = await getProfile()
 

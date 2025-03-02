@@ -2,8 +2,13 @@ import { getAddress, getDistrictById, getProvinceById, getProvinces } from "@/li
 import { SearchParams } from "@/lib/utils"
 import { redirect } from "next/navigation"
 import FormAddress from "./FormAddress"
-import { createAddress } from "@/app/action"
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+  title: "User's Address",
+  description: 'Manage your address',
+};
 
 interface IProps {
   searchParams: Promise<SearchParams>
