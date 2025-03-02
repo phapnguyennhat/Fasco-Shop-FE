@@ -53,7 +53,7 @@ export function SkeletonArrivalProducts() {
     return (
         <ul className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5   mb-[20px] md:mb-[36px] lg:mb-[50px]">
             {Array.from({ length: 6 }).map((_, index) => (
-               <li className={`${index>3 && 'hidden md:block'}`} > <SkeletonProductCard  key={index} /></li>
+               <li key={index} className={`${index>3 && 'hidden md:block'}`} > <SkeletonProductCard  key={index} /></li>
             ))}
         </ul>
     );
