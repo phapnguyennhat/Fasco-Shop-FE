@@ -49,10 +49,10 @@ export default function ProductCard({product}: {product: Product}) {
 export function SkeletonCard() {
   return (
     <div className="flex flex-col space-y-3">
-      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+      <Skeleton className=" w-full h-[162px] md:h-[240px]  lg:h-[300px] rounded-xl" />
       <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-[80px]" />
       </div>
     </div>
   )

@@ -80,7 +80,7 @@ export default async function NewArrival({searchParams}: {searchParams: Promise<
                 </Link>
             </div>
 
-            {/* TODO: LIST CARD PRODUCT */}
+         
            
         </section>
     );

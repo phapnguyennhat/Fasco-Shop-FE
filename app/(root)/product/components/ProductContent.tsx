@@ -1,6 +1,6 @@
 import { QueryProduct } from '../page';
-import { createQueryString, fetcher, SearchParams } from '@/lib/utils';
-import ProductCard from './ProductCard';
+import { createQueryString, delay, fetcher, SearchParams } from '@/lib/utils';
+import ProductCard, { SkeletonCard } from './ProductCard';
 import FilterSide from './FilterSide';
 import { FIVEMINUTES } from '@/app/common/constant';
 import { getAllBrand, getBrands, getCategory, getProducts, getProfile, getTags } from '@/lib/api';
@@ -18,6 +18,7 @@ export default async function ProductContent({
 }) {
     const queryParams = await searchParams;
     const query = createQueryString(undefined, '', queryParams as any);
+
 
     const [productdata, brands, tags, categories, user] = await Promise.all([
         getProducts(query),
@@ -66,4 +67,15 @@ export default async function ProductContent({
             )}
         </div>
     );
+}
+
+
+export function SkeletonProductContent () {
+    return (
+        <ul className='mb-[40px]  w-full mt-[29px] gap-3 lg:gap-4 grid-cols-2  grid md:grid-cols-3 ' >
+            {Array.from({length: 12}).map((_,index)=>(
+                <SkeletonCard key={index}/>
+            ))}
+        </ul>
+    )
 }

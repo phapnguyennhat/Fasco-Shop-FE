@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import Navbar from "../components/Navbar";
-import Spinner from "../../components/Spinner";
 
 export default function RootLayout({
   children,

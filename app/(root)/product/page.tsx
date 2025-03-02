@@ -6,12 +6,14 @@ import Policy from '../components/Policy';
 import Subscribe from '../components/Subscribe';
 import Filter from './components/Filter';
 import HeaderProduct from './components/HeaderProduct';
-import ProductContent from './components/ProductContent';
+import ProductContent, { SkeletonProductContent } from './components/ProductContent';
 import ExtraNav from '../components/ExtraNav';
 import TriggerExtraNav from '../components/TriggerExtraNav';
 import { Suspense } from 'react';
-import { SkeletonCard } from './components/ProductCard';
-import PaginationList from '@/components/PaginationList';
+import { Metadata } from 'next';
+
+
+
 
 export type QueryProduct = {
     page?: number ;
@@ -24,6 +26,11 @@ export type QueryProduct = {
     minPrice?: number;
     maxPrice?: number;
     collection?: ECollection;
+};
+
+export const metadata: Metadata = {
+    title: 'Products',
+    description: 'Best online shopping deals for everyone',
 };
 
 export const experimental_ppr = true;
@@ -39,11 +46,10 @@ export default  function ProductPage({
             <HeaderProduct />
             <CloseExtraNav />
             <section className=" xl:max-w-[1280px] mx-3 md:mx-6 xl:mx-auto  flex  mb-[24px] md:mb-[30px] lg:mb-[18px] xl:mb-[33px] ">
-                <Suspense fallback={<div>loading ...</div>}>
+                {/* <Suspense fallback={<div>loading ...</div>}> */}
                     <Filter searchParams={searchParams} />
-                </Suspense>
-                <Suspense fallback={<div>loading product content</div>}>
-                   
+                {/* </Suspense> */}
+                <Suspense fallback={<SkeletonProductContent/>}>
                     <ProductContent searchParams={searchParams} />
                 </Suspense>
                 

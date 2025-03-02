@@ -33,8 +33,8 @@ export default  function Home({
             <BrandHome />
             <ExtraNav />
             <DealsOfMonth />
+            <NewArrival searchParams={searchParams} />
             <Suspense fallback={'loading'}>
-                <NewArrival searchParams={searchParams} />
                 <ArrivalProducts searchParams={searchParams} />
             </Suspense>
             <TriggerExtraNav />

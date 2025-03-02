@@ -11,6 +11,8 @@ import { Suspense } from 'react';
 import SkeletonProduct from './components/SkeletonProduct';
 import { getProductById, getProfile } from '@/lib/api';
 
+export const experimental_ppr = true;
+
 export default async function ProductDetail({
     params,
     searchParams,
