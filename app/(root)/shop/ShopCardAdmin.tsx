@@ -52,12 +52,11 @@ export default function ShopCardAdmin({ brand }: IProps) {
     return (
         <li className=" group  w-full   inline-flex flex-col items-center">
             <div className=" relative px-4 overflow-hidden  border w-full  mb-[8px] md:mb-[20px] sm:h-[160px] md:h-[120px] h-[100px]   flex justify-center items-center">
-                <img
+                <Image
                     src={brand.image.url}
                     alt={brand.name}
-                    // width={300}
-                    // height={300}
-                    loading='lazy'
+                    width={300}
+                    height={300}
                     className=" object-cover     h-auto "
                 />
                 <div className="absolute inset-0 flex items-center justify-center  ">

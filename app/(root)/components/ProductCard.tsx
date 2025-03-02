@@ -1,8 +1,11 @@
 import Image from 'next/image';
 import { formatNumber } from '@/lib/utils';
 import StarRating from './StarRating';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProductCard({ product }: { product: Product }) {
+
+    
     return (
         <div className="  p-[8px] md:p-[16px] lg:p-[25px] bg-white  shadow-md ">
             <Image
@@ -12,7 +15,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 alt={product.name}
                 className="h-auto w-auto rounded-[10px] mb-[12px]  "
             />
-            <div className=" flex justify-between items-center  mb-[1px] ">
+            <div className=" flex  justify-between items-center  mb-[1px] ">
                 <p className=" font-medium text-xs md:text-base lg:text-[20px] lg:leading-[20px] line-clamp-1 w-full md:max-w-[75%]  ">
                     {product.name}
                 </p>
@@ -39,6 +42,17 @@ export default function ProductCard({ product }: { product: Product }) {
                 <p className=' font-medium  md:text-lg lg:text-[24px]' >${product.discountPrice >0? product.discountPrice:   product.price}</p>
                 {product.pieceAvail<=10 && <p className=' text-[#FF4646] lg:text-[12px]' >Almost Sold out</p>}
             </div>
+        </div>
+    );
+}
+
+export function SkeletonProductCard ()  {
+    return (
+        <div className=" flex flex-col gap-y-2  p-[8px] md:p-[16px] lg:p-[25px] bg-white  ">
+            <Skeleton className=' w-full h-[177px] md:h-[212px]  lg:h-[366px]' ></Skeleton>
+            <Skeleton className='h-[20px]  w-full md:max-w-[75%]  ' />
+                
+            <Skeleton className='  mb-0 md:mb-[10px] lg:mb-[25px] w-[90%] h-[10px] sm:h-[12px] md:h-[18px]' />
         </div>
     );
 }

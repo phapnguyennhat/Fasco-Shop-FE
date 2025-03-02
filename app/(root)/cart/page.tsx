@@ -10,8 +10,8 @@ export default function CartPage({searchParams}: {searchParams: Promise<SearchPa
       <>
           {' '}
           <HeaderCart />
-          <TableCartItem searchParams={searchParams} />
+          <Suspense ><TableCartItem searchParams={searchParams} /></Suspense>
           <Subscribe />
-      </>
+      </> 
   );
 }

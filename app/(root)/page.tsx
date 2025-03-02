@@ -5,7 +5,7 @@ import DealsOfMonth from './components/DealsOfMonth';
 import ExtraNav from './components/ExtraNav';
 import NewArrival from './components/NewArrival';
 import TriggerExtraNav from './components/TriggerExtraNav';
-import ArrivalProducts from './components/ArrivalProducts';
+import ArrivalProducts, { SkeletonArrivalProducts } from './components/ArrivalProducts';
 import Advertisement from './components/Advertisement';
 import Policy from './components/Policy';
 import FollowUs from './components/FollowUs';
@@ -34,7 +34,7 @@ export default  function Home({
             <ExtraNav />
             <DealsOfMonth />
             <NewArrival searchParams={searchParams} />
-            <Suspense fallback={'loading'}>
+            <Suspense fallback={<SkeletonArrivalProducts/>}>
                 <ArrivalProducts searchParams={searchParams} />
             </Suspense>
             <TriggerExtraNav />

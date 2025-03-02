@@ -11,9 +11,7 @@ export default function Favorite({searchParams}: IProps) {
     return (
         <main className=' flex flex-col items-center     flex-1' >
             <NavFavorite searchParams = {searchParams} />
-
             <ProductContent searchParams={searchParams}/>
-            
         </main>
     );
 }
