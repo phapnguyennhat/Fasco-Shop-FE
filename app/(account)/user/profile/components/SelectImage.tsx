@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { File } from "buffer";
 import { updateAvatar } from "@/app/action";
 import { useToast } from "@/hooks/use-toast";
+import { isErrorResponse } from "@/lib/utils";
 
 interface IProps {
   user: User|undefined
@@ -34,17 +35,24 @@ export default function SelectImage({ user }: IProps) {
     }
     try {
       setLoading(true)
-      await updateAvatar(file)
-      toast({
-        description: "Update avatar successfully.",
-        
-      })
+      const response =  await updateAvatar(file)
+      if(isErrorResponse(response)){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: response.error.message,
+        })
+      }else{
+        toast({
+          description: "Update avatar successfully.",
+          
+        })
+      }
       setLoading(false)
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
-        description: error.message,
       })
       setLoading(false)
     }

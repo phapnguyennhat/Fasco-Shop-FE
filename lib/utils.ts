@@ -7,14 +7,29 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export async function fetcher<T>(input: string, init?: RequestInit) {
+
+  try{
     const response = await fetch(`${process.env.BACKEND_URL}/${input}`, init);
+    const json = await response.json()
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Something went wrong', {
-            cause: response.status,
-        });
+        return {
+          error: {
+            message: json.message || 'Something went wrong',
+            status: response.status
+          } as IError
+        }
     }
-    return response.json() as T;
+    return json as T;
+
+  }catch (error:any){
+     return {
+      error: {
+        message: error.message || 'Something went wrong',
+        status: 500
+      } as IError
+    }
+  }
+  
 }
 
 export const formatNumber = (num: number) => {
@@ -117,5 +132,13 @@ export function  cartesian(arr: any) {
   );
   return res
  
+}
+
+
+export function isErrorResponse(response: any): response is { error: IError } {
+  if(!response){
+    return false
+  }
+  return 'error' in response;
 }
 

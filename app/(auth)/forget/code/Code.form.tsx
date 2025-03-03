@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { confirmCode, sendCodeResetPassword } from '@/app/action';
+import { isErrorResponse } from '@/lib/utils';
 
 const formSchema = z.object({
     code: z.string().min(1, 'Code is required'),
@@ -37,43 +38,38 @@ export default function Codeform({ email }: IProps) {
     });
 
     const resendCode = async () => {
+        dispatch(setSpinner(true));
         try {
-            dispatch(setSpinner(true));
+            const response = await sendCodeResetPassword({ email });
 
-            await sendCodeResetPassword({ email });
-            dispatch(setSpinner(false));
-        } catch (error: any) {
-            if (error.message && error.message !== 'NEXT_REDIRECT')
+            if (isErrorResponse(response)) {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: error.message,
+                    description: response.error.message,
                 });
-            dispatch(setSpinner(false));
-        }
+            }
+        } catch (error: any) {}
+        dispatch(setSpinner(false));
     };
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        dispatch(setSpinner(true));
         try {
-            dispatch(setSpinner(true));
-            await confirmCode(email, values.code);
-            dispatch(setSpinner(false));
-
-            form.reset({
-                code: '',
-            });
-        } catch (error: any) {
-            if(error.message && error.message.includes('Code')){
-                form.setError('code', {message: error.message})
-            }
-            else if (error.message && error.message !== 'NEXT_REDIRECT')
-                toast({
-                    variant: 'destructive',
-                    title: 'Uh oh! Something went wrong.',
-                    description: error.message,
+            const response = await confirmCode(email, values.code);
+            if (isErrorResponse(response)) {
+                const error = response.error;
+                if (error.message && error.message.includes('Code')) {
+                    form.setError('code', { message: error.message });
+                }
+            } else {
+                form.reset({
+                    code: '',
                 });
-            dispatch(setSpinner(false));
-        }
+            }
+        } catch (error: any) {}
+
+        dispatch(setSpinner(false));
     }
 
     return (

@@ -5,6 +5,9 @@ import React, { useState } from 'react'
 import InputQuantity from './InputQuantity'
 import AddSuccessModal from './AddSuccessModal'
 import { useToast } from '@/hooks/use-toast'
+import { useDispatch } from 'react-redux'
+import { setSpinner } from '@/lib/features/spinner/spinnerSlice'
+import { isErrorResponse } from '@/lib/utils'
 
 interface IProps {
   varient:Varient
@@ -13,23 +16,26 @@ interface IProps {
 export default function FormAddCart({varient}: IProps) {
   const [openSuccess, setOpenSuccess] = useState(false);
   const { toast } = useToast();
+  const dispatch = useDispatch()
   
-  const handleAddCartItem  = async (formData: FormData)=>{
-    try {
+  const handleAddCartItem = async (formData: FormData) => {
+      dispatch(setSpinner(true));
+      const response = await addCart(formData);
+      dispatch(setSpinner(false));
 
-      await addCart(formData)
-      setOpenSuccess(true);
-      setTimeout(() => {
-          setOpenSuccess(false);
-      }, 3500);
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: error.message,
-    });
-    }
-  }
+      if (isErrorResponse(response)) {
+          toast({
+              variant: 'destructive',
+              title: 'Uh oh! Something went wrong.',
+              description: response.error.message,
+          });
+      } else {
+          setOpenSuccess(true);
+          setTimeout(() => {
+              setOpenSuccess(false);
+          }, 3500);
+      }
+  };
   
   return (
       <>

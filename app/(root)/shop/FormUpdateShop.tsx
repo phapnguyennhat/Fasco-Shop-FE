@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { updateShop } from '@/app/action';
+import { isErrorResponse } from '@/lib/utils';
 
 interface IProps {
     setOpenEdit: Dispatch<SetStateAction<boolean>>;
@@ -32,26 +33,26 @@ export default function FormUpdateShop({ brand, setOpenEdit }: IProps) {
             return;
         }
 
-        try {
+        
             setLoading(true);
             dispatch(setSpinner(true));
-            await updateShop(brand.id, name, image);
+            const response =await updateShop(brand.id, name, image);
 
-            toast({
-                description: 'Create Shop successfully.',
-            });
+            if(isErrorResponse(response)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+            }else{
+                toast({
+                    description: 'Create Shop successfully.',
+                });
+                setOpenEdit(false);
+            }
             setLoading(false);
             dispatch(setSpinner(false));
-            setOpenEdit(false);
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            setLoading(false);
-            dispatch(setSpinner(false));
-        }
+       
     };
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

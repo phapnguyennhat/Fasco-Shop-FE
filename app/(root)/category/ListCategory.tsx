@@ -1,32 +1,41 @@
+import { ERole } from '@/app/common/enum'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getCategory } from '@/lib/api'
+import { getCategory, getProfile } from '@/lib/api'
 import { delay } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
+import CategoryAdmin from './CategoryAdmin'
 
 export default async function ListCategory() {
-  const categories =  await getCategory()
-
+  const [user, categories] = await Promise.all([getProfile(), getCategory()])
 
   // await delay(5000)
   
-
   return (
       <section className=" section-page_home mb-[30px] ">
           <h3 className=" font-volkhov text-2xl text-center mb-[12px] ">
               Category
           </h3>
 
-          <ul className=" px-4 mx-auto gap-x-2 gap-y-1 max-w-[800px] grid grid-cols-2  sm:grid-cols-3 md:grid-cols-4">
-              
-              {categories.map((category) => (
-                  <li className=' inline-flex items-center' key={category.name}>
-                      <Link className='hover:underline' href={`product?categoryName=${category.name}`}>
-                          {category.name}
-                      </Link>
-                  </li>
-              ))}
+          <ul className=" px-4 mx-auto gap-x-2 gap-y-1 max-w-[1000px] grid grid-cols-2  sm:grid-cols-3 md:grid-cols-4">
+              {categories.map((category) =>
+                  user?.role === ERole.ADMIN ? (
+                      <CategoryAdmin key={category.name} category={category} />
+                  ) : (
+                      <li
+                          className=" inline-flex items-center"
+                          key={category.name}
+                      >
+                          <Link
+                              className="hover:underline"
+                              href={`product?categoryName=${category.name}`}
+                          >
+                              {category.name}
+                          </Link>
+                      </li>
+                  ),
+              )}
           </ul>
       </section>
   );

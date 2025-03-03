@@ -27,24 +27,14 @@ export default function DialogDeleteProduct({ productId }: IProps) {
     const [open, setOpen] = useState(false)
 
     const handleDelete = async () => {
-        try {
             dispatch(setSpinner(true));
-
             await deleteProduct(productId);
-
             dispatch(setSpinner(false));
             setOpen(false)
             toast({
                 description: ' Delete product successfully.',
             });
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            dispatch(setSpinner(false));
-        }
+        
     };
 
     return (
@@ -60,7 +50,7 @@ export default function DialogDeleteProduct({ productId }: IProps) {
         <DialogHeader>
           <DialogTitle>Delete Product</DialogTitle>
           <DialogDescription>
-            Confirm deletion of the product. Once deleted, it cannot be undo
+            Confirm deletion of the product. Once deleted, it cannot be undone
           </DialogDescription>
         </DialogHeader>
        

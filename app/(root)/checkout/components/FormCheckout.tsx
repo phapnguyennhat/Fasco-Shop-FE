@@ -19,9 +19,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import SelectDistrict from './SelectDistrict';
 import SelectCommune from './SelectCommune';
 import { Check } from 'lucide-react';
-import { createQueryString, SearchParams } from '@/lib/utils';
+import { createQueryString, isErrorResponse, SearchParams } from '@/lib/utils';
 import { addressSchema, CreateAddress } from '../schema';
 import { createAddress, createOrder } from '@/app/action';
+import { useToast } from '@/hooks/use-toast';
+import { useDispatch } from 'react-redux';
+import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 
 interface IProps {
     provinces: IProvince[];
@@ -81,14 +84,38 @@ export default function FormCheckout({
         form.setValue('communeId', communeId || '');
     }, [provinceId, districtId, communeId]);
 
+    const {toast} = useToast()
+
+    const dispatch = useDispatch()
+
     // 2. Define a submit handler.
-    function onSubmit(values: CreateAddress) {
+    async function onSubmit(values: CreateAddress) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        if (save) {
-            createAddress(values);
+        dispatch(setSpinner(true))
+        try {
+            if (save) {
+              const response = await  createAddress(values);
+              if (isErrorResponse(response)) {
+                  toast({
+                      variant: 'destructive',
+                      title: 'Uh oh! Something went wrong.',
+                      description: response.error.message,
+                  });
+              }
+            }
+            const response = await createOrder(values, isWrap);
+            if(isErrorResponse(response)){
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+            }
+        } catch (error) {
         }
-        createOrder(values, isWrap);
+        dispatch(setSpinner(false))
+
     }
     return (
         <div className=" order-2    md:order-1 flex justify-center md:justify-end md:mr-[18px] lg:mr-[33px] ">

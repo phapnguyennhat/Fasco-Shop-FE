@@ -19,6 +19,7 @@ import { login } from '@/app/action';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { useToast } from '@/hooks/use-toast';
+import { isErrorResponse } from '@/lib/utils';
 
 const formSchema = z.object({
     account: z.string().min(2, 'Email or Username is required').max(50),
@@ -39,18 +40,15 @@ export default function LoginForm() {
     const dispatch = useDispatch()
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        dispatch(setSpinner(true));
         try {
-            dispatch(setSpinner(true));
-            await login({ account: values.account, password: values.password });
-            dispatch(setSpinner(false));
-
-        } catch (error: any) {
-           
-            if(error.message !=='NEXT_REDIRECT'){
-                form.setError('password', {message: error.message, type: 'value'})
+            const response =await login({ account: values.account, password: values.password });
+            if(isErrorResponse(response)){
+                form.setError('password', {message: response.error.message, type: 'value'})
             }
-            dispatch(setSpinner(false));
+        } catch (error) {
         }
+        dispatch(setSpinner(false));
     }
 
     
@@ -101,12 +99,12 @@ export default function LoginForm() {
                         Sign In
                     </button>
                     <Link href={'/register'}
-                        className=" py-2   font-semibold  text-[#5B86E5] rounded-[8px] text-center hover:bg-blue-50 transition-all duration-300 border border-[#5B86E5] w-[80%] "
+                        className=" py-2 mb-2 md:mb-3    font-semibold  text-[#5B86E5] rounded-[8px] text-center hover:bg-blue-50 transition-all duration-300 border border-[#5B86E5] w-[80%] "
                         type="submit"
                     >
                         Register Now
                     </Link>
-                    <Link className=' font-bold hover:text-blue-300 transition-all duration-300 text-[#5B86E5] w-[80%] text-end' href={'/forget'}>Forget Password</Link>
+                    <Link className=' font-bold hover:text-blue-300 transition-all duration-300 text-[#5B86E5] w-[80%] text-center md:text-end' href={'/forget'}>Forget Password</Link>
                 </div>
             </form>
         </Form>

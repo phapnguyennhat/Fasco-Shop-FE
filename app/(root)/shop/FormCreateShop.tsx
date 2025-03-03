@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { isErrorResponse } from '@/lib/utils';
 import { CirclePlus } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
@@ -46,13 +47,23 @@ export default function FormCreateShop() {
       try {
           setLoading(true)
           dispatch(setSpinner(true))
-          await createShop(image, name);
+          const response =await createShop(image, name);
+
+          if(isErrorResponse(response)){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: response.error.message,
+            });
+          }else{
+              toast({
+                description: 'Create Shop successfully.',
+              });
+              setName('')
+              setImage(undefined)
+
+          }
          
-          toast({
-            description: 'Create Shop successfully.',
-          });
-          setName('')
-          setImage(undefined)
           setLoading(false);
           dispatch(setSpinner(false))
       } catch (error: any) {

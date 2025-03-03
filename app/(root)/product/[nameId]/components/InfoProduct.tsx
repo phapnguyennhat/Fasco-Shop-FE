@@ -89,7 +89,7 @@ export default async function InfoProduct({
                 <PieceAvail pieceAvail={varient.pieceAvail} />
                
 
-                <Suspense fallback={'Loading ...'}>
+                <Suspense >
                     {' '}
                     <AttrProduct
                         attrProducts={product.attrProducts}

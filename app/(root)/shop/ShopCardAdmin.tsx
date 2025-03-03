@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FormUpdateShop from './FormUpdateShop';
 import DialogDeleteShop from './DialogDeleteShop';
+import { isErrorResponse } from '@/lib/utils';
 
 interface IProps {
     brand: IBrand;
@@ -22,26 +23,25 @@ export default function ShopCardAdmin({ brand }: IProps) {
     const {toast} = useToast()
 
     const handleDelete = async ()=>{
-        try {
             dispatch(setSpinner(true))
 
-            await deleteShop(brand.id)
-
-            dispatch(setSpinner(false))
-            toast({
-                description: ' Delete shop successfully.',
-              });
-
-        } catch (error: any) {
-
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            dispatch(setSpinner(false))
+            const response =await deleteShop(brand.id)
             
-        }
+            if (isErrorResponse(response)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+            } else {
+                toast({
+                    description: ' Delete shop successfully.',
+                });
+            }
+
+            dispatch(setSpinner(false))
+
+        
     }
 
     if(openEdit){

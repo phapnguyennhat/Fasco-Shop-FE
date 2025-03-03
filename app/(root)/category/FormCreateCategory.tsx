@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { isErrorResponse } from '@/lib/utils';
 import { BadgePlus } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -38,12 +39,20 @@ export default function FormCreateCategory() {
         try {
             dispatch(setSpinner(true));
 
-            await createCategory(name)
+            const response = await createCategory(name)
+            if(isErrorResponse(response)){
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+            }else{
+                toast({
+                    description: 'Create Category successfully.',
+                });
+            }
 
             dispatch(setSpinner(false));
-            toast({
-                description: 'Create Category successfully.',
-            });
             setOpen(false)
         } catch (error: any) {
             toast({

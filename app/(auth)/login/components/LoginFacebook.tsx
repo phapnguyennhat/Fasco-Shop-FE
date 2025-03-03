@@ -6,6 +6,7 @@ import { loginFacebook } from '@/app/action';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { useToast } from '@/hooks/use-toast';
+import { isErrorResponse } from '@/lib/utils';
 
 export default function LoginFacebook() {
     const { login, status, isLoading, error } = useLogin();
@@ -14,25 +15,25 @@ export default function LoginFacebook() {
     const {toast} = useToast()
 
     async function handleLogin() {
+        dispatch(setSpinner(true))
+
         try {
-            dispatch(setSpinner(true))
             const response = await login({
                 scope: 'email',
             });
-
-            await loginFacebook(response.authResponse.accessToken);
-            dispatch(setSpinner(false))
-
-        } catch (error: any) {
-            if ( error.message && error.message !== 'NEXT_REDIRECT') {
+            const responseLogin = await loginFacebook(response.authResponse.accessToken);
+            if(isErrorResponse(responseLogin)){
                 toast({
                     variant: 'destructive',
-                    title: 'Xác thực bằng Google không thành công ',
-                    description: 'Vui lòng thử lại sau.',
+                    title: 'Authentication with Facebook failed',
+                    description: 'Try again later.',
                 });
             }
-            dispatch(setSpinner(false))
+            
+        } catch (error) {
         }
+        dispatch(setSpinner(false))
+
     }
 
     return (

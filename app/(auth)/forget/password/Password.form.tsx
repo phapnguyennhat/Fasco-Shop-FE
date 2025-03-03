@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { resetPassword } from '@/app/action';
-import { delay } from '@/lib/utils';
+import { delay, isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 
 const formSchema = z
@@ -44,37 +44,26 @@ export default function PasswordForm() {
     const router = useRouter()
 
      async function onSubmit(values: z.infer<typeof formSchema>) {
-            try {
-                dispatch(setSpinner(true));
-                await resetPassword(values.password)
-                dispatch(setSpinner(false));
-    
-                form.reset({
-                    password: '',
-                    confirmPassword: ''
-                });
-
-                toast({
-                    description: 'Reset  pasword successfully.',
-                });
-                await delay(1000)
-                router.replace('/login')
-                
-            } catch (error: any) {
-                console.log(error.message, 'message')
-                if(error.message && error.message.includes('Password')){
-                    form.setError('password', {message: error.message})
-                }
-                else if (error.message && error.message !== 'NEXT_REDIRECT')
-                    toast({
-                        variant: 'destructive',
-                        title: 'Uh oh! Something went wrong.',
-                        description: error.message,
-                    });
-                dispatch(setSpinner(false));
-                
-            }
-        }
+         dispatch(setSpinner(true));
+         const response = await resetPassword(values.password);
+         if (isErrorResponse(response)) {
+             const error = response.error;
+             if (error.message && error.message.includes('Password')) {
+                 form.setError('password', { message: error.message });
+             }
+         } else {
+             form.reset({
+                 password: '',
+                 confirmPassword: '',
+             });
+             toast({
+                 description: 'Reset  pasword successfully.',
+             });
+             await delay(1000);
+             router.replace('/login');
+         }
+         dispatch(setSpinner(false));
+     }
 
     return (
         <Form {...form}>

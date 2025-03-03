@@ -197,7 +197,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                         </ul>
                         {profile ? (
                             <button
-                                onClick={logout}
+                                onClick={handleLogout}
                                 className="  px-6 py-3 flex items-center w-full justify-between hover:bg-gray-100 transition-all duration-300 "
                                 type="button"
                             >

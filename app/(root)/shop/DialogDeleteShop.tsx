@@ -30,7 +30,7 @@ export default function DialogDeleteShop({handleDelete}:IProps) {
       <DialogHeader>
         <DialogTitle>Delete Shop</DialogTitle>
         <DialogDescription>
-          Confirm deletion of the shop. Once deleted, it cannot be undo
+          Confirm deletion of the shop. Once deleted, it cannot be undone
         </DialogDescription>
       </DialogHeader>
      

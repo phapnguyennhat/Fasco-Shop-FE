@@ -22,13 +22,11 @@ export async function generateMetadata(
     const { nameId } = await params;
     const [_, id] = nameId.split('-i.');
     const product = await getProductById(id, undefined)
-
     return {
         title: product.name,
         description: `Order now only ${product.price}`
         
     }
-
 }
 
 export const experimental_ppr = true;

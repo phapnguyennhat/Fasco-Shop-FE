@@ -1,7 +1,8 @@
 import { FIVEMINUTES } from '@/app/common/constant';
 import getAuthCookies from './getAuthCookie';
-import { fetcher } from './utils';
+import { fetcher, isErrorResponse } from './utils';
 import { number } from 'zod';
+import { count, error } from 'console';
 
 export async function getProfile() {
     try {
@@ -17,8 +18,11 @@ export async function getProfile() {
                 tags: [ 'profile']
             },
         });
+        if(isErrorResponse(profile)){
+            return undefined
+        }
         return profile;
-    } catch (error) {
+    } catch (error: any) {
         return undefined;
     }
 }
@@ -26,7 +30,7 @@ export async function getProfile() {
 export async function getCart() {
     try {
         const authCookie = await getAuthCookies();
-        const cartItems: ICartItem[] = await fetcher<ICartItem[]>('cart', {
+        const cartItems= await fetcher<ICartItem[]>('cart', {
             method: 'GET',
             headers: {
                 Cookie: authCookie,
@@ -37,6 +41,9 @@ export async function getCart() {
                 tags: ['cartItem']
             },
         });
+        if(isErrorResponse(cartItems)){
+            return []
+        }
         return cartItems
     } catch (error) {
       return []
@@ -45,15 +52,18 @@ export async function getCart() {
 
 export async function getProvinces (){
     try{
-        const provinces: IProvince[] = await fetcher<IProvince[]>('province', {
+        const provinces = await fetcher<IProvince[]>('province', {
             method: 'GET',
             next:{
                 revalidate: FIVEMINUTES
             }
         })
+        if(isErrorResponse(provinces)){
+            return []
+        }
         return provinces
     }catch(error) {
-        console.log('error')
+       
         return []
     }
 }
@@ -63,12 +73,15 @@ export async function getProvinceById(id: string|undefined){
         return undefined
     }
     try {
-        const province: IProvince = await fetcher<IProvince>(`province/${id}`,{
+        const province = await fetcher<IProvince>(`province/${id}`,{
             method:'GET',
             next: {
                 revalidate: FIVEMINUTES
             }
         })
+        if(isErrorResponse(province)){
+            return undefined
+        }
         return province
     } catch (error) {
         return undefined
@@ -84,12 +97,15 @@ export async function getDistrictById(provinceId: string| undefined,id: string |
     }
 
     try {
-        const province: IDistrict = await fetcher<IDistrict>(`province/${provinceId}/district/${id}`,{
+        const province = await fetcher<IDistrict>(`province/${provinceId}/district/${id}`,{
             method:'GET',
             next: {
                 revalidate: FIVEMINUTES
             }
         })
+        if(isErrorResponse(province)){
+            return undefined
+        }
         return province
     } catch (error) {
         return undefined
@@ -101,7 +117,7 @@ export async function getAddress (){
     try {
         const authCookie = await getAuthCookies();
 
-        const address: IAddress|undefined = await fetcher<IAddress|undefined>('user/address', {
+        const address = await fetcher<IAddress|undefined>('user/address', {
             method: 'GET',
             headers: {
                 Cookie: authCookie,
@@ -112,6 +128,9 @@ export async function getAddress (){
                 tags: ['address']
             },
         })
+        if(isErrorResponse(address)){
+            return undefined
+        }
         return address
     } catch (error) {
         return undefined
@@ -121,61 +140,79 @@ export async function getAddress (){
 export async function getProductById(id: string, userId?:string){
     const query = userId? `product/${id}?userId=${userId}`: `product/${id}`
     
-    const product: Product = await fetcher<Product>(query,{
+    const product = await fetcher<Product>(query,{
         method: 'GET',
         next:{
             revalidate: FIVEMINUTES,
             tags: [`productDetail/${id}`]
         }
     })
+    if(isErrorResponse(product)){
+       throw new Error()
+    }
     return product
 }
 
 export async function getCategory(){
-    const categories : ICategory[] = await fetcher<ICategory[]>('category', {
+    const categories  = await fetcher<ICategory[]>('category', {
         method: 'GET',
         next:{
             revalidate: FIVEMINUTES,
             tags: ['categories']
         }
     })
+    if(isErrorResponse(categories)){
+        throw new Error()
+    }
     return categories
 }
 
-export const getProducts = (query:string) =>{
+export const getProducts =async (query:string) =>{
     
-    return  fetcher<{products: Product[], count: number}>(`product?${query}`, {
+    const products = await  fetcher<{products: Product[], count: number}>(`product?${query}`, {
       method: 'GET',
       next: {
         revalidate: FIVEMINUTES,
         tags: ['products']
       }
     })
+    if(isErrorResponse(products)){
+        throw new Error()
+    }
+    return products
   }
 
- export const getBrands = () => {
-      return fetcher<{ name: string }[]>('brand?page=1&limit=6', {
+ export const getBrands = async () => {
+      const brands = await fetcher<{ name: string }[]>('brand?page=1&limit=6', {
           method: 'GET',
           next: {
               revalidate: FIVEMINUTES,
               tags: ['brands']
           },
       });
+      if(isErrorResponse(brands)){
+        return []
+      }
+      return brands
   };
 
- export const getTags = () => {
-      return fetcher<ITag[]>('tag', {
+ export const getTags = async () => {
+      const tags = await fetcher<ITag[]>('tag', {
           method: 'GET',
           next: {
               revalidate: FIVEMINUTES,
               tags: ['tags']
           },
       });
+      if(isErrorResponse(tags)){
+        return []
+      }
+      return tags
   };
 
 export async function getFavoriteProducts(query: string){
     const authCookie = await getAuthCookies()
-    return  fetcher<{favoriteDetails: IFavoriteDetail[], count: number}>(`user/favorite?${query}`, {
+    const products = await  fetcher<{favoriteDetails: IFavoriteDetail[], count: number}>(`user/favorite?${query}`, {
         method: 'GET',
         headers: {
             Cookie: authCookie
@@ -185,12 +222,16 @@ export async function getFavoriteProducts(query: string){
           tags: ['favoriteProducts']
         }
       })
+    if(isErrorResponse(products)){
+        return {favoriteDetails: [], count: 0}
+    }
+    return products
 }
 
 export async function getOrder (query: string){
     const authCookie = await getAuthCookies()
 
-    return fetcher<{orders: IOrder[], count: number}>(`user/order?${query}`, {
+    const orders = await fetcher<{orders: IOrder[], count: number}>(`user/order?${query}`, {
         method:'GET',
         headers: {
             Cookie: authCookie
@@ -200,12 +241,16 @@ export async function getOrder (query: string){
             tags: ['orders']
         }
     })
+    if(isErrorResponse(orders)){
+        return {orders: [], count: 0}
+    }
+    return orders
 
 }
 
 export async function getOrderById(id: string){
     const authCookie = await getAuthCookies()
-    return fetcher<IOrder>(`user/order/${id}`, {
+    const order = await fetcher<IOrder>(`user/order/${id}`, {
         method: 'GET',
         headers: {
             Cookie: authCookie
@@ -215,10 +260,14 @@ export async function getOrderById(id: string){
             tags: [`order-${id}`]
         }
     })
+    if(isErrorResponse(order)){
+        throw new Error()
+    }
+    return order
 }
 
 export async function getBrand(){
-    return fetcher<{groupedShop:Record<string, IBrand[] >, count:number}>('brand', {
+    const brands = await fetcher<{groupedShop:Record<string, IBrand[] >, count:number}>('brand', {
         method: 'GET',
       
         next: {
@@ -226,30 +275,42 @@ export async function getBrand(){
             tags: ['brands']
         }
     })
+    if(isErrorResponse(brands)){
+        throw new Error()
+    }
+    return brands
 }
 
 export async function getAllBrand(){
-    return fetcher<IBrand[]>('brand/all', {
+    const brands = await fetcher<IBrand[]>('brand/all', {
         method: 'GET',
         next: {
             revalidate: FIVEMINUTES,
             tags: ['brands']
         }
     })
+    if(isErrorResponse(brands)){
+        throw new Error()
+    }
+    return brands
 }
 
 export async function getVariant(productId: string, query: string){
-    return fetcher<Varient>(`product/${productId}/varient?${query}`,{
+    const variant = await fetcher<Varient>(`product/${productId}/varient?${query}`,{
         method: 'GET',
         next: {
             revalidate: 0
         }
     })
+    if(isErrorResponse(variant)){
+        throw new Error()
+    }
+    return variant
 }
 
 export async function getProductDetailById(id: string){
     const authCookie = await getAuthCookies()
-    return fetcher<Product>(`product/${id}/detail`, {
+    const product = await fetcher<Product>(`product/${id}/detail`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -260,6 +321,10 @@ export async function getProductDetailById(id: string){
             tags: [`productDetail/${id}`]
         }
     })
+    if(isErrorResponse(product)){
+        throw new Error()
+    }
+    return product
     
 }
 

@@ -17,6 +17,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { changePassword } from '@/app/action';
+import { isErrorResponse } from '@/lib/utils';
 
 interface IProps {
     user: User | undefined;
@@ -37,21 +38,26 @@ export default function FormChangePassword({ user }: IProps) {
     const { toast } = useToast();
 
     async function onSubmit(values: UpdatePassword) {
-        try {
             setLoading(true);
-           await changePassword(values)
+            const response = await changePassword(values)
+            if(isErrorResponse(response)){
+                const error = response.error
+                if(error.message.includes('Password')){
+                    form.setError('password', {message: error.message})
+                }else{
+                    toast({
+                        variant: 'destructive',
+                        title: 'Uh oh! Something went wrong.',
+                        description: response.error.message,
+                    });
+                }
+            }else{
+                toast({
+                    description: 'Update password successfully.',
+                });
+            }
             setLoading(false)
-            toast({
-                description: 'Update password successfully.',
-            });
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            setLoading(false);
-        }
+        
     }
 
     return (

@@ -20,6 +20,7 @@ import { EGender } from '@/app/common/enum';
 import { updateProfile } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
+import { isErrorResponse } from '@/lib/utils';
 
 interface IProps {
     user: User | undefined;
@@ -44,21 +45,26 @@ export default function FormProfile({ user }: IProps) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         try {
-            setLoading(true)
-           await  updateProfile(values)
-           setLoading(false)
-           toast({
-            description: "Update profile successfully.",
-            
-          })
+            setLoading(true);
+            const response =  await updateProfile(values);
+            if(isErrorResponse(response)){
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response. error.message,
+                });
+            }else{
+                toast({
+                    description: 'Update profile successfully.',
+                });
+            }
+            setLoading(false);
         } catch (error: any) {
-
             toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error.message,
-              })
-              setLoading(false)
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+            });
+            setLoading(false);
         }
     }
 

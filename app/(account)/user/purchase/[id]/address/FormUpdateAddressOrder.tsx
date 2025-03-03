@@ -12,11 +12,11 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import { SearchParams } from '@/lib/utils';
+import { isErrorResponse, SearchParams } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import { addressSchema, CreateAddress } from '@/app/(root)/checkout/schema';
 import { useEffect, useState } from 'react';
-import { createAddress, updateAddressOrder } from '@/app/action';
+import {  updateAddressOrder } from '@/app/action';
 import { Input } from '@/components/ui/input';
 import SelectProvince from '@/app/(root)/checkout/components/SelectProvince';
 import SelectCommune from '@/app/(root)/checkout/components/SelectCommune';
@@ -84,16 +84,24 @@ export default function FormUpdateAddressOrder({
     async function onSubmit(values: CreateAddress) {
         try {
             setLoading(true);
-            await updateAddressOrder(address.orderId, address.id, values);
+            const response = await updateAddressOrder(address.orderId, address.id, values);
+            if(isErrorResponse(response)){
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+            }else{
+                toast({
+                    description: 'Update Address successfully.',
+                });
+
+            }
             setLoading(false);
-            toast({
-                description: 'Update Address successfully.',
-            });
         } catch (error: any) {
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: error.message,
             });
             setLoading(false);
         }

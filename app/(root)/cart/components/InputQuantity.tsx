@@ -34,7 +34,7 @@ export default function InputQuantity({ cartItem}: IProps) {
           try {
             updateCartItem(id, newQuantity);
           } catch (error) {
-            console.error('Update failed', error);
+            
           }
         }, 1500),
         [] // Để trống dependencies để giữ nguyên hàm debounce

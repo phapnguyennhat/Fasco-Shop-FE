@@ -1,5 +1,5 @@
 'use client';
-import { createCategory, createTag } from '@/app/action';
+import {  createTag } from '@/app/action';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { isErrorResponse } from '@/lib/utils';
 import { BadgePlus } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -39,18 +40,27 @@ export default function FormCreateTag() {
       try {
           dispatch(setSpinner(true));
 
-          await createTag(name)
+          const response =await createTag(name)
+
+          if(isErrorResponse(response)){
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: response.error.message,
+            });
+          }else{
+              toast({
+                  description: 'Create Tag successfully.',
+              });
+              setOpen(false)
+
+          }
 
           dispatch(setSpinner(false));
-          toast({
-              description: 'Create Tag successfully.',
-          });
-          setOpen(false)
       } catch (error: any) {
           toast({
               variant: 'destructive',
               title: 'Uh oh! Something went wrong.',
-              description: error.message,
           });
           dispatch(setSpinner(false));
       }

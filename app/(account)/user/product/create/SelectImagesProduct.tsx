@@ -10,11 +10,11 @@ interface IProps {
 export default function SelectImagesProduct({ images, setImages }: IProps) {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
-        const newImages = files.map(
-            (file) => new Blob([file], { type: file.type }),
-        );
+        // const newImages = files.map(
+        //     (file) => new Blob([file], { type: file.type }),
+        // );
        
-        setImages((prevImages) => [...prevImages, ...newImages]);
+        setImages((prevImages) => [...prevImages, ...files]);
     };
 
     const removeImage = (indexToRemove: number) => {

@@ -30,6 +30,8 @@ import { newAttr, resetAttr } from '@/lib/features/attrProduct/attrProductSlice'
 import TableVarient from './TableVarient';
 import { resetVariant } from '@/lib/features/variant/variantSlice';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { delay, isErrorResponse } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
     brands: IBrand[];
@@ -47,8 +49,8 @@ export default function FormCreateProduct({
         defaultValues: {
             name: '',
             brandId: '',
-            categoryName: '',
-            tags: []
+            categoryId: '',
+            tagIds: []
         },
     });
 
@@ -69,9 +71,12 @@ export default function FormCreateProduct({
     const [loading, setLoading] = useState(false);
     
     const options = useMemo(
-        () => tags.map((tag) => ({ value: tag.name, label: tag.name })),
+        () => tags.map((tag) => ({ value: tag.id, label: tag.name })),
         [tags],
     );
+
+    const router = useRouter()
+
 
     async function onSubmit(values: CreateProduct) {
         // Do something with the form values.
@@ -133,18 +138,35 @@ export default function FormCreateProduct({
             }
         })
 
-        // const tags = values.tagNames.map(name=>({name}))
-
-    
-        try {
             setLoading(true);
             dispatch(setSpinner(true))
 
            const  createProductDto: ICreateProduct = {...values,attrProducts,createVarientDtos: variants }
 
            const newProduct = await createProduct(createProductDto)
+           if (isErrorResponse(newProduct)) {
+               setLoading(false);
+               dispatch(setSpinner(false));
+               toast({
+                   variant: 'destructive',
+                   title: 'Uh oh! Something went wrong.',
+                   description: newProduct.error.message
+               });
+               return
+           }
+           
            const stringValueNames = productValues[0].toString()
-           await uploadProductImages(newProduct.id, stringValueNames, images,valueImages)
+           const response = await uploadProductImages(newProduct.id, stringValueNames, images,valueImages)
+           if (isErrorResponse(response)) {
+               setLoading(false);
+               dispatch(setSpinner(false));
+               toast({
+                   variant: 'destructive',
+                   title: 'Uh oh! Something went wrong.',
+                   description: response.error.message,
+               });
+               return;
+           }
             dispatch(resetAttr())
             dispatch(resetVariant())
 
@@ -153,15 +175,10 @@ export default function FormCreateProduct({
             toast({
                 description: 'Create product successfully.',
             });
-        } catch (error: any) {
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            setLoading(false);
-            dispatch(setSpinner(false))
-        }
+            await delay(1000)
+            router.push(
+                `/product/${encodeURIComponent(newProduct.name)}-i.${newProduct.id}`,
+            );
     }
 
     const [images, setImages] = useState<Blob[]>([]);
@@ -227,7 +244,7 @@ export default function FormCreateProduct({
 
                         <FormField
                             control={formProduct.control}
-                            name="categoryName"
+                            name="categoryId"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                                     <FormLabel className=" font-normal pt-[20px] text-right">
@@ -248,7 +265,7 @@ export default function FormCreateProduct({
 
                         <FormField
                             control={formProduct.control}
-                            name="tags"
+                            name="tagIds"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                                     <FormLabel className=" font-normal pt-[20px] text-right">
@@ -256,7 +273,7 @@ export default function FormCreateProduct({
                                     </FormLabel>
                                     <div>
                                         <FormControl>
-                                            <Select
+                                        <Select
                                                 {...field}
                                                 isMulti
                                                 options={options}
@@ -264,13 +281,10 @@ export default function FormCreateProduct({
                                                 className=" w-[70%] md:w-full basic-multi-select"
                                                 classNamePrefix="select"
                                                 placeholder="Select tags..."
-                                                value={field.value.map(item => ({label: item.name, value: item.name}))}
+                                                value={options.filter(item => field.value.includes(item.value))}
                                                 onChange={(selected) =>
                                                     field.onChange(
-                                                        selected.map(
-                                                            (item) =>
-                                                                ({name: item.value}),
-                                                        ),
+                                                        selected.map(item =>item.value)
                                                     )
                                                 }
                                             />

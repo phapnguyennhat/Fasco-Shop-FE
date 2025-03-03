@@ -2,6 +2,7 @@
 import { googleLogin } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { isErrorResponse } from '@/lib/utils';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 
@@ -13,31 +14,27 @@ export default function LoginGoogle() {
 
     return (
         <GoogleLogin
-
             onSuccess={async (credentialResponse) => {
-                const credential = credentialResponse.credential;
-
                 try {
-                    dispatch(setSpinner(true))
-                   await googleLogin(credential as string);
-                    dispatch(setSpinner(false))
-
-                } catch (error:any) {
-                    if ( error.message && error.message !== 'NEXT_REDIRECT') {
+                    const credential = credentialResponse.credential;
+                    dispatch(setSpinner(true));
+                    const response = await googleLogin(credential as string);
+                    if (isErrorResponse(response)) {
                         toast({
                             variant: 'destructive',
-                            title: 'Xác thực bằng Google không thành công ',
-                            description: 'Vui lòng thử lại sau.',
+                            title: 'Authentication with Google failed',
+                            description: 'Try again later.',
                         });
                     }
-                    dispatch(setSpinner(false))
+                } catch (error) {
                 }
+                dispatch(setSpinner(false));
             }}
             onError={() => {
                 toast({
                     variant: 'destructive',
-                    title: 'Xác thực bằng Google không thành công ',
-                    description: 'Vui lòng thử lại sau .',
+                    title: 'Authentication with Google failed',
+                    description: 'Try again later.',
                 });
             }}
         />

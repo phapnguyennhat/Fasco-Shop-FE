@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { isErrorResponse } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -57,27 +58,23 @@ export default function RegisterForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             dispatch(setSpinner(true));
-            await register(values);
-            dispatch(setSpinner(false));
-            toast({
-                description: 'Create Account successfully.',
-            });
-            form.reset({
-                confirmPassword: '',
-                email: '',
-                firstName: '',
-                lastName: '',
-                password: '',
-                username: '',
-            });
-        } catch (error:  any) {
-            if ( error.message && error.message !== 'NEXT_REDIRECT') {
-                if(error.message.includes('Email')){
-                    form.setError('email', {message: error.message})
+            const response = await register(values);
+            if (isErrorResponse(response)) {
+                const error = response.error;
+                if (error.message.includes('Email')) {
+                    form.setError(
+                        'email',
+                        { message: error.message },
+                        { shouldFocus: true },
+                    );
                 }
 
-                if(error.message.includes('Username')){
-                    form.setError('username', {message: error.message})
+                if (error.message.includes('Username')) {
+                    form.setError(
+                        'username',
+                        { message: error.message },
+                        { shouldFocus: true },
+                    );
                 }
 
                 toast({
@@ -85,10 +82,26 @@ export default function RegisterForm() {
                     title: 'Uh oh! Something went wrong.',
                     description: error.message,
                 });
+            } else {
+                toast({
+                    description: 'Create Account successfully.',
+                });
+                form.reset({
+                    confirmPassword: '',
+                    email: '',
+                    firstName: '',
+                    lastName: '',
+                    password: '',
+                    username: '',
+                });
             }
-            
-            dispatch(setSpinner(false));
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+            });
         }
+        dispatch(setSpinner(false));
     }
 
     return (
@@ -111,7 +124,7 @@ export default function RegisterForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage className=" px-4" />
+                            {/* <FormMessage className=" px-4" /> */}
                         </FormItem>
                     )}
                 />
@@ -130,7 +143,7 @@ export default function RegisterForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage className=" px-4" />
+                            {/* <FormMessage className=" px-4" /> */}
                         </FormItem>
                     )}
                 />
@@ -149,7 +162,7 @@ export default function RegisterForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage className=" px-4" />
+                            {/* <FormMessage className=" px-4" /> */}
                         </FormItem>
                     )}
                 />
@@ -168,7 +181,7 @@ export default function RegisterForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage className=" px-4" />
+                            {/* <FormMessage className=" px-4" /> */}
                         </FormItem>
                     )}
                 />
@@ -187,7 +200,7 @@ export default function RegisterForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage className=" px-4" />
+                            {/* <FormMessage className=" px-4" /> */}
                         </FormItem>
                     )}
                 />
@@ -206,7 +219,7 @@ export default function RegisterForm() {
                                 />
                             </FormControl>
 
-                            <FormMessage className=" px-4" />
+                            {/* <FormMessage className=" px-4" /> */}
                         </FormItem>
                     )}
                 />

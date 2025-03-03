@@ -25,7 +25,7 @@ import TableVarient from './TableVarient';
 import UpdateProductImages from './UpdateProductImages';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { updateProduct, updateProductImages } from '@/app/action';
-import { cartesian } from '@/lib/utils';
+import { cartesian, isErrorResponse } from '@/lib/utils';
 
 export interface UpdateValueImage {
     id: string;
@@ -68,8 +68,8 @@ export default function FormUpdateProduct({
         resolver: zodResolver(updateProductSchema),
         defaultValues: {
             name: product.name,
-            categoryName: product.categoryName,
-            tags: productTags,
+            categoryId: product.category?.id ||'',
+            tagIds: productTags.map(tag=>tag.id),
             brandId: product.brandId,
             updateAttrProductDtos: attrProducts.map((attrProduct) => {
                 const { id, name, valueAttrs } = attrProduct;
@@ -157,7 +157,7 @@ export default function FormUpdateProduct({
 
     const { toast } = useToast();
     const options = useMemo(
-        () => tags.map((tag) => ({ value: tag.name, label: tag.name })),
+        () => tags.map((tag) => ({ value: tag.id, label: tag.name })),
         [tags],
     );
 
@@ -165,20 +165,39 @@ export default function FormUpdateProduct({
 
     async function onSubmit(values: UpdateProduct) {
         const showProductImages = productImages.filter(item =>! item.isDelete)
-        if(showProductImages.length>5){
+        if(showProductImages.length>10){
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: "Maxinum 5 images of product",
+                description: "Maxinum 10 images of product",
             });
             return 
         }
         try {
             dispatch(setSpinner(true));
 
-            await updateProduct(product.id, values);
+            const response =await updateProduct(product.id, values);
+            if(isErrorResponse(response)){
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+                dispatch(setSpinner(false));
+                return;
+            }
             if(valueImages.length !==0 || productImages.length !==0){
-                await updateProductImages(product.id, valueImages, productImages)
+                const response = await updateProductImages(product.id, valueImages, productImages)
+
+                if(isErrorResponse(response)){
+                    toast({
+                        variant: 'destructive',
+                        title: 'Uh oh! Something went wrong.',
+                        description: response.error.message,
+                    });
+                    dispatch(setSpinner(false))
+                    return
+                }
             }
 
             dispatch(setSpinner(false));
@@ -260,7 +279,7 @@ export default function FormUpdateProduct({
 
                         <FormField
                             control={form.control}
-                            name="categoryName"
+                            name="categoryId"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                                     <FormLabel className=" font-normal pt-[20px] text-right">
@@ -287,7 +306,7 @@ export default function FormUpdateProduct({
 
                         <FormField
                             control={form.control}
-                            name="tags"
+                            name="tagIds"
                             render={({ field }) => (
                                 <FormItem className="grid  grid-cols-[80px_auto] lg:grid-cols-[152px_auto] gap-x-[20px] ">
                                     <FormLabel className=" font-normal pt-[20px] text-right">
@@ -303,19 +322,10 @@ export default function FormUpdateProduct({
                                                 className=" w-[70%] md:w-full basic-multi-select"
                                                 classNamePrefix="select"
                                                 placeholder="Select tags..."
-                                                value={field.value.map(
-                                                    (item) => ({
-                                                        label: item.name,
-                                                        value: item.name,
-                                                    }),
-                                                )}
+                                                value={options.filter(item => field.value.includes(item.value))}
                                                 onChange={(selected) =>
                                                     field.onChange(
-                                                        selected.map(
-                                                            (item) => ({
-                                                                name: item.value,
-                                                            }),
-                                                        ),
+                                                        selected.map(item =>item.value)
                                                     )
                                                 }
                                             />

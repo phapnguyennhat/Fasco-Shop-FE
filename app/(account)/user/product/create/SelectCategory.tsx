@@ -20,7 +20,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 
 interface IProps {
     categories: ICategory[];
-    field: ControllerRenderProps<any, "categoryName">
+    field: ControllerRenderProps<any, "categoryId">
 }
 export default function SelectCategory({
     categories,
@@ -28,6 +28,9 @@ export default function SelectCategory({
 }: IProps) {
 
   const [open, setOpen] = useState(false);
+
+  const categoryIdSelected = field.value
+  const categorySelected = categories.find(item=>item.id ===categoryIdSelected)
   
 
   return (
@@ -40,12 +43,12 @@ export default function SelectCategory({
                 className={` w-auto ${
                     open && 'ring-1 ring-black'
                 }  hover:bg-white  ${
-                    field.value
+                    categorySelected
                         ? 'text-black hover:text-black'
                         : 'text-[#8A8A8A]  hover:text-[#8A8A8A]'
                 } justify-between   font-normal    `}
             >
-                { field.value || 'Category'}
+                { categorySelected?.name || 'Category'}
                 <ChevronsUpDown className="opacity-50" />
             </Button>
         </PopoverTrigger>
@@ -62,7 +65,7 @@ export default function SelectCategory({
                                 key={category.name}
                                 value={category.name}
                                 onSelect={(currentValue) => {
-                                    field.onChange(currentValue)
+                                    field.onChange(category.id)
                                     setOpen(false);
                                 }}
                             >

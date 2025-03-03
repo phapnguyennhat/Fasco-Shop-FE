@@ -1,5 +1,5 @@
 'use client';
-import { register, sendCodeResetPassword } from '@/app/action';
+import { sendCodeResetPassword } from '@/app/action';
 import {
     Form,
     FormControl,
@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { delay } from '@/lib/utils';
+import { delay, isErrorResponse } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -38,27 +38,23 @@ export default function ForgetForm() {
    });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        dispatch(setSpinner(true));
         try {
-            dispatch(setSpinner(true));
 
-            await sendCodeResetPassword(values)
-
-            dispatch(setSpinner(false));
-
-            form.reset({
-                email: '',
-            });
-            
-        } catch (error: any) {
-          if(error.message && error.message !=='NEXT_REDIRECT')
-            toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: error.message,
-            });
-            dispatch(setSpinner(false));
-
-        }
+            const response = await sendCodeResetPassword(values);
+            if (isErrorResponse(response)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message,
+                });
+            } else {
+                form.reset({
+                    email: '',
+                });
+            }
+        } catch (error: any) {}
+        dispatch(setSpinner(false));
     }
   
   return (

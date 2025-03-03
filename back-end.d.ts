@@ -3,13 +3,23 @@ export {};
 
 
 declare global{
+
+  interface IError {
+    message: string,
+    status: number
+  }
+
+  interface IResponse  {
+    message: string
+  }
+
+
   interface Product{
     id: string
     name: string
     starRating: number
     user: User
     brandId: string
-    categoryName: string
     reviewNumber: number;
     price: number;
     tags: ITag[]
@@ -19,8 +29,8 @@ declare global{
     attrProducts: IAttrProduct[]
     images: ImageFile[]
     favoriteDetails: IFavoriteDetail[]
-
     varients: Varient[]
+    category: ICategory
     
   }
 
@@ -132,6 +142,7 @@ declare global{
   }
 
   interface ICategory {
+    id: string
     name: string
   }
 
@@ -165,6 +176,7 @@ declare global{
   }
 
   interface ITag{
+    id: string
     name: string
   }
   

@@ -12,7 +12,7 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import { SearchParams } from '@/lib/utils';
+import { isErrorResponse, SearchParams } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import { addressSchema, CreateAddress } from '@/app/(root)/checkout/schema';
 import { useEffect, useState } from 'react';
@@ -84,16 +84,24 @@ export default function FormAddress({
     async function onSubmit(values: CreateAddress) {
         try {
             setLoading(true);
-            await createAddress(values);
+            const response = await createAddress(values);
+            if(isErrorResponse(response)){
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.error.message
+                });
+            }else{
+
+                toast({
+                    description: 'Update Address successfully.',
+                });
+            }
             setLoading(false);
-            toast({
-                description: 'Update Address successfully.',
-            });
         } catch (error: any) {
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: error.message,
             });
             setLoading(false);
         }

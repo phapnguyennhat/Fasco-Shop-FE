@@ -2,6 +2,7 @@ import { createQueryString, delay, fetcher } from '@/lib/utils';
 import ProductCard, { SkeletonProductCard } from './ProductCard';
 import Link from 'next/link';
 import { FIVEMINUTES } from '@/app/common/constant';
+import { getProducts } from '@/lib/api';
 
 export default async function ArrivalProducts({
     searchParams,
@@ -14,18 +15,9 @@ export default async function ArrivalProducts({
     const categoryName =
         queryParams.categoryName || (collection ? '' : "Men's Fashion");
     const query = collection
-        ? `product?collection=${collection}&page=1&limit=6`
-        : `product?categoryName=${categoryName}&page=1&limit=6`;
-    const productData = await fetcher<{ products: Product[]; count: number }>(
-        query,
-        {
-            method: 'GET',
-            next: {
-                revalidate: FIVEMINUTES,
-                tags: ['products'],
-            },
-        },
-    );
+        ? `collection=${collection}&page=1&limit=6`
+        : `categoryName=${categoryName}&page=1&limit=6`;
+    const productData = await getProducts(query)
     const { products } = productData;
     return (
         <section className=" section-page_home mb-[60px] sm:mb-[80px] md:mb-[100px] lg:mb-[150px]   ">

@@ -11,7 +11,7 @@ const attrSchema = z.object({
     updateValueAttrDtos: z
         .array(valueSchema)
         .nonempty({ message: 'Array must have at least one item' }) // Ít nhất 1 phần tử
-        .max(5, { message: 'Array must have at most 5 items' }) // Nhiều nhất 5 phần tử
+        .max(50, { message: 'Array must have at most 50 items' }) // Nhiều nhất 5 phần tử
         .refine(
             (arr) => new Set(arr.map((item) => item.value)).size === arr.length,
             {
@@ -31,27 +31,19 @@ export const varientSchema = z.object({
 
 export const updateProductSchema = z.object({
     name: z.string().min(1),
-    categoryName: z.string().min(1),
-    tags: z
-        .array(
-            z.object({
-                name: z.string().min(1),
-            }),
-        )
-        .nonempty({ message: 'Array must have at least one item' }) // Ít nhất 1 phần tử
-        .max(5, { message: 'Array must have at most 5 items' }) // Nhiều nhất 5 phần tử
-        .refine(
-            (arr) => new Set(arr.map((item) => item.name)).size === arr.length,
-            {
-                // Không trùng lặp
-                message: 'Array items must be unique',
-            },
-        ),
+    categoryId: z.string().min(1),
+    tagIds: z
+    .array(z.string()) // Mảng chứa các chuỗi
+    .nonempty({ message: 'Array must have at least one item' }) // Ít nhất 1 phần tử
+    .max(5, { message: 'Array must have at most 5 items' }) // Nhiều nhất 5 phần tử
+    .refine((arr) => new Set(arr).size === arr.length, {
+      message: 'Array items must be unique', // Không trùng lặp
+    }),
     brandId: z.string().min(1),
     updateAttrProductDtos: z
         .array(attrSchema)
         .nonempty({ message: 'Array must have at least one item' }) // Ít nhất 1 phần tử
-        .max(5, { message: 'Array must have at most 5 items' }) // Nhiều nhất 5 phần tử
+        .max(3, { message: 'Array must have at most 3 items' }) // Nhiều nhất 5 phần tử
         .refine(
             (arr) => new Set(arr.map((item) => item.name)).size === arr.length,
             {

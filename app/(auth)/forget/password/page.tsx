@@ -16,7 +16,6 @@ export default async function NewPasswordPage() {
     if(!resetPasswordCookie){
       redirect('/forget')
     }
-
     return (
       <>
                 <section className="   flex justify-center lg:grid lg:grid-cols-2  max-w-[1280px] mx-2 sm:mx-4 xl:mx-auto mb-[60px] md:mb-[100px]   lg:mb-[150px] ">
