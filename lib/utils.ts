@@ -22,6 +22,7 @@ export async function fetcher<T>(input: string, init?: RequestInit) {
     return json as T;
 
   }catch (error:any){
+    
      return {
       error: {
         message: error.message || 'Something went wrong',

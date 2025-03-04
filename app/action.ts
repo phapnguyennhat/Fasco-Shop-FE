@@ -45,7 +45,7 @@ export async function login(body: { account: string; password: string }) {
         path: '/',
         maxAge: token.refreshTokenCookie.accessTime,
     });
-    redirect("/")
+    // redirect("/")
 }
 
 export async function register(values: CreateAccount){

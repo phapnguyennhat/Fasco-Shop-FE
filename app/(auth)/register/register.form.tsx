@@ -19,18 +19,24 @@ import { useDispatch } from 'react-redux';
 import { z } from 'zod';
 
 const formSchema = z
-  .object({
-    firstName: z.string().min(2, 'First Name is required').max(50),
-    lastName: z.string().min(2, 'Last Name is required').max(50),
-    username: z.string().min(2, 'Username is required').max(50),
-    email: z.string().email(),
-    password: z.string().min(6, 'The password must be at least 6 characters long.').max(50),
-    confirmPassword: z.string().min(6,  'The password must be at least 6 characters long.').max(50),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Confirm password must match password",
-    path: ["confirmPassword"], // Chỉ định lỗi hiển thị cho trường confirmPassword
-  });
+    .object({
+        firstName: z.string().min(2, 'First Name is required').max(50),
+        lastName: z.string().min(2, 'Last Name is required').max(50),
+        username: z.string().min(2, 'Username is required').max(50),
+        email: z.string().email(),
+        password: z
+            .string()
+            .min(6, 'The password must be at least 6 characters long.')
+            .max(50),
+        confirmPassword: z
+            .string()
+            .min(6, 'The password must be at least 6 characters long.')
+            .max(50),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: 'Confirm password must match password',
+        path: ['confirmPassword'], // Chỉ định lỗi hiển thị cho trường confirmPassword
+    });
 
 export type CreateAccount = z.infer<typeof formSchema>;
 
@@ -44,13 +50,8 @@ export default function RegisterForm() {
             email: '',
             password: '',
             confirmPassword: '',
-
         },
     });
-
-    
-
-    
 
     const dispatch = useDispatch();
     const { toast } = useToast();
@@ -108,45 +109,47 @@ export default function RegisterForm() {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className=" grid  md:grid-cols-2 gap-x-4 gap-y-2   mb-[40px]"
+                className=" grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2   mb-[40px]"
             >
-                <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <input
-                                    type="text"
-                                    className=" px-4 outline-none  w-full border-b-2 py-2"
-                                    placeholder="First Name"
-                                    {...field}
-                                />
-                            </FormControl>
+                <div className=" md:col-span-2 grid grid-cols-2 gap-x-2 md:gap-x-4 gap-y-2 ">
+                    {' '}
+                    <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <input
+                                        type="text"
+                                        className=" px-4 outline-none  w-full border-b-2 py-2"
+                                        placeholder="First Name"
+                                        {...field}
+                                    />
+                                </FormControl>
 
-                            {/* <FormMessage className=" px-4" /> */}
-                        </FormItem>
-                    )}
-                />
+                                {/* <FormMessage className=" px-4" /> */}
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <input
+                                        type="text"
+                                        className=" px-4 outline-none  w-full border-b-2 py-2"
+                                        placeholder="Last Name"
+                                        {...field}
+                                    />
+                                </FormControl>
 
-                <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <input
-                                    type="text"
-                                    className=" px-4 outline-none  w-full border-b-2 py-2"
-                                    placeholder="Last Name"
-                                    {...field}
-                                />
-                            </FormControl>
-
-                            {/* <FormMessage className=" px-4" /> */}
-                        </FormItem>
-                    )}
-                />
+                                {/* <FormMessage className=" px-4" /> */}
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
                 <FormField
                     control={form.control}

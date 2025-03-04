@@ -4,6 +4,7 @@ import ListCategory, { SkeletonListCategory } from './ListCategory'
 import ListTag, { SkeletonListTag } from './ListTag';
 import ActionPage from './ActionPage';
 import { Metadata } from 'next';
+import { delay } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Category & Tag',
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export const experimental_ppr = true;
-export default function CategoryPage() {
+export default  function CategoryPage() {
   return (
       <>
           <HeaderCategory />

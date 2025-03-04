@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { useToast } from '@/hooks/use-toast';
 import { isErrorResponse } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
     account: z.string().min(2, 'Email or Username is required').max(50),
@@ -38,15 +39,22 @@ export default function LoginForm() {
  
 
     const dispatch = useDispatch()
+    const router = useRouter()
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         dispatch(setSpinner(true));
-        try {
-            const response =await login({ account: values.account, password: values.password });
-            if(isErrorResponse(response)){
-                form.setError('password', {message: response.error.message, type: 'value'})
-            }
-        } catch (error) {
+        const response = await login({
+            account: values.account,
+            password: values.password,
+        });
+        if (isErrorResponse(response)) {
+            const error = response.error
+            form.setError('password', {
+                message: error.message,
+                type: 'value',
+            });
+        }else{
+            router.replace('/')
         }
         dispatch(setSpinner(false));
     }

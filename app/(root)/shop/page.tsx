@@ -2,13 +2,14 @@ import { getBrand, getProfile } from "@/lib/api";
 import HeaderShop from "./HeaderShop";
 import ListShop from "./ListShop";
 import { Metadata } from "next";
+import { delay } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: 'Cooperative Shops  ',
   description: 'Best online shopping deals for everyone',
 };
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 export default async function ShopPage() {
   const {groupedShop,count} =  await getBrand()
@@ -17,7 +18,6 @@ export default async function ShopPage() {
   return (
     <>
       <HeaderShop/>
-      {/* <InitCharShop groupedShop={groupedShop} count={count} /> */}
       <ListShop role={user?.role} groupedShop={groupedShop} count={count}/>
     </>
   )

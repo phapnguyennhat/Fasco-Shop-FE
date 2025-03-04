@@ -3,6 +3,7 @@ import getAuthCookies from './getAuthCookie';
 import { fetcher, isErrorResponse } from './utils';
 import { number } from 'zod';
 import { count, error } from 'console';
+import { notFound } from 'next/navigation';
 
 export async function getProfile() {
     try {
@@ -148,7 +149,7 @@ export async function getProductById(id: string, userId?:string){
         }
     })
     if(isErrorResponse(product)){
-       throw new Error()
+       notFound()
     }
     return product
 }
@@ -162,7 +163,7 @@ export async function getCategory(){
         }
     })
     if(isErrorResponse(categories)){
-        throw new Error()
+        return []
     }
     return categories
 }
@@ -177,7 +178,7 @@ export const getProducts =async (query:string) =>{
       }
     })
     if(isErrorResponse(products)){
-        throw new Error()
+        return {products: [], count: 0}
     }
     return products
   }
@@ -261,7 +262,7 @@ export async function getOrderById(id: string){
         }
     })
     if(isErrorResponse(order)){
-        throw new Error()
+        notFound()
     }
     return order
 }
@@ -276,7 +277,7 @@ export async function getBrand(){
         }
     })
     if(isErrorResponse(brands)){
-        throw new Error()
+        return {groupedShop: {}, count: 0}
     }
     return brands
 }
@@ -290,7 +291,7 @@ export async function getAllBrand(){
         }
     })
     if(isErrorResponse(brands)){
-        throw new Error()
+        return []
     }
     return brands
 }
@@ -303,7 +304,7 @@ export async function getVariant(productId: string, query: string){
         }
     })
     if(isErrorResponse(variant)){
-        throw new Error()
+        notFound()
     }
     return variant
 }
@@ -322,7 +323,7 @@ export async function getProductDetailById(id: string){
         }
     })
     if(isErrorResponse(product)){
-        throw new Error()
+        notFound()
     }
     return product
     
