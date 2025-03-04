@@ -10,7 +10,7 @@ export default async function getAuthCookies() {
   if(Authentication?.value && Refresh?.value){
     return `${Authentication.name}=${Authentication.value}; ${Refresh.name}=${Refresh.value}`;
   }else{
-    throw new Error('UNAUTHORIZED')
+    return ''
   }
 }
 

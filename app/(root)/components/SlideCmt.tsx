@@ -54,7 +54,7 @@ export default function SlideCmt() {
                 ) )}
             </ul>
             <div className=" inline-flex gap-4 justify-center w-full ">
-                <button onClick={()=>setShowCmtId(leftId)} className=" hover:text-gray-400 transition-all duration-300 hover:scale-105  p-2 rounded-full  bg-white shadow-lg">
+                <button  onClick={()=>setShowCmtId(leftId)} className=" hover:text-gray-400 transition-all duration-300 hover:scale-105  p-2 rounded-full  bg-white shadow-lg">
                     <ChevronLeft />
                 </button>
                 <button onClick={()=>setShowCmtId(rightId)} className=" hover:text-gray-400 transition-all duration-300  hover:scale-105 p-2 rounded-full bg-white shadow-lg">

@@ -157,10 +157,10 @@ export async function addCart(formData: FormData) {
 
         body: JSON.stringify({ quantity, varientId }),
     });
-    if(isErrorResponse(response)){
-        return response
+    if(!isErrorResponse(response)){
+        revalidateTag('cartItem');
     }
-    revalidateTag('cartItem');
+    return response
 }
 
 export async function updateCartItem(id: string, quantity: number) {
