@@ -12,8 +12,7 @@ export default function AuthLayout({
 }>) {
     return (
         <>
-            <Suspense fallback={<div>Loading</div>}>
-                {' '}
+            <Suspense >
                 <Navbar />
             </Suspense>
             <div className=" pt-[90px] md:pt-[120px] lg:pt-[180px]">

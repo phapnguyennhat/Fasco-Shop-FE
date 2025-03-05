@@ -16,7 +16,7 @@ export default async function Navbar() {
         { name: 'Deals', href: '/product?collection=Deals' },
         {
             name: 'New Arrivals',
-            href: `/product?collection${ECollection.NEWARRIVAL}`,
+            href: `/product?collection=${ECollection.NEWARRIVAL}`,
         },
     ];
 
@@ -60,7 +60,6 @@ export default async function Navbar() {
                     </ul>
 
                     <Suspense>
-                        {' '}
                         <MenuSide profile={profile} cartItems={cartItems} />
                     </Suspense>
                 </div>
