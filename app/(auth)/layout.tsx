@@ -12,9 +12,7 @@ export default function AuthLayout({
 }>) {
     return (
         <>
-            <Suspense >
-                <Navbar />
-            </Suspense>
+            <Navbar />
             <div className=" pt-[90px] md:pt-[120px] lg:pt-[180px]">
                 {children}
             </div>
