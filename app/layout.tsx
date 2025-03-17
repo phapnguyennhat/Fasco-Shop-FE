@@ -53,10 +53,7 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    setInterval(async () => {
-        const data = await pingBE();
-        
-    }, 5*60*1000);
+   
     return (
         <html lang="en">
             <body
