@@ -329,3 +329,11 @@ export async function getProductDetailById(id: string){
     
 }
 
+export async function pingBE(){
+    const data = await fetcher('', {
+        method: 'GET',
+        cache: 'no-cache'
+    })
+    return data
+}
+

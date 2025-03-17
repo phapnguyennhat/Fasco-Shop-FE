@@ -7,9 +7,10 @@ import GoogleAuthProvider from '@/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import FacebookAuthProvider from '@/FacebookAuthProvider';
 import Spinner from '@/components/Spinner';
+import { pingBE } from '@/lib/api';
 
 const poppins = Poppins({
-    variable: '--font-poppins'  ,
+    variable: '--font-poppins',
     subsets: ['latin'],
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
     display: 'swap',
@@ -52,6 +53,10 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    setInterval(async () => {
+        const data = await pingBE();
+        
+    }, 5*60*1000);
     return (
         <html lang="en">
             <body
@@ -63,11 +68,10 @@ export default function RootLayout({
                         <FacebookAuthProvider>
                             {children}
                             <Toaster />
-                            <Spinner/>
+                            <Spinner />
                         </FacebookAuthProvider>
                     </GoogleAuthProvider>
                 </StoreProvider>
-
             </body>
         </html>
     );
