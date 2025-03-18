@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export default function CartPage({searchParams}: {searchParams: Promise<SearchParams>}) {
   return (
       <>
-          {' '}
+    
           <HeaderCart />
-          <Suspense ><TableCartItem searchParams={searchParams} /></Suspense>
+          <Suspense  ><TableCartItem searchParams={searchParams} /></Suspense>
           <Subscribe />
       </> 
   );

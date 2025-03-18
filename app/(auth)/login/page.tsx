@@ -45,8 +45,7 @@ export default  function Login() {
                 </div>
             </section>
 
-            <FollowUs />
-            <Subscribe />
+           
         </>
     );
 }

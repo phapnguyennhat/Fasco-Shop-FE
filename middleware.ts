@@ -9,6 +9,7 @@ const privatePath = [
     '/user/password',
     '/user/profile',
     '/user/purchase',
+    '/cart'
 ];
 const authPath = ['/login', '/register', '/forget'];
 const publicPath = ['/', '/product'];

@@ -45,8 +45,7 @@ export default function Register() {
                 </div>
             </section>
 
-            <FollowUs />
-            <Subscribe />
+            
         </>
     );
 }
