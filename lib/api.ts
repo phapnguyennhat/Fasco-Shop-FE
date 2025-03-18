@@ -8,6 +8,9 @@ import { notFound } from 'next/navigation';
 export async function getProfile() {
     try {
         const authCookie = await getAuthCookies();
+        if(!authCookie){
+            return undefined
+        }
         const profile = await fetcher<User>('user/profile', {
             method: 'GET',
             headers: {
