@@ -6,11 +6,9 @@ import { count, error } from 'console';
 import { notFound } from 'next/navigation';
 
 export async function getProfile() {
-    try {
+   
         const authCookie = await getAuthCookies();
-        if(!authCookie){
-            return undefined
-        }
+       
         const profile = await fetcher<User>('user/profile', {
             method: 'GET',
             headers: {
@@ -23,12 +21,10 @@ export async function getProfile() {
             },
         });
         if(isErrorResponse(profile)){
-            return undefined
+            
+          return undefined
         }
         return profile;
-    } catch (error: any) {
-        return undefined;
-    }
 }
 
 export async function getCart() {

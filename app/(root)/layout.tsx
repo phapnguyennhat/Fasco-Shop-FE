@@ -10,7 +10,7 @@ export default function RootLayout({
 
   return (
     <>
-      <Navbar/>
+      {/* <Navbar/> */}
       <div className=" pt-[80px] md:pt-[120px] lg:pt-[180px]">{children}</div>
       <Footer/>
 

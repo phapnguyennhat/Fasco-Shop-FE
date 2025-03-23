@@ -9,8 +9,12 @@ import { getCart, getProfile } from '@/lib/api';
 import { ECollection } from '../common/enum';
 import { Suspense } from 'react';
 
+
 export default async function Navbar() {
+    
     const [profile, cartItems] = await Promise.all([getProfile(), getCart()]);
+
+    
     const navItems = [
         { name: 'Home', href: '/' },
         { name: 'Deals', href: '/product?collection=Deals' },
