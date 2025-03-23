@@ -26,7 +26,7 @@ export default async function ProductContent({ searchParams }: IProps) {
                                     />
                 ) : 
             <>
-                {' '}
+               
                 <ul className=" mb-[40px] px-2 md:px-4 w-full mt-[29px] gap-3 lg:gap-4 grid-cols-2  grid md:grid-cols-3   ">
                     {favoriteDetails.map((favoriteDetail, index) => (
                         <ProductCard

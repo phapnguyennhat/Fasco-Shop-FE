@@ -9,9 +9,7 @@ export default function ProductCard({product}: {product: Product}) {
       <li className=" w-full  hover:scale-105 transition-all duration-300">
           <Link
               className=" "
-              href={`/product/${encodeURIComponent(product.name)}-i.${
-                  product.id
-              }`}
+              href={`/product/${product.id}`}
           >
               <div className="group relative">
                 

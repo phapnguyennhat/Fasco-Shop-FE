@@ -53,7 +53,7 @@ export default  function ProductPage({
                     <ProductContent searchParams={searchParams} />
                 </Suspense>
                 
-            </section>
+            </section>  
             <ExtraNav />
 
             <Advertisement />
