@@ -9,7 +9,9 @@ export default function ProductCard({ product }: { product: Product }) {
     
     return (
         <Link
-        href={`/product/${product.id}`}
+        href={`/product/${product.name.replaceAll(' ', '-')}-i.${
+            product.id
+        }`}
         
          className="  p-[8px] md:p-[16px] lg:p-[25px] bg-white  shadow-md ">
             <Image

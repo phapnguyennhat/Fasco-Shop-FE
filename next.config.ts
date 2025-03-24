@@ -12,9 +12,9 @@ const nextConfig: NextConfig = {
             },
         ],
     },
-    experimental: {
-        ppr: 'incremental',
-    },
+    // experimental: {
+    //     ppr: 'incremental',
+    // },
     rewrites: async () => {
         return [
             {

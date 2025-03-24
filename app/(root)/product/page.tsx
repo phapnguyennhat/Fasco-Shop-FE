@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description: 'Best online shopping deals for everyone',
 };
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 export default  function ProductPage({
     searchParams,

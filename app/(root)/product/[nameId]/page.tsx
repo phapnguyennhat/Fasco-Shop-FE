@@ -12,15 +12,15 @@ import { Metadata } from 'next';
 
 
 interface  IProps {
-    params: Promise<{id: string}>
+    params: Promise<{nameId: string}>
 }
 export async function generateMetadata(
    {params}: IProps
 )
 : Promise<Metadata>
 {
-    const { id } = await params;
-    
+    const { nameId } = await params;
+    const [_, id] = nameId.split('-i.');
     const product = await getProductById(id, undefined)
     return {
         title: product.name,
@@ -29,16 +29,17 @@ export async function generateMetadata(
     }
 }
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 export default async function ProductDetail({
     params,
     searchParams,
 }: {
-    params: Promise<{ id: string }>;
+    params: Promise<{ nameId: string }>;
     searchParams: Promise<SearchParams>;
 }) {
-    const { id } = await params;
+    const { nameId } = await params;
+    const [_, id] = nameId.split('-i.');
    
     const user: User |undefined = await getProfile()
     const product: Product = await getProductById(id, user?.id)

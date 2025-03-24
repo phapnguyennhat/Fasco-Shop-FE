@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: 'All of categories and tags',
 };
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 export default  function CategoryPage() {
   return (
       <>

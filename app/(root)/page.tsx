@@ -16,7 +16,7 @@ import { SkeletonCard } from './product/components/ProductCard';
 
 
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 export default  function Home({
     searchParams
