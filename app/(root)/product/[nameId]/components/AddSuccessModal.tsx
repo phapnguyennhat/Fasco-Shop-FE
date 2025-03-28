@@ -27,7 +27,7 @@ function ShowAddSuccess({ openSuccess, setOpenSuccess }: IProps) {
                     </div>
                 </div>
                 <p className=" text-white select-none text-center text-base">
-                    Sản Phẩm Đã Được Thêm Vào Giỏ Hàng
+                    Item has been added to your shopping cart
                 </p>
             </div>
             <div />

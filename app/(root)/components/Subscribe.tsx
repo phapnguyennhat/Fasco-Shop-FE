@@ -12,11 +12,10 @@ export default function Subscribe() {
                         Subscribe To Our Newsletter
                     </h2>
                     <p className="ml-5 md:mx-auto md:text-center max-w-[614px] text-[#8A8A8A] text-sm  md:text-base mb-[18px] lg:mb-[20px] xl:mb-[30px]">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
-                        reiciendis voluptates deserunt officiis delectus dignissimos
+                        We will sent notify to you when we release a new product.
                     </p>
                     <form className=" mx-4 flex flex-col items-center "  action={submitEmail}>
-                      <Input name="email" className=" mb-[18px] md:mb-[24px] lg:mb-[22px] xl:mb-[30px] max-w-[90%] py-2  " type="email" placeholder="michael@gmail.com" />
+                      <Input name="email" className=" mb-[18px] md:mb-[24px] lg:mb-[22px] xl:mb-[30px] max-w-[90%] py-2  " type="email" placeholder="Email" />
                       <button className=" mx-auto button-black  flex justify-center  items-center w-[140px] md:w-[180px] lg:w-[207px]  transition-all duration-300 lg:h-[44px] xl:h-[56px]   " type="submit" >Subcribe Now</button>
                     </form>
                </div>
