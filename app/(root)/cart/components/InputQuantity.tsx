@@ -36,7 +36,7 @@ export default function InputQuantity({ cartItem}: IProps) {
           } catch (error) {
             
           }
-        }, 1500),
+        }, 500),
         [] // Để trống dependencies để giữ nguyên hàm debounce
       );
 

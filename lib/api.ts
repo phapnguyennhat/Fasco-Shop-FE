@@ -7,7 +7,10 @@ import { notFound } from 'next/navigation';
 
 export async function getProfile() {
    
-        const authCookie = await getAuthCookies();
+    const authCookie = await getAuthCookies();
+    if (!authCookie) {
+        return undefined
+    }
        
         const profile = await fetcher<User>('user/profile', {
             method: 'GET',
@@ -30,6 +33,9 @@ export async function getProfile() {
 export async function getCart() {
     try {
         const authCookie = await getAuthCookies();
+        if (!authCookie) {
+            return []
+        }
         const cartItems= await fetcher<ICartItem[]>('cart', {
             method: 'GET',
             headers: {
