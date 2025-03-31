@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { addCart } from '@/APIService/cart/action';
+import { addCart } from '@/API/cart/action';
 
 interface IProps {
     varient: Varient;

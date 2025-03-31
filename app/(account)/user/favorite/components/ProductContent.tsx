@@ -1,4 +1,4 @@
-import { getFavoriteProducts } from '@/APIService/favorite/query';
+import { getFavoriteProducts } from '@/API/favorite/query';
 import ProductCard from '@/app/(root)/product/components/ProductCard';
 import PaginationList from '@/components/PaginationList';
 import { createQueryString, SearchParams } from '@/lib/utils';

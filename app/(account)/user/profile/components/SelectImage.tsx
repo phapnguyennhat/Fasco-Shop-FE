@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { File } from "buffer";
 import { useToast } from "@/hooks/use-toast";
 import { isErrorResponse } from "@/lib/utils";
-import { updateAvatar } from "@/APIService/user/action";
+import { updateAvatar } from "@/API/user/action";
 
 interface IProps {
   user: User|undefined

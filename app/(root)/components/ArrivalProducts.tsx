@@ -1,7 +1,7 @@
 import { createQueryString, delay, fetcher } from '@/lib/utils';
 import ProductCard, { SkeletonProductCard } from './ProductCard';
 import Link from 'next/link';
-import { getProducts } from '@/APIService/product/query';
+import { getProducts } from '@/API/product/query';
 
 export default async function ArrivalProducts({
     searchParams,

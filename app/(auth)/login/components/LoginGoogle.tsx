@@ -1,5 +1,5 @@
 'use client';
-import { googleLogin } from '@/APIService/auth/action';
+import { googleLogin } from '@/API/auth/action';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { isErrorResponse } from '@/lib/utils';

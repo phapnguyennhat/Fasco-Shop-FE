@@ -24,7 +24,7 @@ import TableVarient from './TableVarient';
 import UpdateProductImages from './UpdateProductImages';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { cartesian, isErrorResponse } from '@/lib/utils';
-import { updateProduct, updateProductImages } from '@/APIService/product/action';
+import { updateProduct, updateProductImages } from '@/API/product/action';
 import { UpdateProduct, updateProductSchema } from '@/schema/product';
 
 export interface UpdateValueImage {

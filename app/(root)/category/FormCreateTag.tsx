@@ -1,5 +1,5 @@
 'use client';
-import { createTag } from '@/APIService/tag/action';
+import { createTag } from '@/API/tag/action';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,

@@ -1,4 +1,4 @@
-import { getCategory } from '@/APIService/category/query';
+import { getCategory } from '@/API/category/query';
 import { createQueryString, SearchParams } from '@/lib/utils';
 import { Check, ChevronDown } from 'lucide-react';
 import Link from 'next/link';

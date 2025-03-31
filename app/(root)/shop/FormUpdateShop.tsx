@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { isErrorResponse } from '@/lib/utils';
-import { updateShop } from '@/APIService/shop/action';
+import { updateShop } from '@/API/shop/action';
 
 interface IProps {
     setOpenEdit: Dispatch<SetStateAction<boolean>>;

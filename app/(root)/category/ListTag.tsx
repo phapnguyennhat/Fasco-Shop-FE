@@ -6,8 +6,8 @@ import React from 'react';
 import FormUpdateTag from './FormUpdateTag';
 import CategoryAdmin from './CategoryAdmin';
 import TagAdmin from './TagAdmin';
-import { getProfile } from '@/APIService/user/query';
-import { getTags } from '@/APIService/tag/query';
+import { getProfile } from '@/API/user/query';
+import { getTags } from '@/API/tag/query';
 
 export default async function ListTag() {
     const [user, tags] = await Promise.all([getProfile(), getTags()]);

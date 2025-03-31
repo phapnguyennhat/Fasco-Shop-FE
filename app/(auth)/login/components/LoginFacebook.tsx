@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { useToast } from '@/hooks/use-toast';
 import { isErrorResponse } from '@/lib/utils';
-import { loginFacebook } from '@/APIService/auth/action';
+import { loginFacebook } from '@/API/auth/action';
 
 export default function LoginFacebook() {
     const { login, status, isLoading, error } = useLogin();

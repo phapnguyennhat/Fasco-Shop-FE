@@ -19,7 +19,7 @@ import {
 import { CircleHelp, Share2 } from 'lucide-react';
 import { FaStar } from 'react-icons/fa6';
 import FavoriteProduct from './FavoriteProduct';
-import { getVariant } from '@/APIService/product/query';
+import { getVariant } from '@/API/product/query';
 
 export default async function InfoProduct({
     searchParams,

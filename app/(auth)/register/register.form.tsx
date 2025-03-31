@@ -1,5 +1,5 @@
 'use client';
-import { register } from '@/APIService/auth/action';
+import { register } from '@/API/auth/action';
 import {
 	Form,
 	FormControl,

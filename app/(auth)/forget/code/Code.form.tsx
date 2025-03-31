@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isErrorResponse } from '@/lib/utils';
-import { confirmCode, sendCodeResetPassword } from '@/APIService/auth/action';
+import { confirmCode, sendCodeResetPassword } from '@/API/auth/action';
 
 const formSchema = z.object({
     code: z.string().min(1, 'Code is required'),

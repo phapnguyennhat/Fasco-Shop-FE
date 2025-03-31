@@ -1,5 +1,5 @@
 'use client';
-import { createCategory } from '@/APIService/category/action';
+import { createCategory } from '@/API/category/action';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,

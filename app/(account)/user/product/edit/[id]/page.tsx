@@ -1,9 +1,9 @@
 import FormUpdateProduct from "./FormUpdateProduct";
 import { Metadata } from "next";
-import { getCategory } from "@/APIService/category/query";
-import { getTags } from "@/APIService/tag/query";
-import { getAllBrand } from "@/APIService/shop/query";
-import { getProductDetailById } from "@/APIService/product/query";
+import { getCategory } from "@/API/category/query";
+import { getTags } from "@/API/tag/query";
+import { getAllBrand } from "@/API/shop/query";
+import { getProductDetailById } from "@/API/product/query";
 
 
 export const metadata: Metadata = {

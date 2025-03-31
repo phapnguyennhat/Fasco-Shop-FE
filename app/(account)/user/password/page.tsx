@@ -3,7 +3,7 @@ import React from 'react'
 import { redirect } from 'next/navigation'
 import FormChangePassword from './FormChangePassword';
 import { Metadata } from 'next';
-import { getProfile } from '@/APIService/user/query';
+import { getProfile } from '@/API/user/query';
 
 export const metadata: Metadata = {
   title: 'Change Password',

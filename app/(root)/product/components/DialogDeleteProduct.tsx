@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteProduct } from '@/APIService/product/action';
+import { deleteProduct } from '@/API/product/action';
 import {
     Dialog,
     DialogClose,

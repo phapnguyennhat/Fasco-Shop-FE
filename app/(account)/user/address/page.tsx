@@ -2,8 +2,8 @@ import { SearchParams } from "@/lib/utils"
 import { redirect } from "next/navigation"
 import FormAddress from "./FormAddress"
 import { Metadata } from "next";
-import { getProvinceById, getProvinces, getDistrictById } from "@/APIService/province/query";
-import { getAddress } from "@/APIService/address/query";
+import { getProvinceById, getProvinces, getDistrictById } from "@/API/province/query";
+import { getAddress } from "@/API/address/query";
 
 
 export const metadata: Metadata = {

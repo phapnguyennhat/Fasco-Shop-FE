@@ -2,8 +2,8 @@ import HeaderShop from "./HeaderShop";
 import ListShop from "./ListShop";
 import { Metadata } from "next";
 import { delay } from "@/lib/utils";
-import { getProfile } from "@/APIService/user/query";
-import { getBrand } from "@/APIService/shop/query";
+import { getProfile } from "@/API/user/query";
+import { getBrand } from "@/API/shop/query";
 
 export const metadata: Metadata = {
   title: 'Cooperative Shops  ',
