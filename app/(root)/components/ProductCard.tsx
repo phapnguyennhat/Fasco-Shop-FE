@@ -9,7 +9,7 @@ export default function ProductCard({ product }: { product: Product }) {
     
     return (
         <Link
-        href={`/product/${product.name.replaceAll(' ', '-')}-i.${
+        href={`/product/${product.name.replaceAll(' ', '-').replaceAll('/', '-')}-i.${
             product.id
         }`}
         
