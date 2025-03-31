@@ -7,8 +7,8 @@ import DealsOfMonth from '../../components/DealsOfMonth';
 import ImageProduct from './components/ImageProduct';
 import InfoProduct from './components/InfoProduct';
 import { Metadata } from 'next';
-import { getProfile } from '@/api/user/query';
-import { getProductById } from '@/api/product/query';
+import { getProfile } from '@/APIService/user/query';
+import { getProductById } from '@/APIService/product/query';
 
 
 interface  IProps {

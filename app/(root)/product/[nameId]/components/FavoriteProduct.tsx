@@ -1,5 +1,5 @@
 'use client'
-import { createFavorite, deleteFavoriteAbulk } from "@/api/favorite/action"
+import { createFavorite, deleteFavoriteAbulk } from "@/APIService/favorite/action"
 import debounce from "lodash.debounce"
 import Image from "next/image"
 import { memo, useCallback, useEffect, useState } from "react"

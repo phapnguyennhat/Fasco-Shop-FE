@@ -1,4 +1,4 @@
-import { getProfile } from '@/api/user/query';
+import { getProfile } from '@/APIService/user/query';
 import FormCreateCategory from './FormCreateCategory';
 import FormCreateTag from './FormCreateTag';
 import { ERole } from '@/app/common/enum';

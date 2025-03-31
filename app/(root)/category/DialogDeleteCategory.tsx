@@ -17,7 +17,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Trash2 } from 'lucide-react';
 import { FaDeleteLeft } from 'react-icons/fa6';
-import { deleteCategory } from '@/api/category/action';
+import { deleteCategory } from '@/APIService/category/action';
 
 interface IProps {
   categoryId: string

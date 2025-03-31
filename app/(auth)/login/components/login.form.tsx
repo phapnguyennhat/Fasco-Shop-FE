@@ -15,7 +15,7 @@ import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { LoginData, loginSchema } from '@/schema/auth';
-import { login } from '@/api/auth/action';
+import { login } from '@/APIService/auth/action';
 
 
 

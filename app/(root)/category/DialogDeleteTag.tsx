@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteTag } from '@/api/tag/action';
+import { deleteTag } from '@/APIService/tag/action';
 import {
   Dialog,
   DialogClose,

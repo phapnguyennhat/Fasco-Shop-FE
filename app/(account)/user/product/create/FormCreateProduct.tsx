@@ -31,7 +31,7 @@ import { resetVariant } from '@/lib/features/variant/variantSlice';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { delay, isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { createProduct, uploadProductImages } from '@/api/product/action';
+import { createProduct, uploadProductImages } from '@/APIService/product/action';
 import { CreateProduct, ICreateAttrProduct, ICreateProduct, ICreateValueAttr, productSchema } from '@/schema/product';
 
 interface IProps {

@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { getProfile } from '@/api/user/query';
-import { getOrderById } from '@/api/order/query';
+import { getProfile } from '@/APIService/user/query';
+import { getOrderById } from '@/APIService/order/query';
 interface IProps {
     params: Promise<{ id: string }>;
 }

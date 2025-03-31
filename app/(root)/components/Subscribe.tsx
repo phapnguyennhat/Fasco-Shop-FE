@@ -1,4 +1,4 @@
-import { submitEmail } from "@/api/subscribe/action";
+import { submitEmail } from "@/APIService/subscribe/action";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 

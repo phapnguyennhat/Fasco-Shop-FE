@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import FormUpdateAddressOrder from "./FormUpdateAddressOrder";
 import { Metadata } from "next";
 import { ERole } from "@/app/common/enum";
-import { getProfile } from "@/api/user/query";
-import { getDistrictById, getProvinceById, getProvinces } from "@/api/province/query";
-import { getOrderById } from "@/api/order/query";
+import { getProfile } from "@/APIService/user/query";
+import { getDistrictById, getProvinceById, getProvinces } from "@/APIService/province/query";
+import { getOrderById } from "@/APIService/order/query";
 
 
 export const metadata: Metadata = {

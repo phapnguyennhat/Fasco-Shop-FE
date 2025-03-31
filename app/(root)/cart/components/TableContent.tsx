@@ -3,7 +3,7 @@ import Image from 'next/image';
 import InputQuantity from './InputQuantity';
 import { getPriceVarient } from '@/lib/utils';
 import Link from 'next/link';
-import { deleteCartItem } from '@/api/cart/action';
+import { deleteCartItem } from '@/APIService/cart/action';
 
 
 interface IProps {

@@ -5,9 +5,9 @@ import { Suspense } from 'react';
 import ListProduct from './components/ListProduct';
 import { redirect } from 'next/navigation';
 import { SearchParams } from '@/lib/utils';
-import { getCart } from '@/api/cart/query';
-import { getDistrictById, getProvinceById, getProvinces } from '@/api/province/query';
-import { getAddress } from '@/api/address/query';
+import { getCart } from '@/APIService/cart/query';
+import { getDistrictById, getProvinceById, getProvinces } from '@/APIService/province/query';
+import { getAddress } from '@/APIService/address/query';
 
 interface IProps {
     searchParams: Promise<SearchParams>;

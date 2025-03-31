@@ -1,4 +1,4 @@
-import { updateTag } from '@/api/tag/action';
+import { updateTag } from '@/APIService/tag/action';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';

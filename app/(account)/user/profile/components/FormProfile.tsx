@@ -20,7 +20,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { isErrorResponse } from '@/lib/utils';
 import { UpdateUserData, updateUserSchema } from '@/schema/user';
-import { updateProfile } from '@/api/user/action';
+import { updateProfile } from '@/APIService/user/action';
 
 interface IProps {
     user: User | undefined;

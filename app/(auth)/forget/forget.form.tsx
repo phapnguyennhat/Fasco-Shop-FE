@@ -1,5 +1,5 @@
 'use client';
-import { sendCodeResetPassword } from '@/api/auth/action';
+import { sendCodeResetPassword } from '@/APIService/auth/action';
 import {
     Form,
     FormControl,

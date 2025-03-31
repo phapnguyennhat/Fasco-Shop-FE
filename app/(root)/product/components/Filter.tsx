@@ -5,9 +5,9 @@ import PriceFilter from './PriceFilter';
 import CollectionFilter from './CollectionFilter';
 import TagFilter from './TagFilter';
 import CategoryFilter from './CategoryFilter';
-import { getCategory } from '@/api/category/query';
-import { getTags } from '@/api/tag/query';
-import { getAllBrand } from '@/api/shop/query';
+import { getCategory } from '@/APIService/category/query';
+import { getTags } from '@/APIService/tag/query';
+import { getAllBrand } from '@/APIService/shop/query';
 
 export default async function Filter({
     searchParams,

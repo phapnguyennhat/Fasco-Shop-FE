@@ -6,8 +6,8 @@ import Image from 'next/image';
 import PageNav from './PageNav';
 import { ECollection } from '../common/enum';
 import { Suspense } from 'react';
-import { getProfile } from '@/api/user/query';
-import { getCart } from '@/api/cart/query';
+import { getProfile } from '@/APIService/user/query';
+import { getCart } from '@/APIService/cart/query';
 
 
 export default async function Navbar() {

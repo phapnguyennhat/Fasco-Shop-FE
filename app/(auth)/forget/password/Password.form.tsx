@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { delay, isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { resetPassword } from '@/api/auth/action';
+import { resetPassword } from '@/APIService/auth/action';
 
 const formSchema = z
 	.object({

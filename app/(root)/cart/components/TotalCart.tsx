@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Check } from 'lucide-react';
 import ButtonCheckout from './ButtonCheckout';
-import { getCart } from '@/api/cart/query';
+import { getCart } from '@/APIService/cart/query';
 
 export default async function TotalCart({
     searchParams,

@@ -1,4 +1,4 @@
-import { updateCategory } from '@/api/category/action';
+import { updateCategory } from '@/APIService/category/action';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';

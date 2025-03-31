@@ -8,11 +8,11 @@ import PaginationList from '@/components/PaginationList';
 import Image from 'next/image';
 import { ERole } from '@/app/common/enum';
 import ProductCardAdmin from './ProductCardAdmin';
-import { getProfile } from '@/api/user/query';
-import { getCategory } from '@/api/category/query';
-import { getProducts } from '@/api/product/query';
-import { getTags } from '@/api/tag/query';
-import { getAllBrand } from '@/api/shop/query';
+import { getProfile } from '@/APIService/user/query';
+import { getCategory } from '@/APIService/category/query';
+import { getProducts } from '@/APIService/product/query';
+import { getTags } from '@/APIService/tag/query';
+import { getAllBrand } from '@/APIService/shop/query';
 
 export default async function ProductContent({
     searchParams,

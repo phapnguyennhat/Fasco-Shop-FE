@@ -1,4 +1,4 @@
-import { getProfile } from "@/api/user/query";
+import { getProfile } from "@/APIService/user/query";
 import FormProfile from "./components/FormProfile";
 import SelectImage from "./components/SelectImage";
 import { Metadata } from "next";

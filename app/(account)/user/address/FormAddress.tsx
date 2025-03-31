@@ -21,7 +21,7 @@ import SelectCommune from '@/app/(root)/checkout/components/SelectCommune';
 import SelectDistrict from '@/app/(root)/checkout/components/SelectDistrict';
 import { useToast } from '@/hooks/use-toast';
 import { AddressData, addressSchema } from '@/schema/address';
-import { createAddress } from '@/api/address/action';
+import { createAddress } from '@/APIService/address/action';
 
 interface IProps {
     provinces: IProvince[];

@@ -24,8 +24,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { AddressData, addressSchema } from '@/schema/address';
-import { createAddress } from '@/api/address/action';
-import { createOrder } from '@/api/order/action';
+import { createAddress } from '@/APIService/address/action';
+import { createOrder } from '@/APIService/order/action';
 
 interface IProps {
     provinces: IProvince[];

@@ -5,8 +5,8 @@ import { delay } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
 import CategoryAdmin from './CategoryAdmin'
-import { getProfile } from '@/api/user/query'
-import { getCategory } from '@/api/category/query'
+import { getProfile } from '@/APIService/user/query'
+import { getCategory } from '@/APIService/category/query'
 
 export default async function ListCategory() {
   const [user, categories] = await Promise.all([getProfile(), getCategory()])

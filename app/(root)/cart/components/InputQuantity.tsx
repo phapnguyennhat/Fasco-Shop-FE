@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import useInputQuantity from "../hook/useInputQuantity";
 import { Input } from "@/components/ui/input";
 import debounce from "lodash.debounce";
-import { updateCartItem } from "@/api/cart/action";
+import { updateCartItem } from "@/APIService/cart/action";
 
 interface IProps{
   cartItem: ICartItem

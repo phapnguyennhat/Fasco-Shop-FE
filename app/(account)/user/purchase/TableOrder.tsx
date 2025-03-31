@@ -14,9 +14,9 @@ import Link from 'next/link';
 import { ERole, EStatusOrder } from '@/app/common/enum';
 import PaginationList from '@/components/PaginationList';
 import Image from 'next/image';
-import { updateStatusOrder } from '@/api/order/action';
-import { getProfile } from '@/api/user/query';
-import { getOrder } from '@/api/order/query';
+import { updateStatusOrder } from '@/APIService/order/action';
+import { getProfile } from '@/APIService/user/query';
+import { getOrder } from '@/APIService/order/query';
 
 interface IProps {
     queryParams: SearchParams;

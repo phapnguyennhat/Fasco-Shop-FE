@@ -1,4 +1,4 @@
-import { createShop } from '@/api/shop/action';
+import { createShop } from '@/APIService/shop/action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';

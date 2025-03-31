@@ -13,7 +13,7 @@ import TotalCart from "./TotalCart"
 import { SearchParams } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
-import { getCart } from "@/api/cart/query"
+import { getCart } from "@/APIService/cart/query"
 
 
 interface IProps {

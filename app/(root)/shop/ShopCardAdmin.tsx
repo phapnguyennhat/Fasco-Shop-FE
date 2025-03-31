@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import FormUpdateShop from './FormUpdateShop';
 import DialogDeleteShop from './DialogDeleteShop';
 import { isErrorResponse } from '@/lib/utils';
-import { deleteShop } from '@/api/shop/action';
+import { deleteShop } from '@/APIService/shop/action';
 
 interface IProps {
     brand: IBrand;

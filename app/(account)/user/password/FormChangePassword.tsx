@@ -16,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { isErrorResponse } from '@/lib/utils';
-import { changePassword } from '@/api/auth/action';
+import { changePassword } from '@/APIService/auth/action';
 import { UpdatePasswordData, updatePasswordSchema } from '@/schema/auth';
 
 interface IProps {

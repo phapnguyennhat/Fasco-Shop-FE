@@ -2,11 +2,11 @@ import { ERole } from '@/app/common/enum';
 import React from 'react';
 import FormCreateProduct from './FormCreateProduct';
 import { Metadata } from 'next';
-import { logout } from '@/api/auth/action';
-import { getProfile } from '@/api/user/query';
-import { getCategory } from '@/api/category/query';
-import { getTags } from '@/api/tag/query';
-import { getAllBrand } from '@/api/shop/query';
+import { logout } from '@/APIService/auth/action';
+import { getProfile } from '@/APIService/user/query';
+import { getCategory } from '@/APIService/category/query';
+import { getTags } from '@/APIService/tag/query';
+import { getAllBrand } from '@/APIService/shop/query';
 
 export const metadata: Metadata = {
 	title: 'Create Product',

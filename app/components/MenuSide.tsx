@@ -15,7 +15,7 @@ import { ECollection, ERole } from '../common/enum';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { logout } from '@/api/auth/action';
+import { logout } from '@/APIService/auth/action';
 
 export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
