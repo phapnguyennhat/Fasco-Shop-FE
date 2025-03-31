@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { updateShop } from '@/app/action';
 import { isErrorResponse } from '@/lib/utils';
+import { updateShop } from '@/api/shop/action';
 
 interface IProps {
     setOpenEdit: Dispatch<SetStateAction<boolean>>;
@@ -42,7 +42,7 @@ export default function FormUpdateShop({ brand, setOpenEdit }: IProps) {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
+                    description: response.message,
                 });
             }else{
                 toast({

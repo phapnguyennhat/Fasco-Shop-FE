@@ -1,8 +1,9 @@
-import { getAddress, getDistrictById, getProvinceById, getProvinces } from "@/lib/api"
 import { SearchParams } from "@/lib/utils"
 import { redirect } from "next/navigation"
 import FormAddress from "./FormAddress"
 import { Metadata } from "next";
+import { getProvinceById, getProvinces, getDistrictById } from "@/api/province/query";
+import { getAddress } from "@/api/address/query";
 
 
 export const metadata: Metadata = {
@@ -34,8 +35,6 @@ export default async function Address({searchParams}: IProps) {
     }
 
    
-
-
   return (
       <main className=" w-full">
           <div className="   pl-4 pb-[18px] w-full mb-[30px] border-b  ">

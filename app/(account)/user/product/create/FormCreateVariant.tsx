@@ -5,9 +5,9 @@ import {
     setPrice,
 } from '@/lib/features/variant/variantSlice';
 import { RootState } from '@/lib/store';
+import { ICreateVarient } from '@/schema/product';
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ICreateVarient } from './schema';
 
 interface IProps {
     indexVariant: number;

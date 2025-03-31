@@ -16,8 +16,8 @@ import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { confirmCode, sendCodeResetPassword } from '@/app/action';
 import { isErrorResponse } from '@/lib/utils';
+import { confirmCode, sendCodeResetPassword } from '@/api/auth/action';
 
 const formSchema = z.object({
     code: z.string().min(1, 'Code is required'),
@@ -46,7 +46,7 @@ export default function Codeform({ email }: IProps) {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
+                    description: response.message,
                 });
             }
         } catch (error: any) {}
@@ -58,9 +58,8 @@ export default function Codeform({ email }: IProps) {
         try {
             const response = await confirmCode(email, values.code);
             if (isErrorResponse(response)) {
-                const error = response.error;
-                if (error.message && error.message.includes('Code')) {
-                    form.setError('code', { message: error.message });
+                if (response.message.includes('Code')) {
+                    form.setError('code', { message: response.message });
                 }
             } else {
                 form.reset({

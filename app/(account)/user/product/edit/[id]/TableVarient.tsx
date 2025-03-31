@@ -11,9 +11,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import FormUpdateVariant from "../../create/FormUpdateVariant";
-import { UpdateAttrProductDto, UpdateVariantDto } from "./schema";
 import { useMemo } from "react";
 import { cartesian } from "@/lib/utils";
+import { UpdateAttrProductDto, UpdateVariantDto } from "@/schema/product";
 
 interface IProps {
   field: ControllerRenderProps<any, "updateVarientDtos">

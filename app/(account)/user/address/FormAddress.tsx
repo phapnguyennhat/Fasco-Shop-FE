@@ -14,14 +14,14 @@ import {
 } from '@/components/ui/form';
 import { isErrorResponse, SearchParams } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
-import { addressSchema, CreateAddress } from '@/app/(root)/checkout/schema';
 import { useEffect, useState } from 'react';
-import { createAddress } from '@/app/action';
 import { Input } from '@/components/ui/input';
 import SelectProvince from '@/app/(root)/checkout/components/SelectProvince';
 import SelectCommune from '@/app/(root)/checkout/components/SelectCommune';
 import SelectDistrict from '@/app/(root)/checkout/components/SelectDistrict';
 import { useToast } from '@/hooks/use-toast';
+import { AddressData, addressSchema } from '@/schema/address';
+import { createAddress } from '@/api/address/action';
 
 interface IProps {
     provinces: IProvince[];
@@ -49,7 +49,7 @@ export default function FormAddress({
     const communeId = selectedCommune?.split('-i.')[1];
 
     // 1. Define your form.
-    const form = useForm<CreateAddress>({
+    const form = useForm<AddressData>({
         resolver: zodResolver(addressSchema),
         defaultValues: {
             email: '',
@@ -81,7 +81,7 @@ export default function FormAddress({
     }, [provinceId, districtId, communeId]);
 
     // 2. Define a submit handler.
-    async function onSubmit(values: CreateAddress) {
+    async function onSubmit(values: AddressData) {
         try {
             setLoading(true);
             const response = await createAddress(values);
@@ -89,7 +89,7 @@ export default function FormAddress({
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message
+                    description: response.message
                 });
             }else{
 

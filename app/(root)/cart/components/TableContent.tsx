@@ -1,10 +1,9 @@
 import { TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { getCart } from '@/lib/api';
 import Image from 'next/image';
 import InputQuantity from './InputQuantity';
-import { deleteCartItem } from '@/app/action';
 import { getPriceVarient } from '@/lib/utils';
 import Link from 'next/link';
+import { deleteCartItem } from '@/api/cart/action';
 
 
 interface IProps {

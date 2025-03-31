@@ -20,11 +20,12 @@ import SelectDistrict from './SelectDistrict';
 import SelectCommune from './SelectCommune';
 import { Check } from 'lucide-react';
 import { createQueryString, isErrorResponse, SearchParams } from '@/lib/utils';
-import { addressSchema, CreateAddress } from '../schema';
-import { createAddress, createOrder } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { AddressData, addressSchema } from '@/schema/address';
+import { createAddress } from '@/api/address/action';
+import { createOrder } from '@/api/order/action';
 
 interface IProps {
     provinces: IProvince[];
@@ -52,8 +53,9 @@ export default function FormCheckout({
 
     const [save, setSave] = useState(false);
 
+
     // 1. Define your form.
-    const form = useForm<CreateAddress>({
+    const form = useForm<AddressData>({
         resolver: zodResolver(addressSchema),
         defaultValues: {
             email: '',
@@ -89,31 +91,31 @@ export default function FormCheckout({
     const dispatch = useDispatch()
 
     // 2. Define a submit handler.
-    async function onSubmit(values: CreateAddress) {
+    async function onSubmit(values: AddressData) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         dispatch(setSpinner(true))
         try {
             if (save) {
-              const response = await  createAddress(values);
-              if (isErrorResponse(response)) {
-                  toast({
-                      variant: 'destructive',
-                      title: 'Uh oh! Something went wrong.',
-                      description: response.error.message,
-                  });
-              }
-            }
-            const response = await createOrder(values, isWrap);
-            if(isErrorResponse(response)){
-                toast({
-                    variant: 'destructive',
-                    title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
-                });
-            }
-        } catch (error) {
-        }
+                console.log({values})
+				const response = await createAddress(values);
+				if (isErrorResponse(response)) {
+					toast({
+						variant: 'destructive',
+						title: 'Uh oh! Something went wrong.',
+						description: response.message,
+					});
+				}
+			}
+			const response = await createOrder(values, isWrap);
+			if(isErrorResponse(response)){
+			    toast({
+			        variant: 'destructive',
+			        title: 'Uh oh! Something went wrong.',
+			        description: response.message,
+			    });
+			}
+		} catch (error) {}
         dispatch(setSpinner(false))
 
     }

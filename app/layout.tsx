@@ -7,7 +7,6 @@ import GoogleAuthProvider from '@/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
 import FacebookAuthProvider from '@/FacebookAuthProvider';
 import Spinner from '@/components/Spinner';
-import { pingBE } from '@/lib/api';
 import Navbar from './components/Navbar';
 
 const poppins = Poppins({

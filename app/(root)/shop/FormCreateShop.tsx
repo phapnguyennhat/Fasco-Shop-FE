@@ -1,4 +1,4 @@
-import { createShop } from '@/app/action';
+import { createShop } from '@/api/shop/action';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -53,7 +53,7 @@ export default function FormCreateShop() {
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: response.error.message,
+                description: response.message,
             });
           }else{
               toast({

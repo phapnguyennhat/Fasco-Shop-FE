@@ -1,5 +1,4 @@
-import { FIVEMINUTES } from '@/app/common/constant';
-import { createQueryString, fetcher } from '@/lib/utils';
+import { createQueryString } from '@/lib/utils';
 import Link from 'next/link';
 import { QueryProduct } from '../page';
 

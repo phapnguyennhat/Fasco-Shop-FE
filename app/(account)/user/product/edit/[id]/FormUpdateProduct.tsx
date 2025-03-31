@@ -20,12 +20,12 @@ import SelectBrand from '../../create/SelectBrand';
 import SelectCategory from '../../create/SelectCategory';
 import FormUpdateAttrImage from './FormUpdateAttrImage';
 import FormUpdateAttr from './FormUpdateAttr';
-import { UpdateProduct, updateProductSchema } from './schema';
 import TableVarient from './TableVarient';
 import UpdateProductImages from './UpdateProductImages';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { updateProduct, updateProductImages } from '@/app/action';
 import { cartesian, isErrorResponse } from '@/lib/utils';
+import { updateProduct, updateProductImages } from '@/api/product/action';
+import { UpdateProduct, updateProductSchema } from '@/schema/product';
 
 export interface UpdateValueImage {
     id: string;
@@ -181,7 +181,7 @@ export default function FormUpdateProduct({
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
+                    description: response.message,
                 });
                 dispatch(setSpinner(false));
                 return;
@@ -193,7 +193,7 @@ export default function FormUpdateProduct({
                     toast({
                         variant: 'destructive',
                         title: 'Uh oh! Something went wrong.',
-                        description: response.error.message,
+                        description: response.message,
                     });
                     dispatch(setSpinner(false))
                     return

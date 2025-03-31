@@ -57,7 +57,7 @@ export const collections = [
     }
 ]
 
-export const FIVEMINUTES = 5*60
+export const TIME_CACHE = 10*60
 
 
 export const minDelivery = 3

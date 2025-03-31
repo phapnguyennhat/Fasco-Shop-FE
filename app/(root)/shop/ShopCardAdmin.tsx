@@ -1,6 +1,5 @@
 'use client';
 
-import { deleteShop } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -10,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import FormUpdateShop from './FormUpdateShop';
 import DialogDeleteShop from './DialogDeleteShop';
 import { isErrorResponse } from '@/lib/utils';
+import { deleteShop } from '@/api/shop/action';
 
 interface IProps {
     brand: IBrand;
@@ -31,7 +31,7 @@ export default function ShopCardAdmin({ brand }: IProps) {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
+                    description: response.message,
                 });
             } else {
                 toast({

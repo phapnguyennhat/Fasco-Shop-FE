@@ -2,11 +2,11 @@
 import { FaFacebook } from 'react-icons/fa';
 
 import { useLogin } from 'react-facebook';
-import { loginFacebook } from '@/app/action';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { useToast } from '@/hooks/use-toast';
 import { isErrorResponse } from '@/lib/utils';
+import { loginFacebook } from '@/api/auth/action';
 
 export default function LoginFacebook() {
     const { login, status, isLoading, error } = useLogin();

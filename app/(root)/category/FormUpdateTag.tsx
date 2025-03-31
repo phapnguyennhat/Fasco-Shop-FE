@@ -1,4 +1,4 @@
-import { updateTag } from '@/app/action';
+import { updateTag } from '@/api/tag/action';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
@@ -44,7 +44,7 @@ export default function FormUpdateTag({ tag, setOpenEdit }: IProps) {
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: response.error.message,
+                description: response.message,
             });
         } else {
             toast({

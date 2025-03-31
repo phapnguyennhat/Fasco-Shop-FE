@@ -1,6 +1,6 @@
+import { getFavoriteProducts } from '@/api/favorite/query';
 import ProductCard from '@/app/(root)/product/components/ProductCard';
 import PaginationList from '@/components/PaginationList';
-import { getFavoriteProducts } from '@/lib/api';
 import { createQueryString, SearchParams } from '@/lib/utils';
 import Image from 'next/image';
 

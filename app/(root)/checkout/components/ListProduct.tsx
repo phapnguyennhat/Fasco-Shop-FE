@@ -1,4 +1,3 @@
-import { getCart } from "@/lib/api"
 import CartItem from "./CartItem"
 import TotalCheckout from "./TotalCheckout";
 import { redirect } from "next/navigation";

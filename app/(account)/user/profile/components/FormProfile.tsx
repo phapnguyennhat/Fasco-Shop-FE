@@ -1,6 +1,5 @@
 'use client';
 
-import { profileSchema, UpdateProfile } from '../schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -17,17 +16,18 @@ import { Input } from '@/components/ui/input';
 import  SelectGender  from './SelectGender';
 import { EGender } from '@/app/common/enum';
 
-import { updateProfile } from '@/app/action';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { isErrorResponse } from '@/lib/utils';
+import { UpdateUserData, updateUserSchema } from '@/schema/user';
+import { updateProfile } from '@/api/user/action';
 
 interface IProps {
     user: User | undefined;
 }
 export default function FormProfile({ user }: IProps) {
-    const form = useForm<UpdateProfile>({
-        resolver: zodResolver(profileSchema),
+    const form = useForm<UpdateUserData>({
+        resolver: zodResolver(updateUserSchema),
         defaultValues: {
             email: user?.email || '',
             phoneNumber: user?.phoneNumber|| '',
@@ -41,7 +41,7 @@ export default function FormProfile({ user }: IProps) {
     
     const [loading, setLoading ] = useState(false)
 
-   async function  onSubmit(values: UpdateProfile) {
+   async function  onSubmit(values: UpdateUserData) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         try {
@@ -51,7 +51,7 @@ export default function FormProfile({ user }: IProps) {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response. error.message,
+                    description: response.message,
                 });
             }else{
                 toast({

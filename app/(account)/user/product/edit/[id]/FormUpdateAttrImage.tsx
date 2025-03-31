@@ -5,9 +5,9 @@ import { Label } from '@/components/ui/label';
 
 import { ChangeEvent,  memo } from 'react';
 import FormUpdateValueImage from './FormUpdateValueImage';
-import { UpdateAttrProductDto } from './schema';
 import { ControllerRenderProps } from 'react-hook-form';
 import { UpdateValueImage } from './FormUpdateProduct';
+import { UpdateAttrProductDto } from '@/schema/product';
 
 interface IProps {
     indexAttr: number;

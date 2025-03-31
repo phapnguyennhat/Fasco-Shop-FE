@@ -12,12 +12,12 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import { passwordSchema, UpdatePassword } from './schema';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { changePassword } from '@/app/action';
 import { isErrorResponse } from '@/lib/utils';
+import { changePassword } from '@/api/auth/action';
+import { UpdatePasswordData, updatePasswordSchema } from '@/schema/auth';
 
 interface IProps {
     user: User | undefined;
@@ -26,8 +26,8 @@ interface IProps {
 export default function FormChangePassword({ user }: IProps) {
     const [loading, setLoading] = useState(false);
 
-    const form = useForm<UpdatePassword>({
-        resolver: zodResolver(passwordSchema),
+    const form = useForm<UpdatePasswordData>({
+        resolver: zodResolver(updatePasswordSchema),
         defaultValues: {
             password: '',
             new_password: '',
@@ -37,18 +37,17 @@ export default function FormChangePassword({ user }: IProps) {
 
     const { toast } = useToast();
 
-    async function onSubmit(values: UpdatePassword) {
+    async function onSubmit(values: UpdatePasswordData) {
             setLoading(true);
             const response = await changePassword(values)
             if(isErrorResponse(response)){
-                const error = response.error
-                if(error.message.includes('Password')){
-                    form.setError('password', {message: error.message})
+                if(response.message.includes('Password')){
+                    form.setError('password', {message: response.message})
                 }else{
                     toast({
                         variant: 'destructive',
                         title: 'Uh oh! Something went wrong.',
-                        description: response.error.message,
+                        description: response.message,
                     });
                 }
             }else{

@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { File } from "buffer";
-import { updateAvatar } from "@/app/action";
 import { useToast } from "@/hooks/use-toast";
 import { isErrorResponse } from "@/lib/utils";
+import { updateAvatar } from "@/api/user/action";
 
 interface IProps {
   user: User|undefined
@@ -40,7 +40,7 @@ export default function SelectImage({ user }: IProps) {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
-          description: response.error.message,
+          description: response.message,
         })
       }else{
         toast({

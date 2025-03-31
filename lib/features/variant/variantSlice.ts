@@ -1,4 +1,4 @@
-import { ICreateVarient } from "@/app/(account)/user/product/create/schema";
+import { ICreateVarient } from "@/schema/product";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IVariants {

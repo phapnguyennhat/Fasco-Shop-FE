@@ -1,8 +1,7 @@
-import { getProfile } from "@/lib/api";
+import { getProfile } from "@/api/user/query";
 import FormProfile from "./components/FormProfile";
 import SelectImage from "./components/SelectImage";
 import { Metadata } from "next";
-import { delay } from "@/lib/utils";
 
 export const metadata: Metadata = {
     title: 'Profile',

@@ -1,4 +1,3 @@
-import { getOrderById, getProfile } from '@/lib/api';
 import OrderItem from './OrderItem';
 import AddressOrder from './AddressOrder';
 import TotalOrder from './TotalOrder';
@@ -11,6 +10,8 @@ export const metadata: Metadata = {
 
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { getProfile } from '@/api/user/query';
+import { getOrderById } from '@/api/order/query';
 interface IProps {
     params: Promise<{ id: string }>;
 }

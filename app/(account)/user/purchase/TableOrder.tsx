@@ -9,13 +9,14 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { getOrder, getProfile } from '@/lib/api';
 import { EllipsisVertical } from 'lucide-react';
 import Link from 'next/link';
-import {  updateStatusOrder } from '@/app/action';
 import { ERole, EStatusOrder } from '@/app/common/enum';
 import PaginationList from '@/components/PaginationList';
 import Image from 'next/image';
+import { updateStatusOrder } from '@/api/order/action';
+import { getProfile } from '@/api/user/query';
+import { getOrder } from '@/api/order/query';
 
 interface IProps {
     queryParams: SearchParams;

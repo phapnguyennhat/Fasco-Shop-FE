@@ -4,10 +4,10 @@ import { fetcher } from '@/lib/utils';
 import getAuthCookies from '@/lib/getAuthCookie';
 import Image from 'next/image';
 import PageNav from './PageNav';
-import { FIVEMINUTES } from '../common/constant';
-import { getCart, getProfile } from '@/lib/api';
 import { ECollection } from '../common/enum';
 import { Suspense } from 'react';
+import { getProfile } from '@/api/user/query';
+import { getCart } from '@/api/cart/query';
 
 
 export default async function Navbar() {

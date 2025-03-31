@@ -3,9 +3,8 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BadgePlus, X } from 'lucide-react';
-import { ChangeEvent, Dispatch, SetStateAction, useCallback } from 'react';
+import { ChangeEvent,  } from 'react';
 import FormCreateValue from './FormCreateValue';
-import FormCreateValueImage from './FormCreateValueImage';
 import { Button } from '@/components/ui/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';

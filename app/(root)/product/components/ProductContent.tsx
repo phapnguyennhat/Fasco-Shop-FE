@@ -2,14 +2,17 @@ import { QueryProduct } from '../page';
 import { createQueryString, delay, fetcher, SearchParams } from '@/lib/utils';
 import ProductCard, { SkeletonCard } from './ProductCard';
 import FilterSide from './FilterSide';
-import { FIVEMINUTES } from '@/app/common/constant';
-import { getAllBrand, getBrands, getCategory, getProducts, getProfile, getTags } from '@/lib/api';
 import SelectCollection from './SelectCollection';
 import { PaginationLink } from '@/components/ui/pagination';
 import PaginationList from '@/components/PaginationList';
 import Image from 'next/image';
 import { ERole } from '@/app/common/enum';
 import ProductCardAdmin from './ProductCardAdmin';
+import { getProfile } from '@/api/user/query';
+import { getCategory } from '@/api/category/query';
+import { getProducts } from '@/api/product/query';
+import { getTags } from '@/api/tag/query';
+import { getAllBrand } from '@/api/shop/query';
 
 export default async function ProductContent({
     searchParams,

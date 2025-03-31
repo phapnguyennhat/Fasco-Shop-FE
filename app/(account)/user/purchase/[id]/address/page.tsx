@@ -1,9 +1,12 @@
-import { getDistrictById, getOrderById, getProfile, getProvinceById, getProvinces } from "@/lib/api";
 import { SearchParams } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import FormUpdateAddressOrder from "./FormUpdateAddressOrder";
 import { Metadata } from "next";
 import { ERole } from "@/app/common/enum";
+import { getProfile } from "@/api/user/query";
+import { getDistrictById, getProvinceById, getProvinces } from "@/api/province/query";
+import { getOrderById } from "@/api/order/query";
+
 
 export const metadata: Metadata = {
     title: "Order's Address",

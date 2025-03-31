@@ -4,8 +4,8 @@ import { Minus, Plus } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import useInputQuantity from "../hook/useInputQuantity";
 import { Input } from "@/components/ui/input";
-import { updateCartItem } from "@/app/action";
 import debounce from "lodash.debounce";
+import { updateCartItem } from "@/api/cart/action";
 
 interface IProps{
   cartItem: ICartItem

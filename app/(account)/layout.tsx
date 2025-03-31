@@ -2,8 +2,8 @@
 import Footer from '@/components/Footer';
 import Navbar from '../components/Navbar';
 import NavSide from './user/Components/NavSide';
-import { getProfile } from '@/lib/api';
 import { Suspense } from 'react';
+import { getProfile } from '@/api/user/query';
 
 export default async  function AccountLayout({
     children,

@@ -1,5 +1,5 @@
 'use client';
-import {  createTag } from '@/app/action';
+import { createTag } from '@/api/tag/action';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -46,7 +46,7 @@ export default function FormCreateTag() {
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: response.error.message,
+                description: response.message,
             });
           }else{
               toast({

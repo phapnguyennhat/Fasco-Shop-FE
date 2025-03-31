@@ -7,8 +7,8 @@ import { RootState } from "@/lib/store"
 import { ChangeEvent } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import FormUpdateValue from "./FormUpdateValue"
-import { UpdateAttrProductDto } from "./schema"
 import { ControllerRenderProps } from "react-hook-form"
+import { UpdateAttrProductDto } from "@/schema/product"
 
 interface IProps {
   indexAttr: number,

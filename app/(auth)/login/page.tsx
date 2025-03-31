@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import FollowUs from '../../(root)/components/FollowUs';
-import Subscribe from '../../(root)/components/Subscribe';
 import LoginGoogle from './components/LoginGoogle';
 import LoginFacebook from './components/LoginFacebook';
 import { Minus } from 'lucide-react';

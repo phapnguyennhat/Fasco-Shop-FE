@@ -1,10 +1,10 @@
 import { Input } from '@/components/ui/input';
 import { setValue } from '@/lib/features/attrProduct/attrProductSlice';
 import { RootState } from '@/lib/store';
+import { UpdateAttrProductDto } from '@/schema/product';
 import { ChangeEvent } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { UpdateAttrProductDto } from './schema';
 
 interface IProps {
     indexAttr: number;

@@ -12,7 +12,6 @@ import { Suspense } from 'react';
 import Form from 'next/form';
 import FormAddCart from './FormAddCart';
 import {
-    FIVEMINUTES,
     maxDelivery,
     minDelivery,
     minOrderFreeShip,
@@ -20,7 +19,7 @@ import {
 import { CircleHelp, Share2 } from 'lucide-react';
 import { FaStar } from 'react-icons/fa6';
 import FavoriteProduct from './FavoriteProduct';
-import { getVariant } from '@/lib/api';
+import { getVariant } from '@/api/product/query';
 
 export default async function InfoProduct({
     searchParams,

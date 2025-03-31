@@ -1,5 +1,5 @@
 'use client';
-import { createCategory } from '@/app/action';
+import { createCategory } from '@/api/category/action';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -44,7 +44,7 @@ export default function FormCreateCategory() {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
+                    description: response.message,
                 });
             }else{
                 toast({

@@ -1,9 +1,9 @@
 import { AuthBy } from '@/app/common/enum';
-import { getProfile } from '@/lib/api';
 import React from 'react'
 import { redirect } from 'next/navigation'
 import FormChangePassword from './FormChangePassword';
 import { Metadata } from 'next';
+import { getProfile } from '@/api/user/query';
 
 export const metadata: Metadata = {
   title: 'Change Password',

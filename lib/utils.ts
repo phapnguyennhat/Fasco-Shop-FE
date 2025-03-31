@@ -1,4 +1,4 @@
-import { UpdateAttrProductDto } from '@/app/(account)/user/product/edit/[id]/schema';
+import { UpdateAttrProductDto } from '@/schema/product';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -11,23 +11,14 @@ export async function fetcher<T>(input: string, init?: RequestInit) {
   try{
     const response = await fetch(`${process.env.BACKEND_URL}/${input}`, init);
     const json = await response.json()
-    if (!response.ok) {
-        return {
-          error: {
-            message: json.message || 'Something went wrong',
-            status: response.status
-          } as IError
-        }
-    }
+   
     return json as T;
 
   }catch (error:any){
-    
+    // console.log({error})
      return {
-      error: {
-        message: error.message || 'Something went wrong',
-        status: 500
-      } as IError
+       statusCode: 500,
+       message: 'Server Error'
     }
   }
   
@@ -136,10 +127,10 @@ export function  cartesian(arr: any) {
 }
 
 
-export function isErrorResponse(response: any): response is { error: IError } {
+export function isErrorResponse(response: any): response is { statusCode: number, message: string } {
   if(!response){
     return false
   }
-  return 'error' in response;
+  return 'statusCode' in response;
 }
 

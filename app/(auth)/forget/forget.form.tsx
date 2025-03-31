@@ -1,5 +1,5 @@
 'use client';
-import { sendCodeResetPassword } from '@/app/action';
+import { sendCodeResetPassword } from '@/api/auth/action';
 import {
     Form,
     FormControl,
@@ -46,7 +46,7 @@ export default function ForgetForm() {
                 toast({
                     variant: 'destructive',
                     title: 'Uh oh! Something went wrong.',
-                    description: response.error.message,
+                    description: response.message,
                 });
             } else {
                 form.reset({

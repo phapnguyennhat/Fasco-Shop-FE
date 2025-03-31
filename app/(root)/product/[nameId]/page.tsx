@@ -1,4 +1,3 @@
-import { FIVEMINUTES } from '@/app/common/constant';
 import { delay, fetcher, SearchParams } from '@/lib/utils';
 import Advertisement from '../../components/Advertisement';
 import Policy from '../../components/Policy';
@@ -7,8 +6,9 @@ import Subscribe from '../../components/Subscribe';
 import DealsOfMonth from '../../components/DealsOfMonth';
 import ImageProduct from './components/ImageProduct';
 import InfoProduct from './components/InfoProduct';
-import { getProductById, getProfile } from '@/lib/api';
 import { Metadata } from 'next';
+import { getProfile } from '@/api/user/query';
+import { getProductById } from '@/api/product/query';
 
 
 interface  IProps {

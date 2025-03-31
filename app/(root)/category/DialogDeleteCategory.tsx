@@ -11,13 +11,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { deleteCategory } from "@/app/action"
 import { useToast } from "@/hooks/use-toast"
 import { setSpinner } from "@/lib/features/spinner/spinnerSlice"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Trash2 } from 'lucide-react';
 import { FaDeleteLeft } from 'react-icons/fa6';
+import { deleteCategory } from '@/api/category/action';
 
 interface IProps {
   categoryId: string

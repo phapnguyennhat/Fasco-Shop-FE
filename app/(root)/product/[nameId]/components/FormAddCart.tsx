@@ -1,6 +1,4 @@
 'use client';
-import { addCart } from '@/app/action';
-import Form from 'next/form';
 import React, { useState } from 'react';
 import InputQuantity from './InputQuantity';
 import AddSuccessModal from './AddSuccessModal';
@@ -9,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { addCart } from '@/api/cart/action';
 
 interface IProps {
     varient: Varient;
@@ -26,15 +25,15 @@ export default function FormAddCart({ varient }: IProps) {
         dispatch(setSpinner(false));
 
         if (isErrorResponse(response)) {
-            const error = response.error
-            if(error.status===401){
+            
+            if(response.statusCode===401){
                 router.push('/login')
                 return 
             }
             toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
-                description: response.error.message,
+                description: response.message,
             });
         } else {
             setOpenSuccess(true);

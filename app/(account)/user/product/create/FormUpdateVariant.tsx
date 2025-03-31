@@ -1,11 +1,11 @@
 import { TableCell, TableRow } from '@/components/ui/table';
-import { UpdateAttrProductDto, UpdateVariantDto, varientSchema } from '../edit/[id]/schema';
 import { findValueNames } from '@/lib/utils';
 import { ControllerRenderProps } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { ChangeEvent, useMemo } from 'react';
 
 import {z} from 'zod'
+import { UpdateVariantDto } from '@/schema/product';
 interface IProps {
     indexVariant: number;
     field: ControllerRenderProps<any, 'updateVarientDtos'>;

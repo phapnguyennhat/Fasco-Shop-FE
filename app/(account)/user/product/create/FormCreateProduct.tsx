@@ -13,10 +13,9 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { CreateProduct, ICreateAttrProduct, ICreateProduct, ICreateValueAttr, productSchema } from './schema';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useMemo, useState } from 'react';
-import {  createProduct, uploadProductImages } from '@/app/action';
+
 import SelectBrand from './SelectBrand';
 import SelectCategory from './SelectCategory';
 import Select from 'react-select';
@@ -32,6 +31,8 @@ import { resetVariant } from '@/lib/features/variant/variantSlice';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { delay, isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { createProduct, uploadProductImages } from '@/api/product/action';
+import { CreateProduct, ICreateAttrProduct, ICreateProduct, ICreateValueAttr, productSchema } from '@/schema/product';
 
 interface IProps {
     brands: IBrand[];
@@ -150,7 +151,7 @@ export default function FormCreateProduct({
                toast({
                    variant: 'destructive',
                    title: 'Uh oh! Something went wrong.',
-                   description: newProduct.error.message
+                   description: newProduct.message
                });
                return
            }
@@ -163,7 +164,7 @@ export default function FormCreateProduct({
                toast({
                    variant: 'destructive',
                    title: 'Uh oh! Something went wrong.',
-                   description: response.error.message,
+                   description: response.message,
                });
                return;
            }

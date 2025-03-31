@@ -1,7 +1,9 @@
-import { getAllBrand, getCategory, getProductDetailById, getTags } from "@/lib/api"
-import { SearchParams } from "@/lib/utils"
 import FormUpdateProduct from "./FormUpdateProduct";
 import { Metadata } from "next";
+import { getCategory } from "@/api/category/query";
+import { getTags } from "@/api/tag/query";
+import { getAllBrand } from "@/api/shop/query";
+import { getProductDetailById } from "@/api/product/query";
 
 
 export const metadata: Metadata = {

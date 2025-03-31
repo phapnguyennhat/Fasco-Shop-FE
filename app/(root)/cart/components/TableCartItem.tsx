@@ -9,11 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import TableContent from "./TableContent"
-import { getCart } from "@/lib/api"
 import TotalCart from "./TotalCart"
 import { SearchParams } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
+import { getCart } from "@/api/cart/query"
 
 
 interface IProps {

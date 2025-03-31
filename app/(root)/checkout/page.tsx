@@ -1,16 +1,13 @@
-import {
-    getAddress,
-    getCart,
-    getDistrictById,
-    getProvinceById,
-    getProvinces,
-} from '@/lib/api';
+
 import Subscribe from '../components/Subscribe';
 import FormCheckout from './components/FormCheckout';
 import { Suspense } from 'react';
 import ListProduct from './components/ListProduct';
 import { redirect } from 'next/navigation';
 import { SearchParams } from '@/lib/utils';
+import { getCart } from '@/api/cart/query';
+import { getDistrictById, getProvinceById, getProvinces } from '@/api/province/query';
+import { getAddress } from '@/api/address/query';
 
 interface IProps {
     searchParams: Promise<SearchParams>;
@@ -39,6 +36,8 @@ export default async function CheckoutPage({ searchParams }: IProps) {
         getDistrictById(provinceId, districtId),
         getAddress(),
     ]);
+
+    
 
     if (address && !provinceId) {
         const { province, district, commune } = address;

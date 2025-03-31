@@ -2,10 +2,10 @@ import { Input } from '@/components/ui/input';
 import { ChangeEvent } from 'react';
 import Image from 'next/image';
 import { ControllerRenderProps } from 'react-hook-form';
-import { UpdateAttrProductDto } from './schema';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { UpdateValueImage } from './FormUpdateProduct';
+import { UpdateAttrProductDto } from '@/schema/product';
 
 interface IProps {
     indexAttr: number;

@@ -9,13 +9,13 @@ import { link } from 'fs';
 import { House } from 'lucide-react';
 import { Store } from 'lucide-react';
 import { ShoppingBag } from 'lucide-react';
-import { logout } from '../action';
 import UserDropDown from './UserDropDown';
 import SearchNav from './SearchNav';
 import { ECollection, ERole } from '../common/enum';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
+import { logout } from '@/api/auth/action';
 
 export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);

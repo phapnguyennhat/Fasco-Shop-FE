@@ -1,15 +1,13 @@
-import { FIVEMINUTES, prices, sizes } from '@/app/common/constant';
-import { fetcher } from '@/lib/utils';
-import Link from 'next/link';
-import { string } from 'zod';
 import { QueryProduct } from '../page';
 import SizeFilter from './SizeFilter';
 import BrandFilter from './BrandFilter';
 import PriceFilter from './PriceFilter';
 import CollectionFilter from './CollectionFilter';
 import TagFilter from './TagFilter';
-import { getAllBrand, getCategory, getTags } from '@/lib/api';
 import CategoryFilter from './CategoryFilter';
+import { getCategory } from '@/api/category/query';
+import { getTags } from '@/api/tag/query';
+import { getAllBrand } from '@/api/shop/query';
 
 export default async function Filter({
     searchParams,

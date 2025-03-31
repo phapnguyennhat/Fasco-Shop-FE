@@ -1,35 +1,27 @@
 'use client';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import Link from 'next/link';
-import { login } from '@/app/action';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { useToast } from '@/hooks/use-toast';
 import { isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { LoginData, loginSchema } from '@/schema/auth';
+import { login } from '@/api/auth/action';
 
-const formSchema = z.object({
-    account: z.string().min(2, 'Email or Username is required').max(50),
-    password: z.string().min(2, 'Password is required').max(50),
-});
+
 
 export default function LoginForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<LoginData>({
+        resolver: zodResolver(loginSchema),
         defaultValues: {
             account: '',
             password: '',
@@ -41,16 +33,16 @@ export default function LoginForm() {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: LoginData) {
         dispatch(setSpinner(true));
         const response = await login({
             account: values.account,
             password: values.password,
         });
         if (isErrorResponse(response)) {
-            const error = response.error
+           
             form.setError('password', {
-                message: error.message,
+                message: response.message,
                 type: 'value',
             });
         }else{

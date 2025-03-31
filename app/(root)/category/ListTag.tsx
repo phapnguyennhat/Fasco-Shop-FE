@@ -1,12 +1,13 @@
 import { ERole } from '@/app/common/enum';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getProfile, getTags } from '@/lib/api';
 import { delay } from '@/lib/utils';
 import Link from 'next/link';
 import React from 'react';
 import FormUpdateTag from './FormUpdateTag';
 import CategoryAdmin from './CategoryAdmin';
 import TagAdmin from './TagAdmin';
+import { getProfile } from '@/api/user/query';
+import { getTags } from '@/api/tag/query';
 
 export default async function ListTag() {
     const [user, tags] = await Promise.all([getProfile(), getTags()]);

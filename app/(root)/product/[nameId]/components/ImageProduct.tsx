@@ -1,8 +1,6 @@
-import { FIVEMINUTES } from '@/app/common/constant';
-import { Skeleton } from '@/components/ui/skeleton';
 
-import { createQueryString, fetcher, SearchParams } from '@/lib/utils';
-import Image from 'next/image';
+
+import {  SearchParams } from '@/lib/utils';
 import SlideImage from './SlideImage';
 import MainImage from './MainImage';
 
