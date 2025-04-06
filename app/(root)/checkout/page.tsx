@@ -8,7 +8,7 @@ import { SearchParams } from '@/lib/utils';
 import { getCart } from '@/API/cart/query';
 import { getDistrictById, getProvinceById, getProvinces } from '@/API/province/query';
 import { getAddress } from '@/API/address/query';
-
+import { getProfile } from '@/API/user/query';
 interface IProps {
     searchParams: Promise<SearchParams>;
 }
@@ -30,13 +30,15 @@ export default async function CheckoutPage({ searchParams }: IProps) {
     const isWrap = (queryParams['wrap'] as string) || 'false';
     const provinceId = (queryParams['province'] as string)?.split('-i.')[1];
     const districtId = (queryParams['district'] as string)?.split('-i.')[1];
-    const [provinces, province, district, address] = await Promise.all([
+    const [provinces, province, district, address, user] = await Promise.all([
         getProvinces(),
         getProvinceById(provinceId),
         getDistrictById(provinceId, districtId),
         getAddress(),
+        getProfile(),
     ]);
 
+ 
     
 
     if (address && !provinceId) {
@@ -63,6 +65,7 @@ export default async function CheckoutPage({ searchParams }: IProps) {
                     province={province}
                     district={district}
                     address={address}
+                    user={user}
                 />
                 <div className=" w-[92%] mx-auto  sm:w-[600px] md:w-auto  order-1 md:order-2 mb-[30px] md:mb-0">
                     <ListProduct

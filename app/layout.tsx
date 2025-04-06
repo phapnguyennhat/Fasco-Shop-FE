@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import { Poppins, Volkhov, Jost } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
-import StoreProvider from './StoreProvider';
-import GoogleAuthProvider from '@/GoogleAuthProvider';
+import StoreProvider from '../provider/StoreProvider';
+import GoogleAuthProvider from '@/provider/GoogleAuthProvider';
 import { Toaster } from '@/components/ui/toaster';
-import FacebookAuthProvider from '@/FacebookAuthProvider';
+import FacebookAuthProvider from '@/provider/FacebookAuthProvider';
 import Spinner from '@/components/Spinner';
 import Navbar from './components/Navbar';
-
+import ReactQueryProvider from '@/provider/ReactQueryProvider';
+import { SocketProvider } from '@/provider/SocketProvider';
 const poppins = Poppins({
     variable: '--font-poppins',
     subsets: ['latin'],
@@ -63,10 +64,14 @@ export default function RootLayout({
                     {' '}
                     <GoogleAuthProvider>
                         <FacebookAuthProvider>
-                            <Navbar/>
-                            {children}
-                            <Toaster />
-                            <Spinner />
+                            <ReactQueryProvider>
+                                <SocketProvider>
+                                    <Navbar/>
+                                    {children}
+                                    <Toaster />
+                                    <Spinner />
+                                </SocketProvider>
+                            </ReactQueryProvider>
                         </FacebookAuthProvider>
                     </GoogleAuthProvider>
                 </StoreProvider>

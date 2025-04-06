@@ -26,13 +26,14 @@ import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { AddressData, addressSchema } from '@/schema/address';
 import { createAddress } from '@/API/address/action';
 import { createOrder } from '@/API/order/action';
-
+import { useSocket } from '@/provider/SocketProvider';
 interface IProps {
     provinces: IProvince[];
     province: IProvince | undefined;
     district: IDistrict | undefined;
     queryParams: SearchParams;
-    address: IAddress| undefined
+    address: IAddress | undefined
+    user: User | undefined
 }
 
 export default function FormCheckout({
@@ -40,7 +41,8 @@ export default function FormCheckout({
     queryParams,
     province,
     district,
-    address
+    address,
+    user
 }: IProps) {
     const searchParams = useSearchParams();
     const selectedProvince = searchParams.get('province');
@@ -52,6 +54,8 @@ export default function FormCheckout({
     const isWrap = JSON.parse(searchParams.get('wrap') || 'false');
 
     const [save, setSave] = useState(false);
+    const socket = useSocket()
+    const router = useRouter()
 
 
     // 1. Define your form.
@@ -67,18 +71,18 @@ export default function FormCheckout({
             street: '',
         },
     });
-    
 
-    useEffect(()=>{
-        if(address){
-            form.setValue('email',address.email)
+
+    useEffect(() => {
+        if (address) {
+            form.setValue('email', address.email)
             form.setValue('fullName', address.fullName)
             // form.setValue('lastName', address.lastName)
             form.setValue('phoneNumber', address.phoneNumber)
             form.setValue('street', address.street)
-            
+
         }
-    },[address])
+    }, [address])
 
     useEffect(() => {
         form.setValue('provinceId', provinceId || '');
@@ -86,7 +90,7 @@ export default function FormCheckout({
         form.setValue('communeId', communeId || '');
     }, [provinceId, districtId, communeId]);
 
-    const {toast} = useToast()
+    const { toast } = useToast()
 
     const dispatch = useDispatch()
 
@@ -95,28 +99,46 @@ export default function FormCheckout({
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         dispatch(setSpinner(true))
-        try {
-            if (save) {
-                console.log({values})
-				const response = await createAddress(values);
-				if (isErrorResponse(response)) {
-					toast({
-						variant: 'destructive',
-						title: 'Uh oh! Something went wrong.',
-						description: response.message,
-					});
-				}
-			}
-			const response = await createOrder(values, isWrap);
-			if(isErrorResponse(response)){
-			    toast({
-			        variant: 'destructive',
-			        title: 'Uh oh! Something went wrong.',
-			        description: response.message,
-			    });
-			}
-		} catch (error) {}
-        dispatch(setSpinner(false))
+
+        if (save) {
+           
+            const response = await createAddress(values);
+            if (isErrorResponse(response)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Uh oh! Something went wrong.',
+                    description: response.message,
+                });
+            }
+        }
+        const newOrder = await createOrder(values, isWrap);
+        if (isErrorResponse(newOrder)) {
+
+            toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: newOrder.message,
+            });
+            dispatch(setSpinner(false))
+
+        } else {
+            if (socket) {
+
+               
+                const href = `/user/purchase/${newOrder.id}`
+                const message = `${user?.name} has ordered ${newOrder.orderItems.length} items`
+                socket.emit('send_order_action', {
+                    message,
+                    href,
+                    receiverId: user?.id,
+                    orderId: newOrder.id
+                })
+            }
+            router.replace('user/purchase')
+            dispatch(setSpinner(false))
+        }
+
+
 
     }
     return (
@@ -177,7 +199,7 @@ export default function FormCheckout({
 
                     <div className=" grid  md:grid-cols-2  gap-x-[12px] gap-y-[16px] ">
                         <FormField
-                            
+
                             control={form.control}
                             name="fullName"
                             render={({ field }) => (
@@ -195,7 +217,7 @@ export default function FormCheckout({
                             )}
                         />
 
-                       
+
 
                         <FormField
                             control={form.control}

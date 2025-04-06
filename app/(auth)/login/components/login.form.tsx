@@ -16,7 +16,7 @@ import { isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { LoginData, loginSchema } from '@/schema/auth';
 import { login } from '@/API/auth/action';
-
+import { useQueryClient } from '@tanstack/react-query';
 
 
 export default function LoginForm() {
@@ -28,10 +28,11 @@ export default function LoginForm() {
         },
     });
 
- 
+
 
     const dispatch = useDispatch()
     const router = useRouter()
+    const queryClient = useQueryClient()
 
     async function onSubmit(values: LoginData) {
         dispatch(setSpinner(true));
@@ -40,18 +41,19 @@ export default function LoginForm() {
             password: values.password,
         });
         if (isErrorResponse(response)) {
-           
+
             form.setError('password', {
                 message: response.message,
                 type: 'value',
             });
-        }else{
+        } else {
+            queryClient.removeQueries({ queryKey: ['log'] })
             router.replace('/')
         }
         dispatch(setSpinner(false));
     }
 
-    
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4  mb-[40px]">
@@ -68,7 +70,7 @@ export default function LoginForm() {
                                 />
                             </FormControl >
 
-                            <FormMessage className=' px-4'  />
+                            <FormMessage className=' px-4' />
                         </FormItem>
                     )}
                 />

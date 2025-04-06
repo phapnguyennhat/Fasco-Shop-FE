@@ -156,7 +156,8 @@ declare global{
       id: string
       status: EStatusOrder;
       createAt: string;
-      updateAt: string;
+    updateAt: string;
+    userId: string;
       totalOrder: ITotalOrder;
       orderItems: IOrderItem[]
       address: IAddress
@@ -182,6 +183,18 @@ declare global{
   
   interface InsertResult {
       identifiers: { id: string }[];
+  }
+
+  interface ILog { 
+    message: string 
+    hasRead: boolean 
+    href: string
+    createAt: string
+    id: string
+  }
+
+  interface UpdateLogDto {
+    hasRead: boolean
   }
 
 }

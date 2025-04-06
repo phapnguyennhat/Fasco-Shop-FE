@@ -11,7 +11,7 @@ export const createOrder = async (
 	isWrap: boolean,
 ) => {
 	const authCookie = await getAuthCookies();
-	const response = await fetcher<IResponse>(`user/order`, {
+	const response = await fetcher<IOrder>(`user/order`, {
 		method: 'POST',
 		credentials: 'include',
 		headers: {
@@ -26,10 +26,9 @@ export const createOrder = async (
 	revalidateTag('cartItem');
 	revalidateTag('orders');
 	revalidateTag('favoriteProducts');
-	redirect('/user/purchase');
+   
+    return response;
 };
-
-
 
 
 export const updateStatusOrder= async(orderId: string, status: EStatusOrder)=>{
@@ -64,5 +63,14 @@ export const updateAddressOrder= async(orderId: string, addressId: string, addre
     if(isErrorResponse(response)){
         return response
     }
+    revalidateTag(`order-${orderId}`)
+}
+
+
+export const revalidateOrder = async () => {
+    revalidateTag('orders')
+}
+
+export const revalidateOrderById = async (orderId: string) => {
     revalidateTag(`order-${orderId}`)
 }

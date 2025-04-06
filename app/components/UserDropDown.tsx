@@ -32,7 +32,7 @@ export default function UserDropDown({profile}: IProps) {
                                 >
                                     Profile
                                     <Image
-                                        src={'/icons/user.png'}
+                                        src={'/icons/user.svg'}
                                         width={20}
                                         height={20}
                                         className=" size-[20px]"
@@ -58,7 +58,7 @@ export default function UserDropDown({profile}: IProps) {
                                     >
                                         Favorite
                                         <Image
-                                            src={'/icons/favorite.png'}
+                                            src={'/icons/favorite.svg'}
                                             width={20}
                                             height={20}
                                             alt="favorite icon"
@@ -87,7 +87,7 @@ export default function UserDropDown({profile}: IProps) {
                                         {' '}
                                         My Cart
                                         <Image
-                                            src={'/icons/cartuser.png'}
+                                            src={'/icons/cartuser.svg'}
                                             width={20}
                                             height={20}
                                             alt="cart icon"

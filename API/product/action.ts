@@ -158,3 +158,7 @@ export async function updateProductImages(
 	revalidateTag('products')
 	revalidateTag(`productDetail/${productId}`)
 }
+
+export const reloadProduct = async()=>{
+	revalidateTag('products')
+}

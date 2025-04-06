@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AlignJustify, BadgePlus, PackagePlus, Tag } from 'lucide-react'; // Nếu bạn dùng Lucide Icons
+import { AlignJustify, BadgePlus, PackagePlus, Tag, Bell } from 'lucide-react'; // Nếu bạn dùng Lucide Icons
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut } from 'lucide-react';
@@ -16,7 +16,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { logout } from '@/API/auth/action';
-
+import Notification from './Notification';
 export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
     const pathName = usePathname()
@@ -89,12 +89,12 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
             }    relative flex items-center`}
         >
             {profile && (
-                <ul className=" flex items-center md:gap-4 lg:gap-6 mr-3 ">
+                <ul className=" flex items-center gap-2 md:gap-4 lg:gap-6 mr-3 ">
                     <SearchNav />
                     <li className=" hidden md:block  py-[19px]">
                         <Link href={'/user/profile'}>
                             <Image
-                                src={'/icons/user.png'}
+                                src={'/icons/user.svg'}
                                 width={20}
                                 height={20}
                                 className=" size-[20px]"
@@ -106,7 +106,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                         <li className=" hidden md:block py-[19px]">
                             <Link href={'/user/favorite'}>
                                 <Image
-                                    src={'/icons/favorite.png'}
+                                    src={'/icons/favorite.svg'}
                                     width={20}
                                     height={20}
                                     alt="favorite icon"
@@ -123,7 +123,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                         >
                             <Link href={'/cart'}>
                                 <Image
-                                    src={'/icons/cartuser.png'}
+                                    src={'/icons/cartuser.svg'}
                                     width={20}
                                     height={20}
                                     alt="cart icon"
@@ -139,6 +139,11 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                             </div>
                         </li>
                     )}
+
+                    <li className=" cursor-pointer block py-[19px]">
+                       
+                           <Notification/>
+                    </li>
 
                     {profile.role === ERole.ADMIN && (
                         <li className=" hidden md:block py-[19px]">

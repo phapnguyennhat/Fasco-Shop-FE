@@ -3,14 +3,16 @@ import { QueryProduct } from "../page"
 import { ChevronDown } from "lucide-react"
 import { collections } from "@/app/common/constant"
 import Link from "next/link"
-
+import ButtonReloadProduct from "./ButtonReloadProduct"
 interface IProps{
   queryParams: QueryProduct
 }
 export default function SelectCollection({queryParams}: IProps) {
   const {collection: selectedCollection}= queryParams
   
-  return (
+    return (
+      <div className=" flex-1 flex items-center justify-between ">
+            
       <div className=" cursor-pointer group inline-flex gap-x-2 items-center relative ">
           <span className=" select-none font-volkhov text-black">
               {' '}
@@ -34,6 +36,9 @@ export default function SelectCollection({queryParams}: IProps) {
                       </li>
                   ))}
           </ul>
+       
+            </div>
+            <ButtonReloadProduct/>
       </div>
   );
 }

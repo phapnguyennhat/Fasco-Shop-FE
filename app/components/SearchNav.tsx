@@ -19,7 +19,7 @@ export default function SearchNav() {
                 />
                 <Button className=" bg-white shadow-none hover:bg-white hover:scale-105 transition-all duration-300 ">
                     <Image
-                        src={'/icons/search.png'}
+                        src={'/icons/search.svg'}
                         width={18}
                         height={18}
                         className="size-[18px]"

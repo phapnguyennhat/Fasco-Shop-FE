@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function ProductCard({ product }: { product: Product }) {
 
     
-    return (
+return (
         <Link
         href={`/product/${product.name.replaceAll(' ', '-').replaceAll('/', '-')}-i.${
             product.id

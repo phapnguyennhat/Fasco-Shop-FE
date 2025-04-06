@@ -21,7 +21,6 @@ export async function fetcher<T>(input: string, init?: RequestInit) {
        message: 'Server Error'
     }
   }
-  
 }
 
 export const formatNumber = (num: number) => {
