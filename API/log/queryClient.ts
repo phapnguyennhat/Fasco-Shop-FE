@@ -10,8 +10,11 @@ export async function getLog({pageParam=1, limit=10, collection, createAt='desc'
 
     const response = await fetcher<{data: ILog[], currentPage: number, nextPage: number, count: number}>(`log?${searchParams.toString()}`, {
         method: 'GET',
-        credentials: 'include',
-       
+      credentials: 'include',
+      headers: {
+        Cookie: "heeh"
+      }
+        
     })
     if (isErrorResponse(response)) {
 		return { data: [], currentPage: 1, nextPage: 1, count:0 };

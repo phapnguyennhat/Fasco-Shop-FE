@@ -26,7 +26,6 @@ export default function ListNotifycation({ showList }: IProps) {
     const queryClient = useQueryClient()
 
     const handleUpdateLog = async (log: ILog) => {
-        console.log('log', { log })
         if (log.hasRead) return
 
 

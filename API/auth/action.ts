@@ -4,6 +4,7 @@ import { fetcher, isErrorResponse } from '@/lib/utils';
 import { LoginData, RegisterData, UpdatePasswordData } from '@/schema/auth';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { SiTruenas } from 'react-icons/si';
 
 export const login = async (data: LoginData) => {
 	const token = await fetcher<LoginToken>('auth/login', {
@@ -19,14 +20,20 @@ export const login = async (data: LoginData) => {
 	}
 	const cookieStore = await cookies();
 	cookieStore.set('Authentication', token.accessTokenCookie.token, {
-		httpOnly: true,
+		httpOnly: true,	
 		path: '/',
 		maxAge: token.accessTokenCookie.accessTime,
+		secure: process.env.NODE_ENV === 'production', // Chỉ dùng với HTTPS trong production
+      	sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		
 	});
 	cookieStore.set('Refresh', token.refreshTokenCookie.token, {
 		httpOnly: true,
 		path: '/',
 		maxAge: token.refreshTokenCookie.accessTime,
+		secure: process.env.NODE_ENV === 'production', // Chỉ dùng với HTTPS trong production
+      	sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+
 	});
 };
 
