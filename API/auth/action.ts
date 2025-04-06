@@ -24,7 +24,8 @@ export const login = async (data: LoginData) => {
 		path: '/',
 		maxAge: token.accessTokenCookie.accessTime,
 		secure: process.env.NODE_ENV === 'production', // Chỉ dùng với HTTPS trong production
-      	sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		domain: process.env.BACKEND_URL
 		
 	});
 	cookieStore.set('Refresh', token.refreshTokenCookie.token, {
@@ -32,7 +33,10 @@ export const login = async (data: LoginData) => {
 		path: '/',
 		maxAge: token.refreshTokenCookie.accessTime,
 		secure: process.env.NODE_ENV === 'production', // Chỉ dùng với HTTPS trong production
-      	sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+		domain: process.env.BACKEND_URL
+			
+		
 
 	});
 };
