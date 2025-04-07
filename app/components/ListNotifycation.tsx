@@ -43,9 +43,6 @@ export default function ListNotifycation({ showList }: IProps) {
         )
     }
 
-
-
-
     return (
         <ul className={` h-[300px] overflow-y-auto scrollbar-hide  ${showList ? 'block' : 'hidden'}  z-10  absolute top-[140%] -right-[40px]  w-[300px] bg-white shadow-md rounded-md `}>
             {
