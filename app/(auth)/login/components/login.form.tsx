@@ -12,11 +12,27 @@ import {
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
-import { isErrorResponse } from '@/lib/utils';
+import { fetcher, isErrorResponse } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { LoginData, loginSchema } from '@/schema/auth';
-import { login } from '@/API/auth/action';
 import { useQueryClient } from '@tanstack/react-query';
+import { login } from '@/API/auth/action';
+
+
+const handleLogin = async (values: LoginData) => {
+    const response = await fetcher('auth/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+    })
+    if (isErrorResponse(response)) {
+        return response;
+    }
+    return response;
+}
 
 
 export default function LoginForm() {
@@ -36,10 +52,7 @@ export default function LoginForm() {
 
     async function onSubmit(values: LoginData) {
         dispatch(setSpinner(true));
-        const response = await login({
-            account: values.account,
-            password: values.password,
-        });
+        const response = await handleLogin(values)
         if (isErrorResponse(response)) {
 
             form.setError('password', {
@@ -48,7 +61,7 @@ export default function LoginForm() {
             });
         } else {
             queryClient.removeQueries({ queryKey: ['log'] })
-            router.replace('/')
+            router.refresh();
         }
         dispatch(setSpinner(false));
     }
