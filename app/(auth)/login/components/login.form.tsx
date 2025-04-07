@@ -19,20 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { login } from '@/API/auth/action';
 
 
-const handleLogin = async (values: LoginData) => {
-    const response = await fetcher('auth/login', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-    })
-    if (isErrorResponse(response)) {
-        return response;
-    }
-    return response;
-}
+
 
 
 export default function LoginForm() {
@@ -52,7 +39,7 @@ export default function LoginForm() {
 
     async function onSubmit(values: LoginData) {
         dispatch(setSpinner(true));
-        const response = await handleLogin(values)
+        const response = await login(values)
         if (isErrorResponse(response)) {
 
             form.setError('password', {

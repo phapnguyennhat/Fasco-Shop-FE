@@ -28,7 +28,6 @@ export default function ListNotifycation({ showList }: IProps) {
     const handleUpdateLog = async (log: ILog) => {
         if (log.hasRead) return
 
-
         await updateLog(log.id, { hasRead: true })
         await queryClient.invalidateQueries({ queryKey: ['log'] })
     }

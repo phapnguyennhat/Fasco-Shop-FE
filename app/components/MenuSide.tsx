@@ -17,14 +17,14 @@ import { useDispatch } from 'react-redux';
 import { setSpinner } from '@/lib/features/spinner/spinnerSlice';
 import { logout } from '@/API/auth/action';
 import Notification from './Notification';
-export default function MenuSide({ profile , cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
+export default function MenuSide({ profile, cartItems }: { profile: User | undefined, cartItems: ICartItem[] }) {
     const [isOpen, setIsOpen] = useState(false);
     const pathName = usePathname()
     const searchParams = useSearchParams()
 
     const dispatch = useDispatch()
 
-    const handleLogout = async () =>{
+    const handleLogout = async () => {
         try {
             dispatch(setSpinner(true))
             await logout()
@@ -33,16 +33,16 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
             dispatch(setSpinner(false))
         }
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setIsOpen(false)
-    },[pathName, searchParams.toString()])
+    }, [pathName, searchParams.toString()])
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
 
-    const cartNumber  = Math.min(cartItems.length, 9)
+    const cartNumber = Math.min(cartItems.length, 9)
 
     const itemsNav: { name: string; link: string; icon?: any }[] = [
         {
@@ -51,7 +51,7 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
         },
         {
             name: 'Deals',
-            link: '/product?collection=Deals' ,
+            link: '/product?collection=Deals',
         },
         {
             name: 'New Arrivals',
@@ -78,15 +78,14 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
         {
             name: "Category & Tag",
             link: '/category',
-            icon:   <Tag size={20} />
+            icon: <Tag size={20} />
         }
     ];
 
     return (
         <div
-            className={`${
-                profile ? 'lg:flex' : 'lg:hidden'
-            }    relative flex items-center`}
+            className={`${profile ? 'lg:flex' : 'lg:hidden'
+                }    relative flex items-center`}
         >
             {profile && (
                 <ul className=" flex items-center gap-2 md:gap-4 lg:gap-6 mr-3 ">
@@ -117,9 +116,8 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                     )}
                     {profile.role === ERole.USER && (
                         <li
-                            className={`relative hidden md:block  ${
-                                cartNumber === 0 ? 'mr-0' : 'mr-2'
-                            }   `}
+                            className={`relative hidden md:block  ${cartNumber === 0 ? 'mr-0' : 'mr-2'
+                                }   `}
                         >
                             <Link href={'/cart'}>
                                 <Image
@@ -131,9 +129,8 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                                 />
                             </Link>
                             <div
-                                className={`${
-                                    cartNumber === 0 && 'hidden'
-                                } font-volkhov  items-center text-white bg-red-500 w-[24px] h-[24px] flex justify-center  rounded-full absolute -right-[20px] -top-[10px] `}
+                                className={`${cartNumber === 0 && 'hidden'
+                                    } font-volkhov  items-center text-white bg-red-500 w-[24px] h-[24px] flex justify-center  rounded-full absolute -right-[20px] -top-[10px] `}
                             >
                                 {cartNumber}
                             </div>
@@ -141,14 +138,14 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
                     )}
 
                     <li className=" cursor-pointer block py-[19px]">
-                       
-                           <Notification/>
+
+                        <Notification />
                     </li>
 
                     {profile.role === ERole.ADMIN && (
                         <li className=" hidden md:block py-[19px]">
                             <Link href={'/user/product/create'}>
-                            <PackagePlus size={20} />
+                                <PackagePlus size={20} />
                             </Link>
                         </li>
                     )}
@@ -171,9 +168,8 @@ export default function MenuSide({ profile , cartItems }: { profile: User | unde
 
             {/* Menu trượt */}
             <aside
-                className={`fixed overflow-y-auto z-30 lg:hidden -top-[20px] md:-top-[30px] left-0  h-screen  w-64 bg-white  transform ${
-                    isOpen ? 'translate-x-0' : '-translate-x-full'
-                } transition-transform duration-300 ease-in-out`}
+                className={`fixed overflow-y-auto z-30 lg:hidden -top-[20px] md:-top-[30px] left-0  h-screen  w-64 bg-white  transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                    } transition-transform duration-300 ease-in-out`}
             >
                 <div className=" mt-[20px] ">
                     <Link href={'/'} className=" logo mx-4 sm:mx-4">
