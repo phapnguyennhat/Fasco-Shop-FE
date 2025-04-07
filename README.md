@@ -23,6 +23,14 @@ git clone https://github.com/phapnguyennhat/Fasco-Shop-FE.git
 # Navigate to the project directory
 cd Fasco-Shop-FE
 
+# set up env
+create file .env.local consist of 
+BACKEND_URL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+NEXT_PUBLIC_FACEBOOK_CLIENT_ID=
+
+
 # Install dependencies
 npm install
 
