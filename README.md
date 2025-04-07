@@ -6,6 +6,33 @@
 
 [fasco-shop.vercel.app](https://fasco-shop.vercel.app) 
 
+## 🛠️ Tech Stack
+
+- **Frontend:** ReactJs, NextJs, TailwindCSS, ShadcnUI, Redux
+- **Backend:** Node.js, NestJs
+- **Database:** PostgreSQL, Redis
+- **Cloud:** Cloudinary
+- **Others:** Docker, GoogleOAuth, FacebookOAuth, Socket.IO
+  
+## ⚙️ Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/phapnguyennhat/Fasco-Shop-FE.git
+
+# Navigate to the project directory
+cd Fasco-Shop-FE
+
+# Install dependencies
+npm install
+
+# Run build the server
+npm run build
+
+# Run start
+npm run start
+```
+
 ## 🖋️ Figma Desgin UI
 
 - Design by community not by me 🥲
@@ -70,28 +97,4 @@
 ![Edit Product](image/editProduct.png)
 
 
-## 🛠️ Tech Stack
 
-- **Frontend:** ReactJs, NextJs, TailwindCSS, ShadcnUI, Redux
-- **Backend:** Node.js, NestJs
-- **Database:** PostgreSQL, Redis
-- **Cloud:** Cloudinary
-- **Others:** Docker, GoogleOAuth, FacebookOAuth, Socket.IO
-  
-## ⚙️ Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/phapnguyennhat/Fasco-Shop-FE.git
-
-# Navigate to the project directory
-cd Fasco-Shop-FE
-
-# Install dependencies
-npm install
-
-# Run build the server
-npm run build
-
-# Run start
-npm run start
