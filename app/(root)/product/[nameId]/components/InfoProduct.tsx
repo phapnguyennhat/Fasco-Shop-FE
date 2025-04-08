@@ -57,7 +57,7 @@ export default async function InfoProduct({
                 <StarRating starRating={product.starRating}>
                     <Image
                         alt="black star icon"
-                        src={'/icons/black-star.png'}
+                        src={'/icons/black-star.svg'}
                         width={15}
                         height={15}
                         className=" size-[15px]"
