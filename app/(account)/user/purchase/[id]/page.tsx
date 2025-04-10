@@ -2,7 +2,7 @@ import OrderItem from './OrderItem';
 import AddressOrder from './AddressOrder';
 import TotalOrder from './TotalOrder';
 import StatusOrder from './StatusOrder';
-
+import PaymentMethod from './PaymentMethod';
 export const metadata: Metadata = {
     title: 'Order detail',
     description: 'Manage your order detail',
@@ -40,8 +40,11 @@ export default async function OrderDetail({ params }: IProps) {
                     ))}
                 </ul>
             )}
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1  lg:grid-cols-2'>
+                <AddressOrder address={address} order={order} user={user} />    
+                <PaymentMethod order={order} />
+            </div>
 
-            <AddressOrder address={address} order={order} user={user} />
             <div className="   grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1  lg:grid-cols-2">
                 <StatusOrder order={order} />
                 <TotalOrder totalOrder={order.totalOrder} />

@@ -7,7 +7,7 @@ export default function Spinner() {
     const spinner = useSelector((state: RootState)=>state.spinner.value)
 
     return (
-        <div className={` ${spinner? 'fixed': 'hidden'}  inset-0 bg-black/40 z-[9999] grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible`}>
+        <div className={` ${spinner? 'fixed': 'hidden'}  inset-0 bg-black/40 z-[9999] grid min-h-[140px] w-full place-items-center overflow-x-scroll  p-6 lg:overflow-visible`}>
             <svg
                 className="text-gray-300 size-[30px]  md:size-[50px] animate-spin"
                 viewBox="0 0 64 64"

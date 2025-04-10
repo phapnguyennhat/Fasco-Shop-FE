@@ -55,3 +55,7 @@ export const  deleteCartItem = async(id: string)=> {
     });
     revalidateTag('cartItem');
 }
+
+export const revalidateCart = async()=> {
+    revalidateTag('cartItem');
+}

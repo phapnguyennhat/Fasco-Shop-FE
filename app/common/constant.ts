@@ -64,5 +64,7 @@ export const minDelivery = 3
 export const maxDelivery = 7
 
 export const minOrderFreeShip = 75
-export const feeShip =  40
+export const feeShip =  1
 export const feeWrap = 10
+
+export const USD2VND = 25764

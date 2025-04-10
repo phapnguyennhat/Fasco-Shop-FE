@@ -160,7 +160,9 @@ declare global{
     userId: string;
       totalOrder: ITotalOrder;
       orderItems: IOrderItem[]
-      address: IAddress
+    address: IAddress
+    paymentMethod: 'cash' | 'momo',
+    paymentStatus: 'has_paid' | 'not_paid'
   }
 
   interface IOrderItem {

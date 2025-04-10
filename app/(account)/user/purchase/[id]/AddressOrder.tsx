@@ -11,7 +11,7 @@ export default function AddressOrder({address, order, user}: IProps) {
     const{commune, district, province} = address
     const {status, id} = order
   return (
-      <div className=" mb-[30px]" >
+      <div className="  mb-[30px] sm:pr-2 sm:border-r-2 md:pr-0 md:border-r-0 lg:pr-4 lg:border-r-2 " >
           <h6 className=" mb-[20px] font-volkhov text-2xl sm:text-[30px] md:leading-[30px] lg:text-[36px] lg:leading-[36px] ">
               Address
           </h6>

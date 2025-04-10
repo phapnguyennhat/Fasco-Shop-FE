@@ -27,6 +27,10 @@ import { AddressData, addressSchema } from '@/schema/address';
 import { createAddress } from '@/API/address/action';
 import { createOrder } from '@/API/order/action';
 import { useSocket } from '@/provider/SocketProvider';
+import { BsCashCoin } from 'react-icons/bs';
+import Image from 'next/image';
+import { genUrlMomo } from '@/API/momo/action';
+import { USD2VND } from '@/app/common/constant';
 interface IProps {
     provinces: IProvince[];
     province: IProvince | undefined;
@@ -52,6 +56,8 @@ export default function FormCheckout({
     const districtId = selectedDistrict?.split('-i.')[1];
     const communeId = selectedCommune?.split('-i.')[1];
     const isWrap = JSON.parse(searchParams.get('wrap') || 'false');
+
+    const [paymentMethod, setPaymentMethod] = useState<'cash' | 'momo'>('cash');
 
     const [save, setSave] = useState(false);
     const socket = useSocket()
@@ -111,7 +117,8 @@ export default function FormCheckout({
                 });
             }
         }
-        const newOrder = await createOrder(values, isWrap);
+        const newOrder = await createOrder(values, isWrap, paymentMethod);
+
         if (isErrorResponse(newOrder)) {
 
             toast({
@@ -124,6 +131,7 @@ export default function FormCheckout({
         } else {
             if (socket) {
 
+            
                
                 const href = `/user/purchase/${newOrder.id}`
                 const message = `${user?.name} has ordered ${newOrder.orderItems.length} items`
@@ -134,7 +142,27 @@ export default function FormCheckout({
                     orderId: newOrder.id
                 })
             }
-            router.replace('user/purchase')
+            if (paymentMethod === 'cash') { 
+                router.replace('checkout/status?resultCode=0&orderId=' + newOrder.id)
+            }
+            if (paymentMethod === 'momo') {
+                // gen url momo payment
+                const {subTotal, wrap, shipping} = newOrder.totalOrder
+                const amount = subTotal + (wrap || 0) + (shipping || 0)
+                const payUrl = await genUrlMomo(newOrder.id, Math.ceil(amount* USD2VND))
+                if(isErrorResponse(payUrl)){
+                    toast({
+                        variant: 'destructive',
+                        title: 'Uh oh! Something went wrong.',
+                        description: payUrl.message,
+                    });
+                } else {
+                    router.replace(payUrl.payUrl)
+        
+                }
+                
+            }
+            
             dispatch(setSpinner(false))
         }
 
@@ -329,6 +357,63 @@ export default function FormCheckout({
                             Save This Info for future
                         </p>
                     </button>
+
+                    {/* Payment Method */}
+                    <div className="mb-8">
+                        <h6 className="mb-4 text-2xl md:text-[32px] md:leading-[32px] lg:text-[46px] lg:leading-[46px] font-volkhov">
+                            Payment Method
+                        </h6>
+                        <div className="grid grid-cols-2 gap-4">
+                            <button 
+                                type="button"
+                                onClick={() => setPaymentMethod('cash')}
+                                className={`flex items-center gap-3 p-4 border-2 rounded-lg transition-all duration-300 ${
+                                    paymentMethod === 'cash' 
+                                        ? 'border-black bg-gray-50' 
+                                        : 'border-gray-200 hover:border-gray-300'
+                                }`}
+                            >
+                                <div className={`size-5 rounded-full border-2 flex items-center justify-center ${
+                                    paymentMethod === 'cash' 
+                                        ? 'border-black bg-black' 
+                                        : 'border-gray-300'
+                                }`}>
+                                    {paymentMethod === 'cash' && (
+                                        <div className="size-2.5 bg-white rounded-full" />
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <BsCashCoin size={24} className="text-gray-700" />
+                                    <span className="font-medium">Pay by Cash</span>
+                                </div>
+                            </button>
+
+                            <button 
+                                type="button"
+                                onClick={() => setPaymentMethod('momo')}
+                                className={`flex items-center gap-3 p-4 border-2 rounded-lg transition-all duration-300 ${
+                                    paymentMethod === 'momo' 
+                                        ? 'border-[#A50064] bg-[#FFF0F9]' 
+                                        : 'border-gray-200 hover:border-gray-300'
+                                }`}
+                            >
+                                <div className={`size-5 rounded-full border-2 flex items-center justify-center ${
+                                    paymentMethod === 'momo' 
+                                        ? 'border-[#A50064] bg-[#A50064]' 
+                                        : 'border-gray-300'
+                                }`}>
+                                    {paymentMethod === 'momo' && (
+                                        <div className="size-2.5 bg-white rounded-full" />
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Image src="/icons/momo-icon.svg" alt="momo" width={24} height={24} />
+                                    <span className="font-medium">Pay by Momo</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
                     <Button
                         className=" h-[66px] mb-[36px] text-center w-full font-poppins transition-all duration-300 hover:bg-gray-800 rounded-[10px] "
                         type="submit"

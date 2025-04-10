@@ -8,7 +8,8 @@ import { redirect } from 'next/navigation';
 
 export const createOrder = async (
 	addressData: AddressData,
-	isWrap: boolean,
+    isWrap: boolean,
+    paymentMethod: 'cash' | 'momo'
 ) => {
 	const authCookie = await getAuthCookies();
 	const response = await fetcher<IOrder>(`user/order`, {
@@ -18,7 +19,7 @@ export const createOrder = async (
 			'Content-Type': 'application/json',
 			Cookie: authCookie,
 		},
-		body: JSON.stringify({ address: addressData, isWrap }),
+		body: JSON.stringify({ address: addressData, isWrap , paymentMethod }),
 	});
 	if (isErrorResponse(response)) {
 		return response;
